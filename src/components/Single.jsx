@@ -12,7 +12,7 @@ const Single = () => {
       Axios.get(`https://martins-poke-fight.herokuapp.com/pokemon/${id}`).then(
         (resp) => setPokemon(resp.data)
       ),
-    []
+    [id]
   );
 
   const type2Str = (types) => {
