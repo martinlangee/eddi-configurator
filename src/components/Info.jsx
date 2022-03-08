@@ -11,7 +11,7 @@ const Info = () => {
       Axios.get(
         `https://martins-poke-fight.herokuapp.com/pokemon/${id}/${obj}`
       ).then((resp) => setPokemonInfo(resp.data)),
-    []
+    [id, obj]
   );
 
   return (
