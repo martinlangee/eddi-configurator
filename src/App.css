@@ -2,6 +2,10 @@ body {
     margin: 10px;
 }
 
+.nav-link {
+    margin-right: 10px;
+}
+
 .horiz-child {
     min-width: 100px;
     width: 50%;
