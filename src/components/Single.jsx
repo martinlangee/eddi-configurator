@@ -7,9 +7,9 @@ const Single = () => {
   const { id } = useParams();
   const [pokemon, setPokemon] = useState(null);
 
-  useEffect(() => {
-    axiosGet(id).then((resp) => setPokemon(resp.data));
-  }, []);
+  const get = () => axiosGet(id).then((resp) => setPokemon(resp.data));
+
+  useEffect(get, []);
 
   const type2Str = (types) => {
     let res = types[0];
