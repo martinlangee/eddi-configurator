@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const axiosGet = (id, info) => {
-    var url = `http://martins-poke-fight.herokuapp.com/pokemon`;
+    var url = `https://martins-poke-fight.herokuapp.com/pokemon`;
     if (id) url += `/${id}`;
     if (info) url += `/${info}`;
     return Axios.get(url);
