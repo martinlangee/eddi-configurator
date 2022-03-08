@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { axiosGet } from "../api/api";
+import { getPokemonInfo } from "../api/api";
 
 const Info = () => {
   const { id, obj } = useParams();
   const [pokemonInfo, setPokemonInfo] = useState(null);
 
-  useEffect(() => {
-    axiosGet(id, obj).then((resp) => setPokemonInfo(resp.data));
-  }, []);
+  const get = () => getPokemonInfo(id, obj, setPokemonInfo);
+
+  useEffect(get, []);
 
   return (
     <div>
