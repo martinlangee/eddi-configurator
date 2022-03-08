@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { axiosGet } from "../api/api";
+import { Axios } from "axios";
 
 const Single = () => {
   const { id } = useParams();
   const [pokemon, setPokemon] = useState(null);
 
-  useEffect(() => axiosGet(id).then((resp) => setPokemon(resp.data)), []);
+  useEffect(
+    () =>
+      Axios.get(`https://martins-poke-fight.herokuapp.com/pokemon/${id}`).then(
+        (resp) => setPokemon(resp.data)
+      ),
+    []
+  );
 
   const type2Str = (types) => {
     let res = types[0];
