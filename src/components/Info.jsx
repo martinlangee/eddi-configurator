@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getPokemonInfo } from "../api/api";
+import { axiosGet } from "../api/api";
 
 const Info = () => {
   const { id, obj } = useParams();
   const [pokemonInfo, setPokemonInfo] = useState(null);
 
-  // eslint-disable-line react-hooks/exhaustive-deps
-  useEffect(() => getPokemonInfo(id, obj, setPokemonInfo), []);
+  useEffect(() => {
+    axiosGet(id, obj).then((resp) => setPokemonInfo(resp.data));
+  }, []);
 
   return (
     <div>

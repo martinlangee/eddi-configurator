@@ -22,4 +22,4 @@ const getPokemonInfo = (id, info, setPokemon) => {
         setPokemon(resp.data));
 };
 
-export { getAllPokemons, getPokemon, getPokemonInfo };
+export { axiosGet, getAllPokemons, getPokemon, getPokemonInfo };

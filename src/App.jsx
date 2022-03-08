@@ -9,7 +9,6 @@ import { getAllPokemons } from "./api/api";
 function App() {
   const [pokemons, setPokemons] = useState([]);
 
-  // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => getAllPokemons(setPokemons), []);
 
   return (
