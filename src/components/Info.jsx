@@ -5,6 +5,8 @@ import { getPokemonInfo } from "../api/api";
 const Info = () => {
   const { id, obj } = useParams();
   const [pokemonInfo, setPokemonInfo] = useState(null);
+
+  // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(() => getPokemonInfo(id, obj, setPokemonInfo), []);
 
   return (
