@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { updatePokemonInfo } from "../api/api";
+import { updatePokemonInfo, updatePokemon } from "../api/api";
 
 const Info = () => {
   const { id, obj } = useParams();
+
+  const [pokemon, setPokemon] = useState({
+    name: { english: "Loading data ..." },
+  });
   const [pokemonInfo, setPokemonInfo] = useState(null);
+
+  useEffect(() => updatePokemon(id, setPokemon), [id]);
   useEffect(() => updatePokemonInfo(id, obj, setPokemonInfo), [id, obj]);
 
   return (
@@ -12,7 +18,7 @@ const Info = () => {
       {pokemonInfo ? (
         <>
           <h2>
-            {pokemonInfo.english}: {obj}
+            {pokemon.name.english}: {obj}
           </h2>
           <div>
             {obj === "name" ? (

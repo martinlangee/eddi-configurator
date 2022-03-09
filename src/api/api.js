@@ -17,9 +17,9 @@ const updatePokemon = (id, setPokemon) => {
         setPokemon(resp.data));
 };
 
-const updatePokemonInfo = (id, info, setPokemon) => {
+const updatePokemonInfo = (id, info, setPokemonInfo) => {
     axiosGet(id, info).then((resp) =>
-        setPokemon(resp.data));
+        setPokemonInfo(resp.data));
 };
 
 export { updateAllPokemons, updatePokemon, updatePokemonInfo };
