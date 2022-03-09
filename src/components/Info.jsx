@@ -9,12 +9,12 @@ const Info = () => {
 
   return (
     <div>
-      <h2>
-        {pokemonInfo.english}: {obj}
-      </h2>
-      <div>
-        {pokemonInfo ? (
-          <>
+      {pokemonInfo ? (
+        <>
+          <h2>
+            {pokemonInfo.english}: {obj}
+          </h2>
+          <div>
             {obj === "name" ? (
               <>
                 <p>Japanese: {pokemonInfo.japanese}</p>
@@ -31,11 +31,11 @@ const Info = () => {
                 <p>Speed": {pokemonInfo["Speed"]}</p>
               </>
             )}
-          </>
-        ) : (
-          "..."
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        "Loading ..."
+      )}
     </div>
   );
 };
