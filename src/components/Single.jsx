@@ -25,7 +25,7 @@ const Single = () => {
             <b>Type(s):</b> {type2Str(pokemon.type)}
           </p>
           <Link to={`/pokemon/${id}/name`} className="nav-link">
-            Names
+            Name
           </Link>
           <Link to={`/pokemon/${id}/base`} className="nav-link">
             Base

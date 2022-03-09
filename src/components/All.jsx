@@ -1,9 +1,12 @@
 import "../App.css";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { updateAllPokemons } from "../api/api";
 
-const All = (props) => {
-  const { pokemons } = props;
+const All = () => {
+  const [pokemons, setPokemons] = useState([]);
+  useEffect(() => updateAllPokemons(setPokemons), []);
+
   return (
     <div>
       <h2>All</h2>
