@@ -34,7 +34,7 @@ const Info = () => {
           </div>
         </>
       ) : (
-        "Loading ..."
+        "Loading data ..."
       )}
     </div>
   );

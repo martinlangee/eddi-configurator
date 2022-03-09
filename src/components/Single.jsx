@@ -34,27 +34,6 @@ const Single = () => {
       ) : (
         "..."
       )}
-
-      {/* 
-"name": {
-            "english": "Bulbasaur",
-            "japanese": "フシギダネ",
-            "chinese": "妙蛙种子",
-            "french": "Bulbizarre"
-        },
-        "type": [
-            "Grass",
-            "Poison"
-        ],
-        "base": {
-            "HP": 45,
-            "Attack": 49,
-            "Defense": 49,
-            "Sp. Attack": 65,
-            "Sp. Defense": 65,
-            "Speed": 45
-        }
-*/}
     </div>
   );
 };

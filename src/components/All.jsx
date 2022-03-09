@@ -12,18 +12,16 @@ const All = (props) => {
           <div className="horiz-child horiz-child-left bold">ID</div>
           <div className="horiz-child horiz-child-right bold">Name</div>
         </div>
-        {pokemons.length ? (
-          pokemons.map((p) => (
-            <div className="horiz-parent" key={p.id}>
-              <div className="horiz-child horiz-child-left">{p.id}</div>
-              <div className="horiz-child horiz-child-right">
-                <Link to={`/pokemon/${p.id}`}>{p.name.english}</Link>
+        {pokemons.length
+          ? pokemons.map((p) => (
+              <div className="horiz-parent" key={p.id}>
+                <div className="horiz-child horiz-child-left">{p.id}</div>
+                <div className="horiz-child horiz-child-right">
+                  <Link to={`/pokemon/${p.id}`}>{p.name.english}</Link>
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <></>
-        )}
+            ))
+          : "Loading data ..."}
       </>
     </div>
   );
