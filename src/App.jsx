@@ -4,12 +4,12 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import All from "./components/All.jsx";
 import Single from "./components/Single.jsx";
 import Info from "./components/Info.jsx";
-import { getAllPokemons } from "./api/api";
+import { updateAllPokemons } from "./api/api";
 
 function App() {
   const [pokemons, setPokemons] = useState([]);
 
-  useEffect(() => getAllPokemons(setPokemons), []);
+  useEffect(() => updateAllPokemons(setPokemons), []);
 
   return (
     <Router>

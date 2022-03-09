@@ -7,19 +7,19 @@ const axiosGet = (id, info) => {
     return Axios.get(url);
 }
 
-const getAllPokemons = (setPokemons) => {
+const updateAllPokemons = (setPokemons) => {
     axiosGet().then((resp) =>
         setPokemons(resp.data));
 };
 
-const getPokemon = (id, setPokemon) => {
+const updatePokemon = (id, setPokemon) => {
     axiosGet(id).then((resp) =>
         setPokemon(resp.data));
 };
 
-const getPokemonInfo = (id, info, setPokemon) => {
+const updatePokemonInfo = (id, info, setPokemon) => {
     axiosGet(id, info).then((resp) =>
         setPokemon(resp.data));
 };
 
-export { axiosGet, getAllPokemons, getPokemon, getPokemonInfo };
+export { updateAllPokemons, updatePokemon, updatePokemonInfo };

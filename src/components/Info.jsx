@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getPokemonInfo } from "../api/api";
+import { updatePokemonInfo } from "../api/api";
 
 const Info = () => {
   const { id, obj } = useParams();
   const [pokemonInfo, setPokemonInfo] = useState(null);
-  useEffect(() => getPokemonInfo(id, obj, setPokemonInfo), [id, obj]);
+  useEffect(() => updatePokemonInfo(id, obj, setPokemonInfo), [id, obj]);
 
   return (
     <div>
-      <h2>{obj}</h2>
+      <h2>
+        {pokemonInfo.english}: {obj}
+      </h2>
       <div>
         {pokemonInfo ? (
           <>
             {obj === "name" ? (
               <>
-                <p>English: {pokemonInfo.english}</p>
                 <p>Japanese: {pokemonInfo.japanese}</p>
                 <p>Chinese: {pokemonInfo.chinese}</p>
                 <p>French: {pokemonInfo.french}</p>

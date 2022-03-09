@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import { getPokemon } from "../api/api";
+import { updatePokemon } from "../api/api";
 
 const Single = () => {
   const { id } = useParams();
   const [pokemon, setPokemon] = useState(null);
-  useEffect(() => getPokemon(id, setPokemon), [id]);
+  useEffect(() => updatePokemon(id, setPokemon), [id]);
 
   const type2Str = (types) => {
     let res = types[0];
