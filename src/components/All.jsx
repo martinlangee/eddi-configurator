@@ -7,22 +7,24 @@ const All = (props) => {
   return (
     <div>
       <h2>All</h2>
-      <>
-        <div className="horiz-parent">
-          <div className="horiz-child horiz-child-left bold">ID</div>
-          <div className="horiz-child horiz-child-right bold">Name</div>
-        </div>
-        {pokemons.length
-          ? pokemons.map((p) => (
-              <div className="horiz-parent" key={p.id}>
-                <div className="horiz-child horiz-child-left">{p.id}</div>
-                <div className="horiz-child horiz-child-right">
-                  <Link to={`/pokemon/${p.id}`}>{p.name.english}</Link>
-                </div>
+      {pokemons.length ? (
+        <>
+          <div className="horiz-parent">
+            <div className="horiz-child horiz-child-left bold">ID</div>
+            <div className="horiz-child horiz-child-right bold">Name</div>
+          </div>
+          {pokemons.map((p) => (
+            <div className="horiz-parent" key={p.id}>
+              <div className="horiz-child horiz-child-left">{p.id}</div>
+              <div className="horiz-child horiz-child-right">
+                <Link to={`/pokemon/${p.id}`}>{p.name.english}</Link>
               </div>
-            ))
-          : "Loading data ..."}
-      </>
+            </div>
+          ))}
+        </>
+      ) : (
+        "Loading data ..."
+      )}
     </div>
   );
 };
