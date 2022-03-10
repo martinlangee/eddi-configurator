@@ -2,7 +2,6 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import All from "./components/All.jsx";
 import Single from "./components/Single.jsx";
-import Info from "./components/Info.jsx";
 
 function App() {
   return (
@@ -18,7 +17,6 @@ function App() {
       </div>
       <Routes>
         <Route path="/pokemon/:id" element={<Single />} />
-        <Route path="/pokemon/:id/:obj" element={<Info />} />
         <Route exact path="/" element={<All />} />
       </Routes>
     </Router>

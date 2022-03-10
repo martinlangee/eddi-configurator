@@ -1,8 +1,8 @@
 import Axios from "axios";
 
-const axiosGet = (id, info) => {
+const axiosGet = (idPath, info) => {
     var url = `https://martins-poke-fight.herokuapp.com/pokemon`;
-    if (id) url += `/${id}`;
+    if (idPath) url += `/${idPath}`;
     if (info) url += `/${info}`;
     return Axios.get(url);
 }
@@ -17,9 +17,4 @@ const updatePokemon = (id, setPokemon) => {
         setPokemon(resp.data));
 };
 
-const updatePokemonInfo = (id, info, setPokemonInfo) => {
-    axiosGet(id, info).then((resp) =>
-        setPokemonInfo(resp.data));
-};
-
-export { updateAllPokemons, updatePokemon, updatePokemonInfo };
+export { updateAllPokemons, updatePokemon };

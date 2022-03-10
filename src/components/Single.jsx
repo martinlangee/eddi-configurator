@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { updatePokemon } from "../api/api";
 
@@ -21,18 +20,28 @@ const Single = () => {
       {pokemon ? (
         <>
           <h2>{pokemon.name.english}</h2>
-          <p>
-            <b>Type(s):</b> {type2Str(pokemon.type)}
-          </p>
-          <Link to={`/pokemon/${id}/name`} className="nav-link">
-            Names
-          </Link>
-          <Link to={`/pokemon/${id}/base`} className="nav-link">
-            Base infos
-          </Link>
+          <div>
+            <b>Names:</b>
+            <div>Japanese: {pokemon.name.japanese}</div>
+            <div>Chinese: {pokemon.name.chinese}</div>
+            <div>French: {pokemon.name.french}</div>
+          </div>
+          <div>
+            <b>Type(s):</b>
+            <div>{type2Str(pokemon.type)}</div>
+          </div>
+          <div>
+            <b>Properties:</b>
+            <div>HP: {pokemon.base["HP"]}</div>
+            <div>Attack: {pokemon.base["Attack"]}</div>
+            <div>Defense: {pokemon.base["Defense"]}</div>
+            <div>Sp. Attack: {pokemon.base["Sp. Attack"]}</div>
+            <div>Sp. Defense: {pokemon.base["Sp. Defense"]}</div>
+            <div>Speed: {pokemon.base["Speed"]}</div>
+          </div>
         </>
       ) : (
-        "..."
+        "Loading data ..."
       )}
     </div>
   );
