@@ -9,17 +9,19 @@ const All = () => {
   useEffect(() => updateAllPokemons(setPokemons), []);
 
   return (
-    <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+    <>
       {pokemons.length ? (
-        <>
+        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
           {pokemons.map((p) => (
             <PokemonCard pokemon={p} key={p.id} />
           ))}
-        </>
+        </Box>
       ) : (
-        <Alert severity="info">Loading data ...</Alert>
+        <Alert sx={{ justifyContent: "center" }} severity="info">
+          Loading data ...
+        </Alert>
       )}
-    </Box>
+    </>
   );
 };
 
