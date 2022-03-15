@@ -26,3 +26,7 @@ body {
 .bold {
     font-weight: bold;
 }
+
+.borderCell {
+    border-right: 1px solid lightblue;
+}
