@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 const WidgetItem = ({ index, data }) => {
   return (
-    <div>
+    <Box>
       {/* Header line: printed only once above the first widget */}
       {!index ? (
         <Stack direction="row" m="10px">
@@ -31,7 +31,11 @@ const WidgetItem = ({ index, data }) => {
         ""
       )}
       {/* Widget lines */}
-      <Stack direction="row" m="10px">
+      <Stack
+        direction="row"
+        m="10px"
+        sx={{ "&:hover": { backgroundColor: "#e8f8ff" } }}
+      >
         <Box minWidth="30px" display="flex">
           <Box m="auto">{index + 1}</Box>
         </Box>
@@ -78,7 +82,7 @@ const WidgetItem = ({ index, data }) => {
           </Box>
         </Box>
       </Stack>
-    </div>
+    </Box>
   );
 };
 
