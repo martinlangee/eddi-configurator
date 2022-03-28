@@ -1,31 +1,27 @@
 import "../App.css";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Box, Alert } from "@mui/material";
+import { updateAllPokemons } from "../api/api";
+import PokemonCard from "./PokemonCard";
 
-const All = (props) => {
-  const { pokemons } = props;
+const All = () => {
+  const [pokemons, setPokemons] = useState([]);
+  useEffect(() => updateAllPokemons(setPokemons), []);
+
   return (
-    <div>
-      <h2>All</h2>
-      <>
-        <div className="horiz-parent">
-          <div className="horiz-child horiz-child-left bold">ID</div>
-          <div className="horiz-child horiz-child-right bold">Name</div>
-        </div>
-        {pokemons.length ? (
-          pokemons.map((p) => (
-            <div className="horiz-parent" key={p.id}>
-              <div className="horiz-child horiz-child-left">{p.id}</div>
-              <div className="horiz-child horiz-child-right">
-                <Link to={`/pokemon/${p.id}`}>{p.name.english}</Link>
-              </div>
-            </div>
-          ))
-        ) : (
-          <></>
-        )}
-      </>
-    </div>
+    <>
+      {pokemons.length ? (
+        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+          {pokemons.map((p) => (
+            <PokemonCard pokemon={p} key={p.id} />
+          ))}
+        </Box>
+      ) : (
+        <Alert sx={{ justifyContent: "center" }} severity="info">
+          Loading data ...
+        </Alert>
+      )}
+    </>
   );
 };
 

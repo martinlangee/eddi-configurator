@@ -1,16 +1,9 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import All from "./components/All.jsx";
 import Single from "./components/Single.jsx";
-import Info from "./components/Info.jsx";
-import { getAllPokemons } from "./api/api";
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
-
-  useEffect(() => getAllPokemons(setPokemons), []);
-
   return (
     <Router>
       <div>
@@ -24,8 +17,7 @@ function App() {
       </div>
       <Routes>
         <Route path="/pokemon/:id" element={<Single />} />
-        <Route path="/pokemon/:id/:obj" element={<Info />} />
-        <Route exact path="/" element={<All pokemons={pokemons} />} />
+        <Route exact path="/" element={<All />} />
       </Routes>
     </Router>
   );

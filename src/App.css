@@ -1,3 +1,7 @@
+/* * {
+    border: 1px solid yellow;
+} */
+
 body {
     margin: 10px;
 }
@@ -6,20 +10,27 @@ body {
     margin-right: 10px;
 }
 
+.horz-parent {
+    float: left;
+    width: 100%;
+}
+
 .horiz-child {
-    min-width: 100px;
-    width: 50%;
     float: left;
 }
 
 .horiz-child-left {
-    width: 20%;
+    width: 10%;
 }
 
 .horiz-child-right {
-    width: 80%;
+    width: 90%;
 }
 
 .bold {
     font-weight: bold;
+}
+
+.borderCell {
+    border-right: 1px solid lightblue;
 }

@@ -1,25 +1,31 @@
 import Axios from "axios";
 
-const axiosGet = (id, info) => {
+let pokemons = null;
+
+const axiosGet = (idPath, info) => {
     var url = `https://martins-poke-fight.herokuapp.com/pokemon`;
-    if (id) url += `/${id}`;
+    if (idPath) url += `/${idPath}`;
     if (info) url += `/${info}`;
     return Axios.get(url);
 }
 
-const getAllPokemons = (setPokemons) => {
-    axiosGet().then((resp) =>
-        setPokemons(resp.data));
+const updateAllPokemons = (setPokemons) => {
+    console.log("-- updateAllPokemons");
+    if (!pokemons) {
+        console.log("-- updateAllPokemons => read in");
+        axiosGet().then((resp) => {
+            pokemons = resp.data;
+            setPokemons(pokemons)
+        });
+    } else {
+        console.log("-- updateAllPokemons => do nothing");
+        setPokemons(pokemons);
+    }
 };
 
-const getPokemon = (id, setPokemon) => {
+const updatePokemon = (id, setPokemon) => {
     axiosGet(id).then((resp) =>
         setPokemon(resp.data));
 };
 
-const getPokemonInfo = (id, info, setPokemon) => {
-    axiosGet(id, info).then((resp) =>
-        setPokemon(resp.data));
-};
-
-export { getAllPokemons, getPokemon, getPokemonInfo };
+export { updateAllPokemons, updatePokemon };
