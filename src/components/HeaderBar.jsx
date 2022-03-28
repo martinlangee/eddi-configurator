@@ -8,12 +8,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Icon from "@mui/material/Icon";
 import { makeStyles } from "@material-ui/styles";
 
+/* doen't work though it already did !!?? */
 const useStyles = makeStyles({
-  button: {
+  btn: {
     "&:hover": {
-      backgroundColor: "#446",
+      backgroundColor: "#468",
     },
-    padding: "1em",
+    padding: "20px",
   },
 });
 
@@ -33,23 +34,35 @@ export default function HeaderBar() {
           >
             <MenuIcon />
           </Icon>
-          <Button className={classes.button}>
+          <Button
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+          >
             <Link to={"/"}>Home</Link>
           </Button>
-          <Button className={classes.button}>
+          <Button
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+          >
             <Link to={"/widgets"}>Widgets</Link>
           </Button>
-          <Button className={classes.button}>
+          <Button
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+          >
             <Link to={"/screens"}>Screens</Link>
           </Button>
-          <Button className={classes.button}>
+          <Button
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+          >
             <Link to={"/settings"}>Settings</Link>
           </Button>
           <Box sx={{ flexGrow: 1 }} />
-          <Button className={classes.button}>
+          <Button
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+          >
             <Link to={"/login"}>Login</Link>
           </Button>
-          <Button className={classes.button}>
+          <Button
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+          >
             <Link to={"/signup"}>Signup</Link>
           </Button>
         </Toolbar>
