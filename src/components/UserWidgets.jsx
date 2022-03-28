@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
 import { getWidgets } from "../api/db";
-import SingleWidget from "./SingleWidget";
+import WidgetItem from "./WidgetItem";
 
 const UserWidgets = () => {
   const [widgets, setWidgets] = useState([]);
@@ -20,7 +20,9 @@ const UserWidgets = () => {
       </Stack>
       <div>
         {widgets
-          ? widgets.map((w, idx) => <SingleWidget index={idx} data={w} />)
+          ? widgets.map((w, idx) => (
+              <WidgetItem key={idx} index={idx} data={w} />
+            ))
           : "Loading widgets..."}
       </div>
     </div>
