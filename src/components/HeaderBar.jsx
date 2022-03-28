@@ -19,7 +19,7 @@ const useStyles = makeStyles({
 });
 
 export default function HeaderBar() {
-  const classes = useStyles();
+  //const classes = useStyles();
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -40,28 +40,28 @@ export default function HeaderBar() {
             <Link to={"/"}>Home</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
             <Link to={"/widgets"}>Widgets</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
             <Link to={"/screens"}>Screens</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
             <Link to={"/settings"}>Settings</Link>
           </Button>
           <Box sx={{ flexGrow: 1 }} />
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
             <Link to={"/login"}>Login</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
             <Link to={"/signup"}>Signup</Link>
           </Button>
