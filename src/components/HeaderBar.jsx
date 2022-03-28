@@ -58,12 +58,21 @@ export default function HeaderBar() {
           <Button
             sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
-            <Link to={"/login"}>Login</Link>
+            <Link to={"/login"}>Log in</Link>
           </Button>
           <Button
             sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
-            <Link to={"/signup"}>Signup</Link>
+            <Link to={"/signup"}>Sign up</Link>
+          </Button>
+          <Button
+            sx={{
+              padding: "1em",
+              color: "white",
+              "&:hover": { backgroundColor: "#458" },
+            }}
+          >
+            Sign out
           </Button>
         </Toolbar>
       </AppBar>
