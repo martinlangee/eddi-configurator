@@ -6,9 +6,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import Icon from "@mui/material/Icon";
-import { makeStyles } from "@material-ui/styles";
+/*import { makeStyles } from "@material-ui/styles";
 
-/* doen't work though it already did !!?? */
+/* doen't work though it already did !!?? 
 const useStyles = makeStyles({
   btn: {
     "&:hover": {
@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     },
     padding: "20px",
   },
-});
+});  */
 
 export default function HeaderBar() {
   //const classes = useStyles();
