@@ -1,10 +1,7 @@
+import "../App.css";
 import React from "react";
-import { Avatar, Card, CardHeader } from "@mui/material";
-import { Link } from "react-router-dom";
 
-const PokemonCard = (param) => {
-  const { pokemon } = param;
-
+const UserWidgets = () => {
   function stringToColor(string) {
     let hash = 0;
     let i;
@@ -26,7 +23,7 @@ const PokemonCard = (param) => {
   }
 
   function stringAvatar() {
-    const name = pokemon.name.english;
+    const name = "xxx";
     return {
       sx: {
         bgcolor: stringToColor(name),
@@ -36,16 +33,10 @@ const PokemonCard = (param) => {
   }
 
   return (
-    <Link to={`/pokemon/${pokemon.id}`} style={{ textDecoration: "none" }}>
-      <Card sx={{ minWidth: 250, boxShadow: 3, m: 2 }}>
-        <CardHeader
-          avatar={<Avatar {...stringAvatar()} />}
-          title={pokemon.name.english}
-          subheader={pokemon.type.join(", ")}
-        />
-      </Card>
-    </Link>
+    <div>
+      <h2>User Widgets</h2>
+    </div>
   );
 };
 
-export default PokemonCard;
+export default UserWidgets;

@@ -1,23 +1,24 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import All from "./components/All.jsx";
-import Single from "./components/Single.jsx";
+import HeaderBar from "./components/HeaderBar";
+import UserWidgets from "./components/UserWidgets";
+import UserScreens from "./components/UserScreens";
+import UserSettings from "./components/UserSettings";
+import Home from "./components/Home.jsx";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 function App() {
   return (
     <Router>
-      <div>
-        <h2>Welcome to Martin's Poke Fight Page</h2>
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <Link to={"/"} className="nav-link">
-            View All
-          </Link>
-        </nav>
-        <hr />
-      </div>
+      <HeaderBar />
       <Routes>
-        <Route path="/pokemon/:id" element={<Single />} />
-        <Route exact path="/" element={<All />} />
+        <Route path="/widgets" element={<UserWidgets />} />
+        <Route path="/screens" element={<UserScreens />} />
+        <Route path="/settings" element={<UserSettings />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route exact path="/" element={<Home />} />
       </Routes>
     </Router>
   );
