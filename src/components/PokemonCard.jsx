@@ -1,18 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Avatar, Card, CardHeader } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const PokemonCard = (param) => {
   const { pokemon } = param;
-  console.log(pokemon.imageUrl);
-
-  const typesAsStr = () => {
-    let res = pokemon.type[0];
-    for (let i = 1; i < pokemon.type.length; i++) {
-      res += ", " + pokemon.type[i];
-    }
-    return res;
-  };
 
   function stringToColor(string) {
     let hash = 0;
@@ -50,7 +41,7 @@ const PokemonCard = (param) => {
         <CardHeader
           avatar={<Avatar {...stringAvatar()} />}
           title={pokemon.name.english}
-          subheader={typesAsStr()}
+          subheader={pokemon.type.join(", ")}
         />
       </Card>
     </Link>

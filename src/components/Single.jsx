@@ -4,11 +4,8 @@ import { useParams } from "react-router-dom";
 import {
   Avatar,
   Card,
-  CardContent,
   CardHeader,
-  Divider,
   Grid,
-  Stack,
   Table,
   TableBody,
   TableRow,
@@ -34,7 +31,7 @@ const Single = () => {
     <div>
       {pokemon ? (
         <>
-          <Card sx={{ minWidth: 250, boxShadow: 3, m: 2 }}>
+          <Card sx={{ width: "50%", boxShadow: 3, m: 2 }}>
             <Table direction="row">
               <TableBody>
                 <TableRow>
@@ -45,61 +42,61 @@ const Single = () => {
                       subheader={typesAsStr()}
                     />
                   </TableCell>
-                  <TableCell className="borderCell">
-                    <Grid container width="35%">
-                      <Grid item width="50%">
+                  <TableCell className="borderCell" width={"250px"}>
+                    <Grid container>
+                      <Grid item width="40%">
                         <Typography>Japanese:</Typography>
                       </Grid>
-                      <Grid item>
+                      <Grid item width="60%">
                         <Typography>{pokemon.name.japanese}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="40%">
                         <Typography>Chinese:</Typography>
                       </Grid>
-                      <Grid item>
+                      <Grid item width="60%">
                         <Typography>{pokemon.name.chinese}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="40%">
                         <Typography>French:</Typography>
                       </Grid>
-                      <Grid item>
+                      <Grid item width="60%">
                         <Typography>{pokemon.name.french}</Typography>
                       </Grid>
                     </Grid>
                   </TableCell>
                   <TableCell>
-                    <Grid container width="75%">
-                      <Grid item width="50%">
+                    <Grid container width="200px">
+                      <Grid item width="80%">
                         <Typography>HP:</Typography>
                       </Grid>
                       <Grid item>
                         <Typography>{pokemon.base["HP"]}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="80%">
                         <Typography>Attack:</Typography>
                       </Grid>
                       <Grid item>
                         <Typography>{pokemon.base["Attack"]}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="80%">
                         <Typography>Defense:</Typography>
                       </Grid>
                       <Grid item>
                         <Typography>{pokemon.base["Defense"]}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="80%">
                         <Typography>Sp. Attack:</Typography>
                       </Grid>
                       <Grid item>
                         <Typography>{pokemon.base["Sp. Attack"]}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="80%">
                         <Typography>Sp. Defense:</Typography>
                       </Grid>
                       <Grid item>
                         <Typography>{pokemon.base["Sp. Defense"]}</Typography>
                       </Grid>
-                      <Grid item width="50%">
+                      <Grid item width="80%">
                         <Typography>Speed:</Typography>
                       </Grid>
                       <Grid item>
