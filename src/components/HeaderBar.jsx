@@ -6,8 +6,20 @@ import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import MenuIcon from "@mui/icons-material/Menu";
 import Icon from "@mui/material/Icon";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  button: {
+    "&:hover": {
+      backgroundColor: "#446",
+    },
+    padding: "1em",
+  },
+});
 
 export default function HeaderBar() {
+  const classes = useStyles();
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -21,23 +33,23 @@ export default function HeaderBar() {
           >
             <MenuIcon />
           </Icon>
-          <Button color="inherit" backgroundColor="blue" sx={{ mr: 2 }}>
+          <Button className={classes.button}>
             <Link to={"/"}>Home</Link>
           </Button>
-          <Button color="inherit" sx={{ mr: 2 }}>
+          <Button className={classes.button}>
             <Link to={"/widgets"}>Widgets</Link>
           </Button>
-          <Button color="inherit" sx={{ mr: 2 }}>
+          <Button className={classes.button}>
             <Link to={"/screens"}>Screens</Link>
           </Button>
-          <Button color="inherit" sx={{ mr: 2 }}>
+          <Button className={classes.button}>
             <Link to={"/settings"}>Settings</Link>
           </Button>
           <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" sx={{ mr: 2 }}>
+          <Button className={classes.button}>
             <Link to={"/login"}>Login</Link>
           </Button>
-          <Button color="inherit" sx={{ mr: 2 }}>
+          <Button className={classes.button}>
             <Link to={"/signup"}>Signup</Link>
           </Button>
         </Toolbar>
