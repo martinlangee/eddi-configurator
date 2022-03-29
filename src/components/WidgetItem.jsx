@@ -14,16 +14,20 @@ const WidgetItem = ({ index, data }) => {
         <Stack direction="row" m="10px">
           <Box minWidth="30px"></Box>
           <Box ml={2} minWidth="150px" maxWidth="150px">
-            Name
+            <strong>Name</strong>
           </Box>
-          <Box ml={2} minWidth="100px" width="100%">
-            Description
+          <Box ml={2} minWidth="150px" width="100%">
+            <strong>Description</strong>
           </Box>
           <Box display="flex" minWidth="100px">
-            <Box m="auto">Thumbnail</Box>
+            <Box m="auto">
+              <strong>Thumbnail</strong>
+            </Box>
           </Box>
           <Box display="flex" minWidth="70px" mx="0px">
-            <Box m="auto">Public</Box>
+            <Box m="auto">
+              <strong>Public</strong>
+            </Box>
           </Box>
           <Box minWidth="150px"></Box>
         </Stack>
@@ -47,7 +51,7 @@ const WidgetItem = ({ index, data }) => {
             value={data.name}
           ></TextField>
         </Box>
-        <Box m={1} sx={{ width: "100%", minWidth: "100px" }}>
+        <Box m={1} sx={{ width: "100%", minWidth: "150px" }}>
           <TextField
             required
             variant="outlined"

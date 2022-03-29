@@ -4,6 +4,8 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
+import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import { cyan } from "@mui/material/colors";
 /*import { makeStyles } from "@material-ui/styles";
 
 /* doen't work though it already did !!?? 
@@ -21,7 +23,7 @@ export default function HeaderBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" style={{ backgroundColor: cyan["800"] }}>
         <Toolbar>
           <Box
             component="img"
@@ -34,34 +36,33 @@ export default function HeaderBar() {
             src="../logo32.png"
           />
           <Button
-            px={2}
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: cyan["900"] } }}
           >
             <Link to={"/"}>Home</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: cyan["900"] } }}
           >
             <Link to={"/widgets"}>Widgets</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: cyan["900"] } }}
           >
             <Link to={"/screens"}>Screens</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: cyan["900"] } }}
           >
             <Link to={"/settings"}>Settings</Link>
           </Button>
           <Box sx={{ flexGrow: 1 }} />
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: cyan["900"] } }}
           >
             <Link to={"/login"}>Log in</Link>
           </Button>
           <Button
-            sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
+            sx={{ padding: "1em", "&:hover": { backgroundColor: cyan["900"] } }}
           >
             <Link to={"/signup"}>Sign up</Link>
           </Button>
@@ -69,11 +70,14 @@ export default function HeaderBar() {
             sx={{
               padding: "1em",
               color: "white",
-              "&:hover": { backgroundColor: "#458" },
+              "&:hover": { backgroundColor: cyan["900"] },
             }}
           >
             Sign out
           </Button>
+          <Box>
+            <PermIdentityIcon style={{ paddingLeft: "10px", color: "white" }} />
+          </Box>
         </Toolbar>
       </AppBar>
     </Box>

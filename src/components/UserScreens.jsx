@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
 import { getScreens } from "../api/db";
-import WidgetItem from "./WidgetItem";
+import ScreenItem from "./ScreenItem";
 
 const UserScreens = () => {
   const [screens, setScreens] = useState([]);
@@ -16,12 +16,14 @@ const UserScreens = () => {
           label="Show public screens from other users"
         />
         <Box sx={{ flexGrow: 1 }} />
-        <Button>New screen...</Button>
+        <Button variant="outlined" sx={{ minWidth: "200px" }}>
+          New screen...
+        </Button>
       </Stack>
       <div>
         {screens
           ? screens.map((w, idx) => (
-              <WidgetItem key={idx} index={idx} data={w} />
+              <ScreenItem key={idx} index={idx} data={w} />
             ))
           : "Loading screens..."}
       </div>

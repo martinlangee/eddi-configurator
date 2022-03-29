@@ -16,7 +16,9 @@ const UserWidgets = () => {
           label="Show public widgets from other users"
         />
         <Box sx={{ flexGrow: 1 }} />
-        <Button>New widget...</Button>
+        <Button variant="outlined" sx={{ minWidth: "200px" }}>
+          New widget...
+        </Button>
       </Stack>
       <div>
         {widgets
