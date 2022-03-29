@@ -25,16 +25,18 @@ export default function HeaderBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
-          <Icon
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </Icon>
+          <Box
+            component="img"
+            p={2}
+            sx={{
+              height: 32,
+              width: 32,
+            }}
+            alt="EDDI Configurator"
+            src="../logo32.png"
+          />
           <Button
+            px={2}
             sx={{ padding: "1em", "&:hover": { backgroundColor: "#458" } }}
           >
             <Link to={"/"}>Home</Link>
