@@ -9,7 +9,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 const ScreenItem = ({ index, data }) => {
   return (
     <Box>
-      {/* Header line: printed only once above the first widget */}
+      {/* Header line: printed only once above the first screen */}
       {!index ? (
         <Stack direction="row" m="10px">
           <Box minWidth="30px"></Box>
