@@ -25,7 +25,7 @@ export default function HeaderBar() {
         <Toolbar>
           <Box
             component="img"
-            p={2}
+            pr={2}
             sx={{
               height: 32,
               width: 32,
