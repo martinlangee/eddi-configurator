@@ -6,8 +6,13 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
   FormControlLabel,
   IconButton,
+  InputLabel,
+  MenuItem,
+  NativeSelect,
+  Select,
   Stack,
   Switch,
 } from "@mui/material";
@@ -75,6 +80,16 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
             <Stack direction="row">
               <Stack mt={3} mr={3}>
                 <WidgetLayout index={0} data={0} />
+                <Stack mt={5} mr={1} direction="row" justifyContent="flex-end">
+                  <FormControl sx={{ width: "300px" }}>
+                    <InputLabel id="add-widget-label">Add widget</InputLabel>
+                    <Select label="Add widget" labelId="add-widget-label">
+                      <MenuItem value={10}>Weather</MenuItem>
+                      <MenuItem value={21}>Stocks</MenuItem>
+                      <MenuItem value={22}>Calender</MenuItem>
+                    </Select>{" "}
+                  </FormControl>
+                </Stack>
               </Stack>
               <Stack>
                 <label>Preview</label>
