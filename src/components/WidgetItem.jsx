@@ -1,12 +1,17 @@
 import "../App.css";
-import React from "react";
+import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { Stack, TextField, Switch, IconButton } from "@mui/material";
+import { Stack, TextField, Switch, IconButton, Dialog } from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
-import OpenInBrowserIcon from "@material-ui/icons/OpenInBrowser";
 import DeleteIcon from "@material-ui/icons/Delete";
+import WidgetSettings from "../dialogs/WidgetSettings";
 
 const WidgetItem = ({ index, data }) => {
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const handleSettingsOpen = () => setSettingsOpen(true);
+  const handleSettingsClose = () => setSettingsOpen(false);
+
   return (
     <Box>
       {/* Header line: printed only once above the first widget */}
@@ -49,7 +54,7 @@ const WidgetItem = ({ index, data }) => {
             variant="outlined"
             size="small"
             value={data.name}
-          ></TextField>
+          />
         </Box>
         <Box m={1} sx={{ width: "100%", minWidth: "150px" }}>
           <TextField
@@ -58,14 +63,14 @@ const WidgetItem = ({ index, data }) => {
             size="small"
             fullWidth
             value={data.description}
-          ></TextField>
+          />
         </Box>
         <Box display="flex" minWidth="100px">
           <Box
             m="auto"
             sx={{ width: "60px", height: "40px" }}
-            bgcolor="lightgray"
-          ></Box>
+            bgcolor="silver"
+          />
         </Box>
         <Box display="flex" minWidth="70px">
           <Box m="auto">
@@ -74,11 +79,8 @@ const WidgetItem = ({ index, data }) => {
         </Box>
         <Box display="flex" minWidth="150px">
           <Box m="auto">
-            <IconButton>
+            <IconButton onClick={handleSettingsOpen}>
               <EditIcon color="primary"></EditIcon>
-            </IconButton>
-            <IconButton>
-              <OpenInBrowserIcon color="primary"></OpenInBrowserIcon>
             </IconButton>
             <IconButton>
               <DeleteIcon color="primary"></DeleteIcon>
@@ -86,6 +88,11 @@ const WidgetItem = ({ index, data }) => {
           </Box>
         </Box>
       </Stack>
+      <WidgetSettings
+        id={data.id}
+        isOpen={settingsOpen}
+        handleClose={handleSettingsClose}
+      />
     </Box>
   );
 };

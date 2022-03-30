@@ -1,4 +1,7 @@
 export function getWidgets(userId) {
+
+    // todo: consider userId if set
+
     console.log("-- getWidgets");
     return [{
         "id": 1,
@@ -9,9 +12,9 @@ export function getWidgets(userId) {
         "size_y": 100,
         "icon": "",
         "content": "<empty>",
-        "public": false,
-        "created": "2022-03-10",
-        "last_saved": "2022-03-12"
+        "public": true,
+        "created": "2022-03-10 / 09:12",
+        "last_saved": "2022-03-12 / 16:01"
     }, {
         "id": 2,
         "user_id": 1,
@@ -21,15 +24,15 @@ export function getWidgets(userId) {
         "size_y": 200,
         "icon": "",
         "content": "<empty>",
-        "public": false,
-        "created": "2022-03-11",
-        "last_saved": "2022-03-13"
+        "public": true,
+        "created": "2022-03-11 / 10:22",
+        "last_saved": "2022-03-13 / 18:56"
     }];
 };
 
-export function getWidget(userId, widgetId) {
+export function getWidget(id) {
     console.log("-- getWidget");
-    return getWidgets(userId).find(w => w.id === widgetId);
+    return getWidgets().find(w => w.id === id);
 };
 
 export function getScreens(userId) {

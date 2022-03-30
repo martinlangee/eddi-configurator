@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useState } from "react";
 import { Stack, TextField } from "@mui/material";
 
-const LabelEdit = ({ label, db, initValue, rows, onSave }) => {
+const LabelEdit = ({ label, db, initValue, rows, onSave, width }) => {
   const [value, setValue] = useState(initValue);
 
   const onChange = (e) => {
@@ -13,13 +13,15 @@ const LabelEdit = ({ label, db, initValue, rows, onSave }) => {
     if (onSave) onSave(db, value);
   };
 
+  width = width === undefined ? "300px" : width;
+
   return (
     <Stack>
       <label style={{ marginBottom: "5px" }}>{label}</label>
       {rows > 1 ? (
         <TextField
           id="textField"
-          sx={{ width: "300px" }}
+          sx={{ width: { width } }}
           variant="outlined"
           size="small"
           multiline
@@ -31,7 +33,7 @@ const LabelEdit = ({ label, db, initValue, rows, onSave }) => {
       ) : (
         <TextField
           id="textField"
-          sx={{ width: "300px" }}
+          sx={{ width: { width } }}
           variant="outlined"
           size="small"
           value={value}

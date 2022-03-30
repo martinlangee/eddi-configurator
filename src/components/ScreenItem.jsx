@@ -64,7 +64,7 @@ const ScreenItem = ({ index, data }) => {
           <Box
             m="auto"
             sx={{ width: "60px", height: "40px" }}
-            bgcolor="lightgray"
+            bgcolor="silver"
           ></Box>
         </Box>
         <Box display="flex" minWidth="70px">
