@@ -24,7 +24,7 @@ export function getWidgets(userId) {
         "size_y": 200,
         "icon": "",
         "content": "<empty>",
-        "public": true,
+        "public": false,
         "created": "2022-03-11 / 10:22",
         "last_saved": "2022-03-13 / 18:56"
     }];

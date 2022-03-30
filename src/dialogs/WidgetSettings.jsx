@@ -20,7 +20,7 @@ import { getWidget } from "../api/db";
 
 const WidgetSettings = ({ id, isOpen, handleClose }) => {
   const [data, setData] = useState(null);
-  useEffect(() => setData((prev) => getWidget(id)), []);
+  useEffect(() => setData((prev) => getWidget(id)), [id]);
 
   const onConfirm = () => {
     handleClose();
