@@ -1,12 +1,10 @@
 import "../App.css";
 import React from "react";
+import { Box } from "@mui/system";
 
 const Home = () => {
   return (
-    <div>
-      <h2>EDDI - E-Paper Device to Display Information</h2>
-      <h3>Configurator Site</h3>
-    </div>
+    <Box component="img" alt="EDDI Configurator" src="../landing-page-1.png" />
   );
 };
 
