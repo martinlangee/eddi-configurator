@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { Stack, TextField, Switch, IconButton, Dialog } from "@mui/material";
+import { Stack, TextField, Switch, IconButton } from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import WidgetSettings from "../dialogs/WidgetSettings";
