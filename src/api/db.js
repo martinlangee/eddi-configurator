@@ -1,4 +1,4 @@
-const getWidgets = (userId) => {
+export function getWidgets(userId) {
     console.log("-- getWidgets");
     return [{
         "id": 1,
@@ -27,12 +27,12 @@ const getWidgets = (userId) => {
     }];
 };
 
-const getWidget = (userId, widgetId) => {
+export function getWidget(userId, widgetId) {
     console.log("-- getWidget");
     return getWidgets(userId).find(w => w.id === widgetId);
 };
 
-const getScreens = (userId) => {
+export function getScreens(userId) {
     console.log("-- getScreens");
     return [{
         "id": 1,
@@ -57,10 +57,26 @@ const getScreens = (userId) => {
     }]
 };
 
-const getScreen = (userId, screenId) => {
+export function getScreen(userId, screenId) {
     console.log("-- getScreen");
     return getScreen(userId).find(s => s.id === screenId);
 };
 
+let _user = {
+    "user_id": 1,
+    "user_name": "jdthesouther",
+    "first_name": "John",
+    "last_name": "Doe",
+    "email": "jf@mailer.fr",
+    "description": "I am the one who is not the one",
+    "pwd": "*****"
+}
 
-export { getWidgets, getWidget, getScreens, getScreen };
+export function getCurrentUser() {
+    return _user;
+}
+
+export function saveUserData(user) {
+    console.log("-- saveUserData", user);
+    _user = user;
+}

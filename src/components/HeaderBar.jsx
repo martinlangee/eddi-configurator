@@ -4,8 +4,11 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
-import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { cyan } from "@mui/material/colors";
+import { Avatar } from "@mui/material";
+import { getCurrentUser } from "../api/db";
+import { stringAvatar } from "../utils/utils";
+
 /*import { makeStyles } from "@material-ui/styles";
 
 /* doen't work though it already did !!?? 
@@ -76,7 +79,7 @@ export default function HeaderBar() {
             Sign out
           </Button>
           <Box>
-            <PermIdentityIcon style={{ paddingLeft: "10px", color: "white" }} />
+            <Avatar {...stringAvatar(getCurrentUser().user_name)} />
           </Box>
         </Toolbar>
       </AppBar>

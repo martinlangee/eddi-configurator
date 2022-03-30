@@ -1,4 +1,4 @@
-export function stringToColor(string) {
+function stringToColor(string) {
     let hash = 0;
     let i;
 
@@ -7,22 +7,33 @@ export function stringToColor(string) {
         hash = string.charCodeAt(i) + ((hash << 5) - hash);
     }
 
-    let color = "#";
+    let color = '#';
 
     for (i = 0; i < 3; i += 1) {
         const value = (hash >> (i * 8)) & 0xff;
-        color += `00${value.toString(16)}`.substr(-2);
+        color += `00${value.toString(16)}`.slice(-2);
     }
     /* eslint-enable no-bitwise */
 
     return color;
 }
 
-export function stringAvatar(name) {
+function getInitials(name) {
+    const parts = name.split(' ');
+    const idx1 = parts.length > 1 ? 1 : 0;
+    const idx2 = 1 - idx1;
+    return parts[0].length > 1 ?
+        `${parts[0][0]}${parts[idx1][idx2]}` :
+        name;
+}
+
+export function stringAvatar(name, w, h) {
     return {
-        sx: {
+        sx: w && h ? {
             bgcolor: stringToColor(name),
-        },
-        children: `${name.split("")[0]}${name.split("")[1]}`,
+            width: w,
+            height: h
+        } : { bgcolor: stringToColor(name) },
+        children: getInitials(name),
     };
 }
