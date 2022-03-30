@@ -1,6 +1,6 @@
 export function getWidgets(userId) {
 
-    // todo: consider userId if set
+    // todo: consider userId is set
 
     console.log("-- getWidgets");
     return [{
@@ -36,6 +36,9 @@ export function getWidget(id) {
 };
 
 export function getScreens(userId) {
+
+    // todo: consider userId is set
+
     console.log("-- getScreens");
     return [{
         "id": 1,
@@ -60,9 +63,9 @@ export function getScreens(userId) {
     }]
 };
 
-export function getScreen(userId, screenId) {
+export function getScreen(screenId) {
     console.log("-- getScreen");
-    return getScreen(userId).find(s => s.id === screenId);
+    return getScreens().find(s => s.id === screenId);
 };
 
 let _user = {

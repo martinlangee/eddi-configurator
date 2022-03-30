@@ -1,7 +1,7 @@
 import "../App.css";
 import React, { useState } from "react";
 import { Box } from "@mui/system";
-import { Stack, TextField, Switch, IconButton } from "@mui/material";
+import { Stack, Switch, IconButton, Divider } from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import WidgetSettings from "../dialogs/WidgetSettings";
@@ -21,7 +21,7 @@ const WidgetItem = ({ index, data }) => {
           <Box ml={2} minWidth="150px" maxWidth="150px">
             <strong>Name</strong>
           </Box>
-          <Box ml={2} minWidth="150px" width="100%">
+          <Box ml={1} minWidth="150px" maxWidth="400px" width="100%">
             <strong>Description</strong>
           </Box>
           <Box display="flex" minWidth="100px">
@@ -34,36 +34,38 @@ const WidgetItem = ({ index, data }) => {
               <strong>Public</strong>
             </Box>
           </Box>
-          <Box minWidth="150px"></Box>
+          <Box minWidth="100px"></Box>
         </Stack>
       ) : (
         ""
       )}
       {/* Widget lines */}
-      <Stack
-        direction="row"
-        m="10px"
-        sx={{ "&:hover": { backgroundColor: "#e8f8ff" } }}
-      >
+      <Divider />
+      <Stack direction="row" m="10px">
         <Box minWidth="30px" display="flex">
           <Box m="auto">{index + 1}</Box>
         </Box>
-        <Box m={1} sx={{ minWidth: "150px", maxWidth: "150px" }}>
-          <TextField
-            required
-            variant="outlined"
-            size="small"
-            value={data.name}
-          />
+        <Box
+          mx={1}
+          sx={{ backgroundColor: "whitesmoke" }}
+          minWidth="150px"
+          maxWidth="150px"
+          display="flex"
+        >
+          <Box ml={1} my="auto">
+            {data.name}
+          </Box>
         </Box>
-        <Box m={1} sx={{ width: "100%", minWidth: "150px" }}>
-          <TextField
-            required
-            variant="outlined"
-            size="small"
-            fullWidth
-            value={data.description}
-          />
+        <Box
+          sx={{ backgroundColor: "whitesmoke" }}
+          minWidth="150px"
+          maxWidth="400px"
+          width="100%"
+          display="flex"
+        >
+          <Box ml={1} my="auto">
+            {data.description}
+          </Box>
         </Box>
         <Box display="flex" minWidth="100px">
           <Box
@@ -77,7 +79,7 @@ const WidgetItem = ({ index, data }) => {
             <Switch></Switch>
           </Box>
         </Box>
-        <Box display="flex" minWidth="150px">
+        <Box display="flex" minWidth="100px">
           <Box m="auto">
             <IconButton onClick={handleSettingsOpen}>
               <EditIcon color="primary"></EditIcon>
