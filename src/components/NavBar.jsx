@@ -50,34 +50,52 @@ function Navbar() {
         <Box className={classes.navlinks}>
           <NavLink
             to="/"
-            exact={true}
             className={classes.link}
-            activeClassName={classes.activeLink}
+            activeclassname={classes.activeLink}
           >
             Home
           </NavLink>
           <NavLink
             to="/widgets"
-            exact={true}
             className={classes.link}
-            activeClassName={classes.activeLink}
+            activeclassname={classes.activeLink}
           >
             Widgets
           </NavLink>
-          <NavLink to="/screens" className={classes.link}>
+          <NavLink
+            to="/screens"
+            className={classes.link}
+            activeclassname={classes.activeLink}
+          >
             Screens
           </NavLink>
-          <NavLink to="/settings" className={classes.link}>
+          <NavLink
+            to="/settings"
+            className={classes.link}
+            activeclassname={classes.activeLink}
+          >
             Settings
           </NavLink>
           <Box sx={{ flexGrow: 1 }} />
-          <NavLink to="/login" className={classes.link}>
+          <NavLink
+            to="/login"
+            className={classes.link}
+            activeclassname={classes.activeLink}
+          >
             Log in
           </NavLink>
-          <NavLink to="/signup" className={classes.link}>
+          <NavLink
+            to="/signup"
+            className={classes.link}
+            activeclassname={classes.activeLink}
+          >
             Sign up
           </NavLink>
-          <NavLink to="/xxx" className={classes.link}>
+          <NavLink
+            to="/xxx"
+            className={classes.link}
+            activeclassname={classes.activeLink}
+          >
             Sign out
           </NavLink>
           <Box ml={2}>
