@@ -1,17 +1,16 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  CssBaseline,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
+import { AppBar, Toolbar, makeStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { Avatar, Box } from "@mui/material";
+import { cyan } from "@mui/material/colors";
+import { stringAvatar } from "../utils/utils";
+import { getCurrentUser } from "../api/db";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
-    padding: theme.spacing(1, 10),
+    flexGrow: "1",
     display: "flex",
+    alignItems: "center",
   },
   logo: {
     flexGrow: "1",
@@ -21,9 +20,9 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
     color: "white",
     fontSize: "20px",
-    padding: theme.spacing(1, 10),
+    padding: theme.spacing(2, 2),
     "&:hover": {
-      color: "blue",
+      color: cyan["900"],
       backgroundColor: "white",
     },
   },
@@ -33,26 +32,41 @@ function Navbar() {
   const classes = useStyles();
 
   return (
-    <AppBar position="static">
-      <CssBaseline />
+    <AppBar position="static" style={{ backgroundColor: cyan["800"] }}>
       <Toolbar>
-        <Typography variant="h4" className={classes.logo}>
-          Navbar
-        </Typography>
-        <div className={classes.navlinks}>
+        <Box
+          component="img"
+          pr={2}
+          alt="EDDI Configurator"
+          src="../logo48.png"
+        />
+        <Box className={classes.navlinks}>
           <Link to="/" className={classes.link}>
             Home
           </Link>
-          <Link to="/about" className={classes.link}>
-            About
+          <Link to="/widgets" className={classes.link}>
+            Widgets
           </Link>
-          <Link to="/contact" className={classes.link}>
-            Contact
+          <Link to="/screens" className={classes.link}>
+            Screens
           </Link>
-          <Link to="/faq" className={classes.link}>
-            FAQ
+          <Link to="/settings" className={classes.link}>
+            Settings
           </Link>
-        </div>
+          <Box sx={{ flexGrow: 1 }} />
+          <Link to="/login" className={classes.link}>
+            Log in
+          </Link>
+          <Link to="/signup" className={classes.link}>
+            Sign up
+          </Link>
+          <Link to="/" className={classes.link}>
+            Sign out
+          </Link>
+          <Box ml={2}>
+            <Avatar {...stringAvatar(getCurrentUser().user_name)} />
+          </Box>
+        </Box>
       </Toolbar>
     </AppBar>
   );
