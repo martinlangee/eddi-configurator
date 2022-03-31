@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import HeaderBar from "./components/HeaderBar";
 import NavBar from "./components/NavBar";
 import UserWidgets from "./components/UserWidgets";
 import UserScreens from "./components/UserScreens";
@@ -12,7 +11,6 @@ import Signup from "./components/Signup";
 function App() {
   return (
     <Router>
-      {/* <HeaderBar /> */}
       <NavBar />
       <Routes>
         <Route path="/widgets" element={<UserWidgets />} />

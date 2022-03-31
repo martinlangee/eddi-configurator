@@ -5,7 +5,6 @@ import { Avatar, Box } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
 import { getCurrentUser } from "../api/db";
-import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
