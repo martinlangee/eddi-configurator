@@ -1,10 +1,11 @@
 import React from "react";
 import { AppBar, Toolbar, makeStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Avatar, Box } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
 import { getCurrentUser } from "../api/db";
+import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
@@ -19,12 +20,19 @@ const useStyles = makeStyles((theme) => ({
   link: {
     textDecoration: "none",
     color: "white",
-    fontSize: "20px",
-    padding: theme.spacing(2, 2),
+    padding: theme.spacing(2.5, 2),
+    textTransform: "uppercase",
     "&:hover": {
       color: cyan["900"],
       backgroundColor: "white",
     },
+  },
+  activeLink: {
+    textDecoration: "none",
+    color: cyan["900"],
+    backgroundColor: "white",
+    padding: theme.spacing(2, 2),
+    textTransform: "uppercase",
   },
 }));
 
@@ -41,28 +49,38 @@ function Navbar() {
           src="../logo48.png"
         />
         <Box className={classes.navlinks}>
-          <Link to="/" className={classes.link}>
+          <NavLink
+            to="/"
+            exact={true}
+            className={classes.link}
+            activeClassName={classes.activeLink}
+          >
             Home
-          </Link>
-          <Link to="/widgets" className={classes.link}>
+          </NavLink>
+          <NavLink
+            to="/widgets"
+            exact={true}
+            className={classes.link}
+            activeClassName={classes.activeLink}
+          >
             Widgets
-          </Link>
-          <Link to="/screens" className={classes.link}>
+          </NavLink>
+          <NavLink to="/screens" className={classes.link}>
             Screens
-          </Link>
-          <Link to="/settings" className={classes.link}>
+          </NavLink>
+          <NavLink to="/settings" className={classes.link}>
             Settings
-          </Link>
+          </NavLink>
           <Box sx={{ flexGrow: 1 }} />
-          <Link to="/login" className={classes.link}>
+          <NavLink to="/login" className={classes.link}>
             Log in
-          </Link>
-          <Link to="/signup" className={classes.link}>
+          </NavLink>
+          <NavLink to="/signup" className={classes.link}>
             Sign up
-          </Link>
-          <Link to="/" className={classes.link}>
+          </NavLink>
+          <NavLink to="/xxx" className={classes.link}>
             Sign out
-          </Link>
+          </NavLink>
           <Box ml={2}>
             <Avatar {...stringAvatar(getCurrentUser().user_name)} />
           </Box>
