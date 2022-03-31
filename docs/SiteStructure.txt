@@ -1,0 +1,99 @@
+EDDI Website Structure
+
+- Home
+	> Routes
+		=> jump to "Log-In"
+		=> jump to "Log-On"
+		=> jump to "Browse projects"
+		=> jump to "Browse widgets"
+	> Content
+		* Explanation
+		* Example (?)
+		* Video (?)
+		
+- Browse Projects
+	> List all projects that are public + own (if logged on)
+		* Display:	
+			- Name
+			- Description
+			- Owner name
+			- Preview render (scaled down)
+		=> OnClick: Enlarge project render to original size in overlay
+			
+- Browse Widgets
+	> List all widgets that are public + own (if logged on)
+		* Display:	
+			- Name
+			- Description
+			- Owner name
+			- Preview render (scaled down)
+		=> OnClick: Enlarge widget render to original size in overlay
+
+- Hardware
+	> What to use (i.e. RaspberryPi)
+	> How to prepare (Installation)
+	> Display
+		* E-Paper
+		* Other
+
+- Log-On
+	> Forms: 
+		* E-Mail
+		* First Name
+		* Last Name
+		* Password 2x
+	
+- Log-In
+	> Forms
+		* E-Mail
+		* Password
+
+- Account
+	> Actions
+		* Delete account
+	> Forms
+		* E-Mail
+		* First Name
+		* Last Name
+		* Password 2x
+		* Icon
+		* Description
+	
+	> My Projects
+		* List
+			- Add project
+				* Name
+				* Description (opt)
+				* public J/N (opt)
+				* Width, Height
+			- Delete project
+			- Edit single project
+				* Name
+				* Description
+				* public J/N
+				* Width, Height
+				* Draw => jump to "Draw Project"
+			- URL where the Project is shown as is
+				
+	> My Widgets
+		* List
+			- Add widget
+				* Name
+				* Description (opt)
+				* public J/N (opt)
+			- Delete widget
+			- Edit single widget
+				* Name
+				* Description (opt)
+				* public J/N (opt)
+				* Width, Height
+				* Content (HTML + JavaScript or React-Code)
+					=> Button to upload functionable widget code that renders the widget
+					
+		
+- Draw Project
+	Editor that shows: 
+		* List of all own and public widgets
+		* Drawing canvas where widgets can be placed, moved around, deleted via drag'n drop
+		* Save-Button
+		* Undo/Redo (opt)
