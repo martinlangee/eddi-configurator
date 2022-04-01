@@ -98,7 +98,6 @@ export async function dbGetCurrentUser() {
     return resp.data[0];
 }
 
-
 export async function dbSaveUserData(user) {
     const url = `${usersUrl}/${CURRENT_USERID}`;
     const resp = await Axios.put(url, user);
@@ -109,12 +108,10 @@ export async function dbGetUserWidgets(userId) {
     const id = userId ? userId : CURRENT_USERID;
     const url = `${widgetsUrl}?userId=${id}`;
     const resp = await Axios.get(url);
-    console.log(resp.data);
     return resp.data;
 }
 export async function dbGetWidget(id) {
     const url = `${widgetsUrl}/${id}`;
     const resp = await Axios.get(url);
-    console.log(resp.data);
     return resp.data[0];
 }
