@@ -18,57 +18,79 @@ import {
 import { Box } from "@mui/system";
 import DeleteIcon from "@material-ui/icons/Delete";
 import LabelEdit from "../controls/LabelEdit";
-import { getScreen } from "../api/db";
+import { dbGetScreen, dbSaveScreenData } from "../api/db";
 import WidgetLayout from "../components/WidgetLayout";
-import WaitingBox from "../components/WaitingBox";
+
+// TODO: init and save "public"-Field
 
 const ScreenSettings = ({ id, isOpen, handleClose }) => {
-  const [data, setData] = useState(null);
-  useEffect(() => setData(() => getScreen(id)), [id]);
+  const [screenData, setScreenData] = useState(null);
+
+  useEffect(() => {
+    dbGetScreen(id).then((newData) => setScreenData(() => newData));
+  }, []);
+
+  const checkInput = (dbField, value) => {
+    // TODO: check if data are correct
+    return true;
+  };
+
+  const saveLocal = (dbField, value) => {
+    if (!checkInput) return;
+
+    let newData = screenData;
+    newData[dbField] = value;
+    setScreenData(() => newData);
+  };
 
   const onConfirm = () => {
-    handleClose();
+    dbSaveScreenData(screenData);
+    handleClose(true);
   };
 
   const onCancel = () => {
-    handleClose();
+    handleClose(false);
   };
 
   return (
-    <Dialog maxWidth="false" open={isOpen} onClose={onCancel}>
-      <DialogTitle>Screen properties and configuration</DialogTitle>
-      <DialogContent>
-        {data ? (
-          <>
+    <>
+      {screenData ? (
+        <Dialog maxWidth="false" open={isOpen} onClose={onCancel}>
+          <DialogTitle>Screen properties and configuration</DialogTitle>
+          <DialogContent>
             <Stack direction="row" mx={3} mb={5} spacing={5}>
               <LabelEdit
                 label="Name"
                 dbField="name"
-                initValue={data.name}
+                initValue={screenData.name}
+                onSave={saveLocal}
                 width="200px"
               />
               <LabelEdit
                 label="Description"
                 rows={4}
                 dbField="description"
-                initValue={data.description}
+                initValue={screenData.description}
+                onSave={saveLocal}
                 width="200px"
               />
               <LabelEdit
                 label="Width [px]"
                 width="80px"
                 dbField="size_x"
-                initValue={data.size_x}
+                onSave={saveLocal}
+                initValue={screenData.size_x}
               />
               <LabelEdit
                 label="Height [px]"
                 width="80px"
                 dbField="size_y"
-                initValue={data.size_y}
+                onSave={saveLocal}
+                initValue={screenData.size_y}
               />
               <Box m="auto" pt={2}>
                 <FormControlLabel
-                  control={<Switch name="public" value={data.public} />}
+                  control={<Switch name="public" value={screenData.public} />}
                   label="Public"
                 />
                 <IconButton>
@@ -102,16 +124,16 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
                 </Box>
               </Stack>
             </Stack>
-          </>
-        ) : (
-          <WaitingBox />
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={onConfirm}>OK</Button>
-        <Button onClick={onCancel}>Cancel</Button>
-      </DialogActions>
-    </Dialog>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={onConfirm}>OK</Button>
+            <Button onClick={onCancel}>Cancel</Button>
+          </DialogActions>
+        </Dialog>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 

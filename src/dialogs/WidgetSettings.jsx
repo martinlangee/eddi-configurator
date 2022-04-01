@@ -18,13 +18,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import LabelEdit from "../controls/LabelEdit";
 import { dbGetWidget, dbSaveWidgetData } from "../api/db";
 
-// TODO: init and save "public"
+// TODO: init and save "public"-Field
 
 const WidgetSettings = ({ id, isOpen, handleClose }) => {
   const [widgetData, setWidgetData] = useState(null);
 
   useEffect(() => {
-    dbGetWidget(id).then((widgetData) => setWidgetData(() => widgetData));
+    dbGetWidget(id).then((newData) => setWidgetData(() => newData));
   }, []);
 
   const checkInput = (dbField, value) => {

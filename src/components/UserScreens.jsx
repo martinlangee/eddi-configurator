@@ -1,13 +1,16 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
-import { getScreens } from "../api/db";
+import { dbGetUserScreens } from "../api/db";
 import ScreenItem from "./ScreenItem";
 import WaitingBox from "./WaitingBox";
 
 const UserScreens = () => {
   const [screens, setScreens] = useState([]);
-  useEffect(() => setScreens(() => getScreens(1)), []);
+
+  useEffect(() => {
+    dbGetUserScreens().then((newData) => setScreens(() => newData));
+  }, []);
 
   return (
     <div>
@@ -23,7 +26,9 @@ const UserScreens = () => {
       </Stack>
       <div>
         {screens ? (
-          screens.map((w, idx) => <ScreenItem key={idx} index={idx} data={w} />)
+          screens.map((screen, idx) => (
+            <ScreenItem key={idx} index={idx} id={screen.id} />
+          ))
         ) : (
           <WaitingBox />
         )}

@@ -51,7 +51,7 @@ const WidgetItem = ({ index, id }) => {
           <Box minWidth="100px"></Box>
         </Stack>
       ) : (
-        ""
+        <></>
       )}
       {/* Widget lines */}
       {widgetData ? (
@@ -59,7 +59,7 @@ const WidgetItem = ({ index, id }) => {
           <Divider />
           <Stack direction="row" m="10px">
             <Box minWidth="30px" display="flex">
-              <Box m="auto">{widgetData.id}</Box>
+              <Box m="auto">{index + 1}</Box>
             </Box>
             <Box
               mx={1}

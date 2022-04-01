@@ -1,16 +1,30 @@
 import "../App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Stack, Switch, IconButton, Divider } from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ScreenSettings from "../dialogs/ScreenSettings";
+import { dbGetScreen } from "../api/db";
 
-const ScreenItem = ({ index, data }) => {
+const ScreenItem = ({ index, id }) => {
+  const [screenData, setScreenData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  useEffect(() => {
+    dbGetScreen(id).then(updateScreen);
+  }, []);
+
+  const updateScreen = (newData) => setScreenData(() => newData);
+
   const handleSettingsOpen = () => setSettingsOpen(true);
-  const handleSettingsClose = () => setSettingsOpen(false);
+
+  const handleSettingsClose = (confirmed) => {
+    setSettingsOpen(false);
+    if (confirmed) {
+      dbGetScreen(id).then(updateScreen);
+    }
+  };
 
   return (
     <Box>
@@ -37,64 +51,74 @@ const ScreenItem = ({ index, data }) => {
           <Box minWidth="100px"></Box>
         </Stack>
       ) : (
-        ""
+        <></>
       )}
       {/* Screen lines */}
-      <Divider />
-      <Stack direction="row" m="10px">
-        <Box minWidth="30px" display="flex">
-          <Box m="auto">{index + 1}</Box>
+      {screenData ? (
+        <Box>
+          <Divider />
+          <Stack direction="row" m="10px">
+            <Box minWidth="30px" display="flex">
+              <Box m="auto">{index + 1}</Box>
+            </Box>
+            <Box
+              mx={1}
+              sx={{ backgroundColor: "whitesmoke" }}
+              minWidth="150px"
+              maxWidth="150px"
+              display="flex"
+            >
+              <Box ml={1} my="auto">
+                {screenData.name}
+              </Box>
+            </Box>
+            <Box
+              sx={{ backgroundColor: "whitesmoke" }}
+              minWidth="150px"
+              maxWidth="400px"
+              width="100%"
+              display="flex"
+            >
+              <Box ml={1} my="auto">
+                {screenData.description}
+              </Box>
+            </Box>
+            <Box display="flex" minWidth="100px">
+              <Box
+                m="auto"
+                sx={{ width: "60px", height: "40px" }}
+                bgcolor="silver"
+              />
+            </Box>
+            <Box display="flex" minWidth="70px">
+              <Box m="auto">
+                <Switch></Switch>
+              </Box>
+            </Box>
+            <Box display="flex" minWidth="100px">
+              <Box m="auto">
+                <IconButton onClick={handleSettingsOpen}>
+                  <EditIcon color="primary"></EditIcon>
+                </IconButton>
+                <IconButton>
+                  <DeleteIcon color="primary"></DeleteIcon>
+                </IconButton>
+              </Box>
+            </Box>
+          </Stack>
+          {settingsOpen ? (
+            <ScreenSettings
+              id={screenData.id}
+              isOpen={settingsOpen}
+              handleClose={handleSettingsClose}
+            />
+          ) : (
+            <></>
+          )}
         </Box>
-        <Box
-          mx={1}
-          sx={{ backgroundColor: "whitesmoke" }}
-          minWidth="150px"
-          maxWidth="150px"
-          display="flex"
-        >
-          <Box ml={1} my="auto">
-            {data.name}
-          </Box>
-        </Box>
-        <Box
-          sx={{ backgroundColor: "whitesmoke" }}
-          minWidth="150px"
-          maxWidth="400px"
-          width="100%"
-          display="flex"
-        >
-          <Box ml={1} my="auto">
-            {data.description}
-          </Box>
-        </Box>
-        <Box display="flex" minWidth="100px">
-          <Box
-            m="auto"
-            sx={{ width: "60px", height: "40px" }}
-            bgcolor="silver"
-          />
-        </Box>
-        <Box display="flex" minWidth="70px">
-          <Box m="auto">
-            <Switch></Switch>
-          </Box>
-        </Box>
-        <Box display="flex" minWidth="100px">
-          <Box m="auto">
-            <IconButton onClick={handleSettingsOpen}>
-              <EditIcon color="primary"></EditIcon>
-            </IconButton>
-            <IconButton>
-              <DeleteIcon color="primary"></DeleteIcon>
-            </IconButton>
-          </Box>
-        </Box>
-      </Stack>
-      <ScreenSettings
-        id={data.id}
-        isOpen={settingsOpen}
-        handleClose={handleSettingsClose}
-      />
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };
