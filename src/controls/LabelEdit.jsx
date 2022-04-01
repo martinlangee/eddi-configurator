@@ -2,15 +2,15 @@ import "../App.css";
 import React, { useState } from "react";
 import { Stack, TextField } from "@mui/material";
 
-const LabelEdit = ({ label, db, initValue, rows, onSave, width }) => {
+const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
   const [value, setValue] = useState(initValue);
 
   const onChange = (e) => {
     setValue(e.target.value);
   };
 
-  const focusOut = (e) => {
-    if (onSave) onSave(db, value);
+  const focusOut = () => {
+    if (onSave) onSave(dbField, value);
   };
 
   width = width === undefined ? "300px" : width;

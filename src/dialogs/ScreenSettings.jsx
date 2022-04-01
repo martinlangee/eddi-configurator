@@ -20,10 +20,11 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import LabelEdit from "../controls/LabelEdit";
 import { getScreen } from "../api/db";
 import WidgetLayout from "../components/WidgetLayout";
+import WaitingBox from "../components/WaitingBox";
 
 const ScreenSettings = ({ id, isOpen, handleClose }) => {
   const [data, setData] = useState(null);
-  useEffect(() => setData((prev) => getScreen(id)), [id]);
+  useEffect(() => setData(() => getScreen(id)), [id]);
 
   const onConfirm = () => {
     handleClose();
@@ -42,27 +43,27 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
             <Stack direction="row" mx={3} mb={5} spacing={5}>
               <LabelEdit
                 label="Name"
-                db="name"
+                dbField="name"
                 initValue={data.name}
                 width="200px"
               />
               <LabelEdit
                 label="Description"
                 rows={4}
-                db="description"
+                dbField="description"
                 initValue={data.description}
                 width="200px"
               />
               <LabelEdit
                 label="Width [px]"
                 width="80px"
-                db="size_x"
+                dbField="size_x"
                 initValue={data.size_x}
               />
               <LabelEdit
                 label="Height [px]"
                 width="80px"
-                db="size_y"
+                dbField="size_y"
                 initValue={data.size_y}
               />
               <Box m="auto" pt={2}>
@@ -103,7 +104,7 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
             </Stack>
           </>
         ) : (
-          "Loading data ..."
+          <WaitingBox />
         )}
       </DialogContent>
       <DialogActions>

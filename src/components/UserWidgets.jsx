@@ -8,7 +8,7 @@ const UserWidgets = () => {
   const [widgets, setWidgets] = useState(null);
 
   useEffect(() => {
-    dbGetUserWidgets().then((widgets) => setWidgets((prev) => widgets));
+    dbGetUserWidgets().then((newData) => setWidgets(() => newData));
   }, []);
 
   return (
@@ -20,15 +20,15 @@ const UserWidgets = () => {
         />
         <Box sx={{ flexGrow: 1 }} />
         <Button variant="outlined" sx={{ minWidth: "200px" }}>
-          New widget...
+          New widget ...
         </Button>
       </Stack>
       <div>
         {widgets
-          ? widgets.map((wd, idx) => (
-              <WidgetItem key={idx} index={idx} data={wd} />
+          ? widgets.map((widget, idx) => (
+              <WidgetItem key={idx} index={idx} id={widget.id} />
             ))
-          : "Loading widgets..."}
+          : ""}
       </div>
     </div>
   );

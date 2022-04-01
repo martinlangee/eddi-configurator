@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { Avatar, Box } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
-import { getCurrentUser } from "../api/db";
+import { dbGetCurrentUser } from "../api/db";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
@@ -37,6 +37,13 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
   const classes = useStyles();
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    dbGetCurrentUser().then((userData) =>
+      setUserName(() => userData.user_name)
+    );
+  }, []);
 
   return (
     <AppBar position="static" style={{ backgroundColor: cyan["800"] }}>
@@ -106,7 +113,7 @@ function Navbar() {
             Sign out
           </NavLink>
           <Box ml={2}>
-            <Avatar {...stringAvatar(getCurrentUser().user_name)} />
+            <Avatar {...stringAvatar(userName)} />
           </Box>
         </Box>
       </Toolbar>

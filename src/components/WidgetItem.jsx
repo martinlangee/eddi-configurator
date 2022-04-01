@@ -1,16 +1,30 @@
 import "../App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Stack, Switch, IconButton, Divider } from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import WidgetSettings from "../dialogs/WidgetSettings";
+import { dbGetWidget } from "../api/db";
 
-const WidgetItem = ({ index, data }) => {
+const WidgetItem = ({ index, id }) => {
+  const [widgetData, setWidgetData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  useEffect(() => {
+    dbGetWidget(id).then(updateWidget);
+  }, []);
+
+  const updateWidget = (newData) => setWidgetData(() => newData);
+
   const handleSettingsOpen = () => setSettingsOpen(true);
-  const handleSettingsClose = () => setSettingsOpen(false);
+
+  const handleSettingsClose = (confirmed) => {
+    setSettingsOpen(false);
+    if (confirmed) {
+      dbGetWidget(id).then(updateWidget);
+    }
+  };
 
   return (
     <Box>
@@ -40,61 +54,71 @@ const WidgetItem = ({ index, data }) => {
         ""
       )}
       {/* Widget lines */}
-      <Divider />
-      <Stack direction="row" m="10px">
-        <Box minWidth="30px" display="flex">
-          <Box m="auto">{index + 1}</Box>
+      {widgetData ? (
+        <Box>
+          <Divider />
+          <Stack direction="row" m="10px">
+            <Box minWidth="30px" display="flex">
+              <Box m="auto">{widgetData.id}</Box>
+            </Box>
+            <Box
+              mx={1}
+              sx={{ backgroundColor: "whitesmoke" }}
+              minWidth="150px"
+              maxWidth="150px"
+              display="flex"
+            >
+              <Box ml={1} my="auto">
+                {widgetData.name}
+              </Box>
+            </Box>
+            <Box
+              sx={{ backgroundColor: "whitesmoke" }}
+              minWidth="150px"
+              maxWidth="400px"
+              width="100%"
+              display="flex"
+            >
+              <Box ml={1} my="auto">
+                {widgetData.description}
+              </Box>
+            </Box>
+            <Box display="flex" minWidth="100px">
+              <Box
+                m="auto"
+                sx={{ width: "60px", height: "40px" }}
+                bgcolor="silver"
+              />
+            </Box>
+            <Box display="flex" minWidth="70px">
+              <Box m="auto">
+                <Switch></Switch>
+              </Box>
+            </Box>
+            <Box display="flex" minWidth="100px">
+              <Box m="auto">
+                <IconButton onClick={handleSettingsOpen}>
+                  <EditIcon color="primary"></EditIcon>
+                </IconButton>
+                <IconButton>
+                  <DeleteIcon color="primary"></DeleteIcon>
+                </IconButton>
+              </Box>
+            </Box>
+          </Stack>
+          {settingsOpen ? (
+            <WidgetSettings
+              id={widgetData.id}
+              isOpen={settingsOpen}
+              handleClose={handleSettingsClose}
+            />
+          ) : (
+            <></>
+          )}
         </Box>
-        <Box
-          mx={1}
-          sx={{ backgroundColor: "whitesmoke" }}
-          minWidth="150px"
-          maxWidth="150px"
-          display="flex"
-        >
-          <Box ml={1} my="auto">
-            {data.name}
-          </Box>
-        </Box>
-        <Box
-          sx={{ backgroundColor: "whitesmoke" }}
-          minWidth="150px"
-          maxWidth="400px"
-          width="100%"
-          display="flex"
-        >
-          <Box ml={1} my="auto">
-            {data.description}
-          </Box>
-        </Box>
-        <Box display="flex" minWidth="100px">
-          <Box
-            m="auto"
-            sx={{ width: "60px", height: "40px" }}
-            bgcolor="silver"
-          />
-        </Box>
-        <Box display="flex" minWidth="70px">
-          <Box m="auto">
-            <Switch></Switch>
-          </Box>
-        </Box>
-        <Box display="flex" minWidth="100px">
-          <Box m="auto">
-            <IconButton onClick={handleSettingsOpen}>
-              <EditIcon color="primary"></EditIcon>
-            </IconButton>
-            <IconButton>
-              <DeleteIcon color="primary"></DeleteIcon>
-            </IconButton>
-          </Box>
-        </Box>
-      </Stack>
-      <WidgetSettings
-        id={data.id}
-        isOpen={settingsOpen}
-        handleClose={handleSettingsClose}
-      />
+      ) : (
+        <></>
+      )}
     </Box>
   );
 };

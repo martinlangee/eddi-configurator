@@ -9,18 +9,18 @@ import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
 import { dbGetCurrentUser, dbSaveUserData } from "../api/db";
 import { Typography } from "@material-ui/core";
+import WaitingBox from "./WaitingBox";
 
 const UserSettings = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    dbGetCurrentUser().then((userData) => setUserData((prev) => userData));
+    dbGetCurrentUser().then((newData) => setUserData(() => newData));
   }, []);
 
-  const dbSave = (db, value) => {
-    console.log("saving: ", db, " = ", value);
+  const dbSave = (dbField, value) => {
     let newData = userData;
-    newData[db] = value;
+    newData[dbField] = value;
     dbSaveUserData(newData);
   };
 
@@ -34,25 +34,25 @@ const UserSettings = () => {
               <Stack ml={10} mt={3} spacing={2}>
                 <LabelEdit
                   label="User name *"
-                  db="user_name"
+                  dbField="user_name"
                   initValue={userData.user_name}
                   onSave={dbSave}
                 />
                 <LabelEdit
                   label="First name"
-                  db="first_name"
+                  dbField="first_name"
                   initValue={userData.first_name}
                   onSave={dbSave}
                 />
                 <LabelEdit
                   label="Last name"
-                  db="last_name"
+                  dbField="last_name"
                   initValue={userData.last_name}
                   onSave={dbSave}
                 />
                 <LabelEdit
                   label="E-Mail *"
-                  db="email"
+                  dbField="email"
                   initValue={userData.email}
                   onSave={dbSave}
                 />
@@ -80,10 +80,10 @@ const UserSettings = () => {
           <Stack ml={5} mt={3}>
             <strong>Access</strong>
             <Stack ml={10} mt={3} mb={5} spacing={2}>
-              <PasswordEdit label="Password *" db="pwd" onSave={dbSave} />
+              <PasswordEdit label="Password *" dbField="pwd" onSave={dbSave} />
               <PasswordEdit
                 label="Password (repeat) *"
-                db="pwd"
+                dbField="pwd"
                 onSave={dbSave}
               />
             </Stack>
@@ -93,7 +93,7 @@ const UserSettings = () => {
           </Stack>
         </>
       ) : (
-        <> "Loading user data ..." </>
+        <WaitingBox />
       )}
     </div>
   );

@@ -4,7 +4,9 @@ import { Stack, TextField } from "@mui/material";
 import { Box } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-const PasswordEdit = ({ label, db, onSave }) => {
+// TODO: save password as hash in DB
+
+const PasswordEdit = ({ label, dbField, onSave }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [value, setValue] = useState("");
 
@@ -12,8 +14,8 @@ const PasswordEdit = ({ label, db, onSave }) => {
     setValue(e.target.value);
   };
 
-  const focusOut = (e) => {
-    if (onSave) onSave(db, value);
+  const focusOut = () => {
+    if (onSave) onSave(dbField, value);
   };
 
   return (
@@ -25,7 +27,6 @@ const PasswordEdit = ({ label, db, onSave }) => {
           variant="outlined"
           type={showPassword ? "text" : "password"}
           size="small"
-          db=""
           onSave={onSave}
           value={value}
           onChange={onChange}

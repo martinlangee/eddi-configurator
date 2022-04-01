@@ -3,10 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
 import { getScreens } from "../api/db";
 import ScreenItem from "./ScreenItem";
+import WaitingBox from "./WaitingBox";
 
 const UserScreens = () => {
   const [screens, setScreens] = useState([]);
-  useEffect(() => setScreens((prev) => getScreens(1)), []);
+  useEffect(() => setScreens(() => getScreens(1)), []);
 
   return (
     <div>
@@ -17,15 +18,15 @@ const UserScreens = () => {
         />
         <Box sx={{ flexGrow: 1 }} />
         <Button variant="outlined" sx={{ minWidth: "200px" }}>
-          New screen...
+          New screen ...
         </Button>
       </Stack>
       <div>
-        {screens
-          ? screens.map((w, idx) => (
-              <ScreenItem key={idx} index={idx} data={w} />
-            ))
-          : "Loading screens..."}
+        {screens ? (
+          screens.map((w, idx) => <ScreenItem key={idx} index={idx} data={w} />)
+        ) : (
+          <WaitingBox />
+        )}
       </div>
     </div>
   );
