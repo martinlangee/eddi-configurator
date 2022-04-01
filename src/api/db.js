@@ -6,7 +6,7 @@ const widgetsUrl = `${baseUrl}/widgets`;
 const screensUrl = `${baseUrl}/screens`;
 
 // TODO: remove when authentication works
-const CURRENT_USERID = 13;
+const CURRENT_USERID = 14;
 
 export function getWidgets(userId) {
 
@@ -103,4 +103,18 @@ export async function dbSaveUserData(user) {
     const url = `${usersUrl}/${CURRENT_USERID}`;
     const resp = await Axios.put(url, user);
     return resp;
+}
+
+export async function dbGetUserWidgets(userId) {
+    const id = userId ? userId : CURRENT_USERID;
+    const url = `${widgetsUrl}?userId=${id}`;
+    const resp = await Axios.get(url);
+    console.log(resp.data);
+    return resp.data;
+}
+export async function dbGetWidget(id) {
+    const url = `${widgetsUrl}/${id}`;
+    const resp = await Axios.get(url);
+    console.log(resp.data);
+    return resp.data[0];
 }

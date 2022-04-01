@@ -1,12 +1,15 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
-import { getWidgets } from "../api/db";
+import { dbGetUserWidgets } from "../api/db";
 import WidgetItem from "./WidgetItem";
 
 const UserWidgets = () => {
-  const [widgets, setWidgets] = useState([]);
-  useEffect(() => setWidgets((prev) => getWidgets(1)), []);
+  const [widgets, setWidgets] = useState(null);
+
+  useEffect(() => {
+    dbGetUserWidgets().then((widgets) => setWidgets((prev) => widgets));
+  }, []);
 
   return (
     <div>
@@ -22,8 +25,8 @@ const UserWidgets = () => {
       </Stack>
       <div>
         {widgets
-          ? widgets.map((w, idx) => (
-              <WidgetItem key={idx} index={idx} data={w} />
+          ? widgets.map((wd, idx) => (
+              <WidgetItem key={idx} index={idx} data={wd} />
             ))
           : "Loading widgets..."}
       </div>
