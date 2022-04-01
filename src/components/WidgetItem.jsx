@@ -13,7 +13,7 @@ const WidgetItem = ({ index, id }) => {
 
   useEffect(() => {
     dbGetWidget(id).then(updateWidget);
-  }, []);
+  }, [id]);
 
   const updateWidget = (newData) => setWidgetData(() => newData);
 

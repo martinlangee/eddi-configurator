@@ -25,7 +25,7 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
 
   useEffect(() => {
     dbGetWidget(id).then((newData) => setWidgetData(() => newData));
-  }, []);
+  }, [id]);
 
   const checkInput = (dbField, value) => {
     // TODO: check if data are correct

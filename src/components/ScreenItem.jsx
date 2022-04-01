@@ -13,7 +13,7 @@ const ScreenItem = ({ index, id }) => {
 
   useEffect(() => {
     dbGetScreen(id).then(updateScreen);
-  }, []);
+  }, [id]);
 
   const updateScreen = (newData) => setScreenData(() => newData);
 

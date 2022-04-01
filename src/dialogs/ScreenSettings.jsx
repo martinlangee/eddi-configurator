@@ -28,7 +28,7 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
 
   useEffect(() => {
     dbGetScreen(id).then((newData) => setScreenData(() => newData));
-  }, []);
+  }, [id]);
 
   const checkInput = (dbField, value) => {
     // TODO: check if data are correct
