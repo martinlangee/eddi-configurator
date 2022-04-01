@@ -1,11 +1,12 @@
 import "../App.css";
 import React from "react";
+import { Box } from "@material-ui/core";
 
 const Login = () => {
   return (
-    <div>
-      <h2>Login Screen</h2>
-    </div>
+    <Box margin={10}>
+      <h2>Log in Screen</h2>
+    </Box>
   );
 };
 

@@ -1,3 +1,10 @@
+const Axios = require("axios");
+
+const baseUrl = "http://localhost:3010/";
+
+// TODO: remove when authentication works
+const USERID = 13;
+
 export function getWidgets(userId) {
 
     // todo: consider userId is set
@@ -81,6 +88,13 @@ let _user = {
 export function getCurrentUser() {
     return _user;
 }
+
+export async function getCurrentUserDb() {
+    const url = `${baseUrl}users/${USERID}`;
+    const resp = await Axios.get(url);
+    return resp.data[0];
+}
+
 
 export function saveUserData(user) {
     console.log("-- saveUserData", user);

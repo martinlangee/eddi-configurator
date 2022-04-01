@@ -1,4 +1,5 @@
 function stringToColor(string) {
+    if (!string) return 'grey';
     let hash = 0;
     let i;
 
@@ -19,6 +20,7 @@ function stringToColor(string) {
 }
 
 function getInitials(name) {
+    if (!name) return '??';
     const parts = name.split(' ');
     const idx1 = parts.length > 1 ? 1 : 0;
     const idx2 = 1 - idx1;

@@ -92,7 +92,14 @@ function Navbar() {
             Sign up
           </NavLink>
           <NavLink
-            to="/xxx"
+            to="/admin"
+            className={classes.link}
+            activeclassname={classes.activeLink}
+          >
+            Admin
+          </NavLink>
+          <NavLink
+            to="/"
             className={classes.link}
             activeclassname={classes.activeLink}
           >

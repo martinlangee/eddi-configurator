@@ -2,12 +2,12 @@ import "../App.css";
 import React from "react";
 import { Box } from "@material-ui/core";
 
-const Signup = () => {
+const Admin = () => {
   return (
     <Box margin={10}>
-      <h2>Sign up Screen</h2>
+      <h2>Admin Screen</h2>
     </Box>
   );
 };
 
-export default Signup;
+export default Admin;

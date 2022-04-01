@@ -7,6 +7,7 @@ import UserSettings from "./components/UserSettings";
 import Home from "./components/Home.jsx";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import Admin from "./components/Admin";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/settings" element={<UserSettings />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/Admin" element={<Admin />} />
         <Route exact path="/" element={<Home />} />
       </Routes>
     </Router>
