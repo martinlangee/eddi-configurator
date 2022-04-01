@@ -7,20 +7,21 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import LabelEdit from "../controls/LabelEdit";
 import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
-import { getCurrentUserDb, saveUserData } from "../api/db";
+import { dbGetCurrentUser, dbSaveUserData } from "../api/db";
+import { Typography } from "@material-ui/core";
 
 const UserSettings = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    getCurrentUserDb().then((userData) => setUserData((prev) => userData));
+    dbGetCurrentUser().then((userData) => setUserData((prev) => userData));
   }, []);
 
   const dbSave = (db, value) => {
     console.log("saving: ", db, " = ", value);
     let newData = userData;
     newData[db] = value;
-    saveUserData(newData);
+    dbSaveUserData(newData);
   };
 
   return (
@@ -32,7 +33,7 @@ const UserSettings = () => {
             <Stack direction="row">
               <Stack ml={10} mt={3} spacing={2}>
                 <LabelEdit
-                  label="User name"
+                  label="User name *"
                   db="user_name"
                   initValue={userData.user_name}
                   onSave={dbSave}
@@ -50,16 +51,9 @@ const UserSettings = () => {
                   onSave={dbSave}
                 />
                 <LabelEdit
-                  label="E-Mail"
+                  label="E-Mail *"
                   db="email"
                   initValue={userData.email}
-                  onSave={dbSave}
-                />
-                <LabelEdit
-                  label="Description"
-                  db="description"
-                  rows="4"
-                  initValue={userData.description}
                   onSave={dbSave}
                 />
               </Stack>
@@ -86,12 +80,15 @@ const UserSettings = () => {
           <Stack ml={5} mt={3}>
             <strong>Access</strong>
             <Stack ml={10} mt={3} mb={5} spacing={2}>
-              <PasswordEdit label="Password" db="pwd" onSave={dbSave} />
+              <PasswordEdit label="Password *" db="pwd" onSave={dbSave} />
               <PasswordEdit
-                label="Password (repeat)"
+                label="Password (repeat) *"
                 db="pwd"
                 onSave={dbSave}
               />
+            </Stack>
+            <Stack ml={10}>
+              <Typography style={{ color: "gray" }}>* = mandatory</Typography>
             </Stack>
           </Stack>
         </>

@@ -1,9 +1,12 @@
 const Axios = require("axios");
 
-const baseUrl = "http://localhost:3010/";
+const baseUrl = "http://localhost:3010";
+const usersUrl = `${baseUrl}/users`;
+const widgetsUrl = `${baseUrl}/widgets`;
+const screensUrl = `${baseUrl}/screens`;
 
 // TODO: remove when authentication works
-const USERID = 13;
+const CURRENT_USERID = 13;
 
 export function getWidgets(userId) {
 
@@ -89,14 +92,15 @@ export function getCurrentUser() {
     return _user;
 }
 
-export async function getCurrentUserDb() {
-    const url = `${baseUrl}users/${USERID}`;
+export async function dbGetCurrentUser() {
+    const url = `${usersUrl}/${CURRENT_USERID}`;
     const resp = await Axios.get(url);
     return resp.data[0];
 }
 
 
-export function saveUserData(user) {
-    console.log("-- saveUserData", user);
-    _user = user;
+export async function dbSaveUserData(user) {
+    const url = `${usersUrl}/${CURRENT_USERID}`;
+    const resp = await Axios.put(url, user);
+    return resp;
 }
