@@ -17,7 +17,7 @@ const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
 
   return (
     <Stack>
-      <label style={{ marginBottom: "5px" }}>{label}</label>
+      {label ? <label style={{ marginBottom: "5px" }}>{label}</label> : <></>}
       {rows > 1 ? (
         <TextField
           id="textField"

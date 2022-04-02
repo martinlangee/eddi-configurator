@@ -1,46 +1,81 @@
 import "../App.css";
 import React from "react";
-import { Stack, TextField } from "@mui/material";
+import { Stack } from "@mui/material";
 import { Box } from "@mui/system";
+import LabelEdit from "../controls/LabelEdit";
 
-const WidgetLayout = ({ index, data, onUpdate }) => {
+const WidgetLayout = ({ index, data, onSave }) => {
+  const NAME_WIDTH = "150px";
+  const DATA_WIDTH = "80px";
+
+  const saveLocal = (dbField, value) => {
+    console.log("Layout:", index, dbField, value);
+    onSave(index, dbField, value);
+  };
+
   return (
     <Stack>
       {/* Header line: printed only once above the first widget */}
       {!index ? (
         <Stack direction="row" spacing={1} mb={1}>
-          <Box minWidth="110px">
+          <Box minWidth={NAME_WIDTH} pl={1}>
             <strong>Name</strong>
           </Box>
-          <Box minWidth="80px">
-            <strong>Left [px]</strong>
+          <Box minWidth={DATA_WIDTH}>
+            <strong>Left</strong>
           </Box>
-          <Box variant="button" minWidth="80px">
-            <strong>Top [px]</strong>
+          <Box variant="button" minWidth={DATA_WIDTH}>
+            <strong>Top</strong>
           </Box>
-          <Box variant="button" minWidth="80px">
-            <strong>Width [px]</strong>
+          <Box variant="button" minWidth={DATA_WIDTH}>
+            <strong>Width</strong>
           </Box>
-          <Box variant="button" minWidth="80px">
-            <strong>Height [px]</strong>
+          <Box variant="button" minWidth={DATA_WIDTH}>
+            <strong>Height</strong>
           </Box>
         </Stack>
       ) : (
         ""
       )}
-      <Stack direction="row" spacing={1}>
-        <Box
-          sx={{ backgroundColor: "whitesmoke" }}
-          minWidth="110px"
-          display="flex"
-        >
-          <Box my="auto">{data.name}</Box>
-        </Box>
-        <TextField sx={{ width: "80px" }} size="small"></TextField>
-        <TextField sx={{ width: "80px" }} size="small"></TextField>
-        <TextField sx={{ width: "80px" }} size="small"></TextField>
-        <TextField sx={{ width: "80px" }} size="small"></TextField>
-      </Stack>
+      {data ? (
+        <Stack direction="row" spacing={1}>
+          <Box
+            pl={1}
+            mr={-1}
+            sx={{ backgroundColor: "whitesmoke" }}
+            minWidth={NAME_WIDTH}
+            display="flex"
+          >
+            <Box my="auto">{data.name}</Box>
+          </Box>
+          <LabelEdit
+            dbField="x_pos"
+            onSave={saveLocal}
+            initValue={data.x_pos}
+            width={DATA_WIDTH}
+          />
+          <LabelEdit
+            dbField="y_pos"
+            onSave={saveLocal}
+            initValue={data.y_pos}
+            width={DATA_WIDTH}
+          />
+          <LabelEdit
+            dbField="size_x"
+            onSave={saveLocal}
+            initValue={data.size_x}
+            width={DATA_WIDTH}
+          />
+          <LabelEdit
+            dbField="size_y"
+            onSave={saveLocal}
+            initValue={data.size_y}
+            width={DATA_WIDTH}
+          />
+        </Stack>
+      ) : (
+        <></>
+      )}
     </Stack>
   );
 };

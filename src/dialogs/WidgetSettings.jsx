@@ -32,27 +32,27 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
     return true;
   };
 
-  const saveLocal = (dbField, value) => {
-    if (!checkInput) return;
+  const localSave = (dbField, value) => {
+    if (!checkInput(dbField, value)) return;
 
     let newData = widgetData;
     newData[dbField] = value;
     setWidgetData(() => newData);
   };
 
-  const onConfirm = () => {
-    dbSaveWidgetData(widgetData);
+  const confirm = async () => {
+    await dbSaveWidgetData(widgetData);
     handleClose(true);
   };
 
-  const onCancel = () => {
+  const cancel = () => {
     handleClose(false);
   };
 
   return (
     <>
       {widgetData ? (
-        <Dialog maxWidth="false" open={isOpen} onClose={onCancel}>
+        <Dialog maxWidth="false" open={isOpen} onClose={cancel}>
           <DialogTitle>Widget properties</DialogTitle>
           <DialogContent>
             <Stack direction="row" mx={3} spacing={10}>
@@ -61,14 +61,14 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
                   label="Name"
                   dbField="name"
                   initValue={widgetData.name}
-                  onSave={saveLocal}
+                  onSave={localSave}
                 />
                 <LabelEdit
                   label="Description"
                   rows={4}
                   dbField="description"
                   initValue={widgetData.description}
-                  onSave={saveLocal}
+                  onSave={localSave}
                 />
                 <Stack direction="row" justifyContent="space-between">
                   <LabelEdit
@@ -76,14 +76,14 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
                     width="100px"
                     dbField="size_x"
                     initValue={widgetData.size_x}
-                    onSave={saveLocal}
+                    onSave={localSave}
                   />
                   <LabelEdit
                     label="Height [px]"
                     width="100px"
                     dbField="size_y"
                     initValue={widgetData.size_y}
-                    onSave={saveLocal}
+                    onSave={localSave}
                   />
                 </Stack>
                 <Divider />
@@ -122,8 +122,8 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onConfirm}>OK</Button>
-            <Button onClick={onCancel}>Cancel</Button>
+            <Button onClick={confirm}>OK</Button>
+            <Button onClick={cancel}>Cancel</Button>
           </DialogActions>
         </Dialog>
       ) : (

@@ -30,6 +30,7 @@ function getInitials(name) {
 }
 
 export function stringAvatar(name, w, h) {
+    name = name.toString(); // for the case 'name' is a number
     return {
         sx: w && h ? {
             bgcolor: stringToColor(name),

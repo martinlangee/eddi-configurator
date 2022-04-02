@@ -59,7 +59,8 @@ const ScreenItem = ({ index, id }) => {
           <Divider />
           <Stack direction="row" m="10px">
             <Box minWidth="30px" display="flex">
-              <Box m="auto">{index + 1}</Box>
+              {/* <Box m="auto">{index + 1}</Box> */}
+              <Box m="auto">{id}</Box>
             </Box>
             <Box
               mx={1}

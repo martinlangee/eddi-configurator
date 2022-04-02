@@ -14,20 +14,31 @@ import {
   Select,
   Stack,
   Switch,
+  Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import DeleteIcon from "@material-ui/icons/Delete";
 import LabelEdit from "../controls/LabelEdit";
-import { dbGetScreen, dbSaveScreenData } from "../api/db";
+import {
+  dbGetScreen,
+  dbGetScreenWidgets,
+  dbSaveScreenData,
+  dbSaveScreenWidgets,
+} from "../api/db";
 import WidgetLayout from "../components/WidgetLayout";
 
 // TODO: init and save "public"-Field
 
 const ScreenSettings = ({ id, isOpen, handleClose }) => {
   const [screenData, setScreenData] = useState(null);
+  const [widgetData, setWidgetData] = useState(null);
 
   useEffect(() => {
     dbGetScreen(id).then((newData) => setScreenData(() => newData));
+  }, [id]);
+
+  useEffect(() => {
+    dbGetScreenWidgets(id).then((newData) => setWidgetData(() => newData));
   }, [id]);
 
   const checkInput = (dbField, value) => {
@@ -35,35 +46,44 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
     return true;
   };
 
-  const saveLocal = (dbField, value) => {
-    if (!checkInput) return;
+  const localSaveScreenData = (dbField, value) => {
+    if (!checkInput(dbField, value)) return;
 
     let newData = screenData;
     newData[dbField] = value;
     setScreenData(() => newData);
   };
 
-  const onConfirm = () => {
-    dbSaveScreenData(screenData);
+  const localSaveWidgetLayout = (index, dbField, value) => {
+    console.log("Screen 1:", index, dbField, value);
+    let newData = widgetData;
+    newData[index][dbField] = value;
+    console.log("Screen 2:", index, dbField, newData[index][dbField]);
+    setWidgetData(() => newData);
+  };
+
+  const confirm = async () => {
+    await dbSaveScreenData(screenData);
+    await dbSaveScreenWidgets(id, widgetData);
     handleClose(true);
   };
 
-  const onCancel = () => {
+  const cancel = () => {
     handleClose(false);
   };
 
   return (
     <>
       {screenData ? (
-        <Dialog maxWidth="false" open={isOpen} onClose={onCancel}>
+        <Dialog maxWidth="false" open={isOpen} onClose={cancel}>
           <DialogTitle>Screen properties and configuration</DialogTitle>
           <DialogContent>
-            <Stack direction="row" mx={3} mb={5} spacing={5}>
+            <Stack direction="row" mx={3} mb={1} spacing={5}>
               <LabelEdit
                 label="Name"
                 dbField="name"
                 initValue={screenData.name}
-                onSave={saveLocal}
+                onSave={localSaveScreenData}
                 width="200px"
               />
               <LabelEdit
@@ -71,21 +91,21 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
                 rows={4}
                 dbField="description"
                 initValue={screenData.description}
-                onSave={saveLocal}
+                onSave={localSaveScreenData}
                 width="200px"
               />
               <LabelEdit
                 label="Width [px]"
                 width="80px"
                 dbField="size_x"
-                onSave={saveLocal}
+                onSave={localSaveScreenData}
                 initValue={screenData.size_x}
               />
               <LabelEdit
                 label="Height [px]"
                 width="80px"
                 dbField="size_y"
-                onSave={saveLocal}
+                onSave={localSaveScreenData}
                 initValue={screenData.size_y}
               />
               <Box m="auto" pt={2}>
@@ -100,16 +120,40 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
             </Stack>
             <DialogTitle ml={-3}>Select and place the widgets</DialogTitle>
             <Stack direction="row">
-              <Stack mt={3} mr={3}>
-                <WidgetLayout index={0} data={0} />
-                <Stack mt={5} mr={1} direction="row" justifyContent="flex-end">
+              <Stack mt={3} mr={3} minWidth="500px">
+                <Stack spacing="3px" pb={1}>
+                  {widgetData ? (
+                    widgetData.map((widget, idx) => (
+                      <WidgetLayout
+                        key={idx}
+                        index={idx}
+                        data={widget}
+                        onSave={localSaveWidgetLayout}
+                      />
+                    ))
+                  ) : (
+                    <WidgetLayout index={0} />
+                  )}
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  style={{ color: "gray" }}
+                >
+                  {widgetData && widgetData.length ? (
+                    <Stack>
+                      <Typography>* in pixel</Typography>
+                    </Stack>
+                  ) : (
+                    <></>
+                  )}
                   <FormControl sx={{ width: "300px" }}>
                     <InputLabel id="add-widget-label">Add widget</InputLabel>
                     <Select label="Add widget" labelId="add-widget-label">
                       <MenuItem value={10}>Weather</MenuItem>
                       <MenuItem value={21}>Stocks</MenuItem>
                       <MenuItem value={22}>Calender</MenuItem>
-                    </Select>{" "}
+                    </Select>
                   </FormControl>
                 </Stack>
               </Stack>
@@ -126,8 +170,8 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onConfirm}>OK</Button>
-            <Button onClick={onCancel}>Cancel</Button>
+            <Button onClick={confirm}>OK</Button>
+            <Button onClick={cancel}>Cancel</Button>
           </DialogActions>
         </Dialog>
       ) : (

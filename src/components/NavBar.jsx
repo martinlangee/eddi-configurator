@@ -40,9 +40,7 @@ function Navbar() {
   const [userName, setUserName] = useState("");
 
   useEffect(() => {
-    dbGetCurrentUser().then((userData) =>
-      setUserName(() => userData.user_name)
-    );
+    dbGetCurrentUser().then((userData) => setUserName(() => userData.id)); // TODO: replace 'userData.id' with 'userData.user_name' before relase
   }, []);
 
   return (
