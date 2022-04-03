@@ -34,7 +34,6 @@ const UserWidgets = () => {
           <FormControlLabel
             control={
               <Switch
-                name="seePublicWidgets"
                 onChange={(e) =>
                   changeSeePublicWidgets(e.currentTarget.checked)
                 }

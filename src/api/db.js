@@ -23,13 +23,13 @@ export async function dbSaveUserData(user) {
 
 export async function dbSaveUserSeePublicWidgets(value) {
     const url = `${userUrl}/${CURRENT_USERID}?see_public_widgets=${value}`;
-    const resp = await Axios.put(url);
+    const resp = await Axios.put(url, {});
     return resp;
 }
 
 export async function dbSaveUserSeePublicScreens(value) {
     const url = `${userUrl}/${CURRENT_USERID}?see_public_screens=${value}`;
-    const resp = await Axios.put(url);
+    const resp = await Axios.put(url, {});
     return resp;
 }
 

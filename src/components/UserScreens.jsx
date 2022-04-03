@@ -35,7 +35,6 @@ const UserScreens = () => {
           <FormControlLabel
             control={
               <Switch
-                name="sePublicScreens"
                 onChange={(e) =>
                   changeSeePublicScreens(e.currentTarget.checked)
                 }
