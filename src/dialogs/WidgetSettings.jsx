@@ -20,12 +20,12 @@ import { dbGetWidget, dbSaveWidgetData } from "../api/db";
 
 // TODO: init and save "public"-Field
 
-const WidgetSettings = ({ id, isOpen, handleClose }) => {
+const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   const [widgetData, setWidgetData] = useState(null);
 
   useEffect(() => {
-    dbGetWidget(id).then((newData) => setWidgetData(() => newData));
-  }, [id]);
+    dbGetWidget(widgetId).then((newData) => setWidgetData(() => newData));
+  }, [widgetId]);
 
   const checkInput = (dbField, value) => {
     // TODO: check if data are correct

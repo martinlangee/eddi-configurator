@@ -9,7 +9,6 @@ const ScreenWidgetLayout = ({ index, data, onSave }) => {
   const DATA_WIDTH = "80px";
 
   const saveLocal = (dbField, value) => {
-    console.log("Layout:", index, dbField, value);
     onSave(index, dbField, value);
   };
 

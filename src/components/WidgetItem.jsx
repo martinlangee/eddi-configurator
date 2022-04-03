@@ -99,7 +99,7 @@ const WidgetItem = ({ index, id }) => {
           </Stack>
           {settingsOpen ? (
             <WidgetSettings
-              id={widgetData.id}
+              widgetId={widgetData.id}
               isOpen={settingsOpen}
               handleClose={handleSettingsClose}
             />

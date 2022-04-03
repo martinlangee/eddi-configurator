@@ -99,7 +99,7 @@ const ScreenItem = ({ index, id }) => {
           </Stack>
           {settingsOpen ? (
             <ScreenSettings
-              id={screenData.id}
+              screenId={screenData.id}
               isOpen={settingsOpen}
               handleClose={handleSettingsClose}
             />
