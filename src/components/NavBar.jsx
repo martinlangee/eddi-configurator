@@ -75,11 +75,11 @@ function Navbar() {
             Screens
           </NavLink>
           <NavLink
-            to="/settings"
+            to="/account"
             className={classes.link}
             activeclassname={classes.activeLink}
           >
-            Settings
+            Account
           </NavLink>
           <Box sx={{ flexGrow: 1 }} />
           <NavLink

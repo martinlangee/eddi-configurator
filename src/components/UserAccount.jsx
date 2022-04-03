@@ -11,7 +11,7 @@ import { dbGetCurrentUser, dbSaveUserData } from "../api/db";
 import { Typography } from "@material-ui/core";
 import WaitingBox from "./WaitingBox";
 
-const UserSettings = () => {
+const UserAccount = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -99,4 +99,4 @@ const UserSettings = () => {
   );
 };
 
-export default UserSettings;
+export default UserAccount;
