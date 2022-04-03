@@ -34,10 +34,10 @@ const UserWidgets = () => {
           <FormControlLabel
             control={
               <Switch
+                checked={seePublicWidgets}
                 onChange={(e) =>
                   changeSeePublicWidgets(e.currentTarget.checked)
                 }
-                checked={seePublicWidgets}
               />
             }
             label="Show public widgets from other users"

@@ -35,17 +35,12 @@ const ScreenItem = ({ index, id }) => {
           <Box ml={2} minWidth="150px" maxWidth="150px">
             <strong>Name</strong>
           </Box>
-          <Box ml={1} minWidth="150px" maxWidth="400px" width="100%">
+          <Box ml={1} minWidth="150px" maxWidth="500px" width="100%">
             <strong>Description</strong>
           </Box>
           <Box display="flex" minWidth="100px">
             <Box m="auto">
               <strong>Thumbnail</strong>
-            </Box>
-          </Box>
-          <Box display="flex" minWidth="70px" mx="0px">
-            <Box m="auto">
-              <strong>Public</strong>
             </Box>
           </Box>
           <Box minWidth="100px"></Box>
@@ -76,7 +71,7 @@ const ScreenItem = ({ index, id }) => {
             <Box
               sx={{ backgroundColor: "whitesmoke" }}
               minWidth="150px"
-              maxWidth="400px"
+              maxWidth="500px"
               width="100%"
               display="flex"
             >
@@ -90,11 +85,6 @@ const ScreenItem = ({ index, id }) => {
                 sx={{ width: "60px", height: "40px" }}
                 bgcolor="silver"
               />
-            </Box>
-            <Box display="flex" minWidth="70px">
-              <Box m="auto">
-                <Switch></Switch>
-              </Box>
             </Box>
             <Box display="flex" minWidth="100px">
               <Box m="auto">

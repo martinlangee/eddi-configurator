@@ -35,10 +35,10 @@ const UserScreens = () => {
           <FormControlLabel
             control={
               <Switch
+                checked={seePublicScreens}
                 onChange={(e) =>
                   changeSeePublicScreens(e.currentTarget.checked)
                 }
-                checked={seePublicScreens}
               />
             }
             label="Show public screens from other users"

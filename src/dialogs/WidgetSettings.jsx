@@ -35,9 +35,9 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
   const localSave = (dbField, value) => {
     if (!checkInput(dbField, value)) return;
 
-    let newData = widgetData;
-    newData[dbField] = value;
-    setWidgetData(() => newData);
+    setWidgetData((prev) => {
+      return { ...prev, [dbField]: value };
+    });
   };
 
   const confirm = async () => {
@@ -99,7 +99,15 @@ const WidgetSettings = ({ id, isOpen, handleClose }) => {
               <Stack>
                 <Stack mb={5} direction="row">
                   <FormControlLabel
-                    control={<Switch name="public" value={widgetData.public} />}
+                    control={
+                      <Switch
+                        name="public"
+                        checked={widgetData.public}
+                        onChange={(e) =>
+                          localSave("public", e.currentTarget.checked)
+                        }
+                      />
+                    }
                     label="Public"
                   />
                   <Box sx={{ flexGrow: 1 }} />

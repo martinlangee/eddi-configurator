@@ -66,6 +66,7 @@ export async function dbGetScreen(id) {
 }
 
 export async function dbSaveScreenData(screen) {
+    console.log('#######', screen);
     const url = `${screenUrl}/${screen.id}`;
     const resp = await Axios.put(url, screen);
     return resp;

@@ -22,7 +22,6 @@ import LabelEdit from "../controls/LabelEdit";
 import {
   dbGetScreen,
   dbGetScreenWidgets,
-  dbGetUserWidgets,
   dbSaveScreenData,
   dbSaveScreenWidgets,
 } from "../api/db";
@@ -33,7 +32,7 @@ import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 const ScreenSettings = ({ id, isOpen, handleClose }) => {
   const [screenData, setScreenData] = useState(null);
   const [widgetData, setWidgetData] = useState(null);
-  //const [availableWidgets, setAvailableWidgets] = useState(null);
+  const [availableWidgets, setAvailableWidgets] = useState(null);
 
   useEffect(() => {
     dbGetScreen(id).then((newData) => setScreenData(() => newData));
@@ -43,10 +42,6 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
     dbGetScreenWidgets(id).then((newData) => setWidgetData(() => newData));
   }, [id]);
 
-  useEffect(() => {
-    dbGetUserWidgets();
-  });
-
   const checkInput = (dbField, value) => {
     // TODO: check if data are correct
     return true;
@@ -55,20 +50,24 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
   const localSaveScreenData = (dbField, value) => {
     if (!checkInput(dbField, value)) return;
 
-    let newData = screenData;
-    newData[dbField] = value;
-    setScreenData(() => newData);
+    setScreenData((prev) => {
+      return { ...prev, [dbField]: value };
+    });
   };
 
   const localSaveWidgetLayout = (index, dbField, value) => {
-    console.log("Screen 1:", index, dbField, value);
     let newData = widgetData;
     newData[index][dbField] = value;
-    console.log("Screen 2:", index, dbField, newData[index][dbField]);
     setWidgetData(() => newData);
+
+    // this doesn't work - why?
+    //    setWidgetData((prev) => {
+    //      return { ...prev[index], [dbField]: value };
+    //    });
   };
 
   const confirm = async () => {
+    console.log(screenData);
     await dbSaveScreenData(screenData);
     await dbSaveScreenWidgets(id, widgetData);
     handleClose(true);
@@ -116,7 +115,14 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
               />
               <Box m="auto" pt={2}>
                 <FormControlLabel
-                  control={<Switch name="public" value={screenData.public} />}
+                  control={
+                    <Switch
+                      checked={screenData.public}
+                      onChange={(e) =>
+                        localSaveScreenData("public", e.currentTarget.checked)
+                      }
+                    />
+                  }
                   label="Public"
                 />
                 <IconButton>
@@ -126,7 +132,7 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
             </Stack>
             <DialogTitle ml={-3}>Select and place the widgets</DialogTitle>
             <Stack direction="row">
-              <Stack mt={3} mr={3} minWidth="500px">
+              <Stack mt={0} mr={3} minWidth="500px">
                 <Stack spacing="3px" pb={1}>
                   {widgetData ? (
                     widgetData.map((widget, idx) => (
