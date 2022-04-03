@@ -1,24 +1,52 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
-import { dbGetUserScreens } from "../api/db";
+import {
+  dbGetCurrentUser,
+  dbGetUserScreens,
+  dbSaveUserSeePublicScreens,
+} from "../api/db";
 import ScreenItem from "./ScreenItem";
 import WaitingBox from "./WaitingBox";
 
 const UserScreens = () => {
   const [screens, setScreens] = useState([]);
+  const [seePublicScreens, setSeePublicScreens] = useState(undefined);
 
   useEffect(() => {
     dbGetUserScreens().then((newData) => setScreens(() => newData));
+  }, [seePublicScreens]);
+
+  useEffect(() => {
+    dbGetCurrentUser().then((newData) =>
+      setSeePublicScreens(() => newData.see_public_widgets)
+    );
   }, []);
+
+  const changeSeePublicScreens = async (value) => {
+    await dbSaveUserSeePublicScreens(value);
+    setSeePublicScreens(() => value);
+  };
 
   return (
     <div>
       <Stack m={5} direction="row">
-        <FormControlLabel
-          control={<Switch name="showPublicScreens" />}
-          label="Show public screens from other users"
-        />
+        {seePublicScreens !== undefined ? (
+          <FormControlLabel
+            control={
+              <Switch
+                name="sePublicScreens"
+                onChange={(e) =>
+                  changeSeePublicScreens(e.currentTarget.checked)
+                }
+                checked={seePublicScreens}
+              />
+            }
+            label="Show public screens from other users"
+          />
+        ) : (
+          <></>
+        )}
         <Box sx={{ flexGrow: 1 }} />
         <Button variant="outlined" sx={{ minWidth: "200px" }}>
           New screen ...

@@ -22,6 +22,7 @@ import LabelEdit from "../controls/LabelEdit";
 import {
   dbGetScreen,
   dbGetScreenWidgets,
+  dbGetUserWidgets,
   dbSaveScreenData,
   dbSaveScreenWidgets,
 } from "../api/db";
@@ -32,6 +33,7 @@ import WidgetLayout from "../components/WidgetLayout";
 const ScreenSettings = ({ id, isOpen, handleClose }) => {
   const [screenData, setScreenData] = useState(null);
   const [widgetData, setWidgetData] = useState(null);
+  //const [availableWidgets, setAvailableWidgets] = useState(null);
 
   useEffect(() => {
     dbGetScreen(id).then((newData) => setScreenData(() => newData));
@@ -40,6 +42,10 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
   useEffect(() => {
     dbGetScreenWidgets(id).then((newData) => setWidgetData(() => newData));
   }, [id]);
+
+  useEffect(() => {
+    dbGetUserWidgets();
+  });
 
   const checkInput = (dbField, value) => {
     // TODO: check if data are correct
