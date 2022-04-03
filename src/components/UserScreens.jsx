@@ -19,7 +19,7 @@ const UserScreens = () => {
 
   useEffect(() => {
     dbGetCurrentUser().then((newData) =>
-      setSeePublicScreens(() => newData.see_public_widgets)
+      setSeePublicScreens(() => newData.see_public_screens)
     );
   }, []);
 
