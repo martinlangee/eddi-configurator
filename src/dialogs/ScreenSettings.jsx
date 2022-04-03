@@ -26,7 +26,7 @@ import {
   dbSaveScreenData,
   dbSaveScreenWidgets,
 } from "../api/db";
-import WidgetLayout from "../components/WidgetLayout";
+import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 
 // TODO: init and save "public"-Field
 
@@ -130,7 +130,7 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
                 <Stack spacing="3px" pb={1}>
                   {widgetData ? (
                     widgetData.map((widget, idx) => (
-                      <WidgetLayout
+                      <ScreenWidgetLayout
                         key={idx}
                         index={idx}
                         data={widget}
@@ -138,22 +138,24 @@ const ScreenSettings = ({ id, isOpen, handleClose }) => {
                       />
                     ))
                   ) : (
-                    <WidgetLayout index={0} />
+                    <ScreenWidgetLayout index={0} />
                   )}
                 </Stack>
                 <Stack
                   direction="row"
                   justifyContent="space-between"
-                  style={{ color: "gray" }}
+                  style={{ color: "silver" }}
                 >
                   {widgetData && widgetData.length ? (
-                    <Stack>
-                      <Typography>* in pixel</Typography>
+                    <Stack pl={1} pt={2}>
+                      <Typography sx={{ fontStyle: "italic" }}>
+                        (Dimensions in pixel)
+                      </Typography>
                     </Stack>
                   ) : (
                     <></>
                   )}
-                  <FormControl sx={{ width: "300px" }}>
+                  <FormControl sx={{ width: "300px", paddingRight: "7px" }}>
                     <InputLabel id="add-widget-label">Add widget</InputLabel>
                     <Select label="Add widget" labelId="add-widget-label">
                       <MenuItem value={10}>Weather</MenuItem>

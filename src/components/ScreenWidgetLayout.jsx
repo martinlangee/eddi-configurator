@@ -4,7 +4,7 @@ import { Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import LabelEdit from "../controls/LabelEdit";
 
-const WidgetLayout = ({ index, data, onSave }) => {
+const ScreenWidgetLayout = ({ index, data, onSave }) => {
   const NAME_WIDTH = "150px";
   const DATA_WIDTH = "80px";
 
@@ -38,14 +38,12 @@ const WidgetLayout = ({ index, data, onSave }) => {
         ""
       )}
       {data ? (
-        <Stack direction="row" spacing={1}>
-          <Box
-            pl={1}
-            mr={-1}
-            sx={{ backgroundColor: "whitesmoke" }}
-            minWidth={NAME_WIDTH}
-            display="flex"
-          >
+        <Stack
+          direction="row"
+          spacing={1}
+          sx={{ "&:hover": { backgroundColor: "#e8f8ff" } }}
+        >
+          <Box pl={1} mr={-1} minWidth={NAME_WIDTH} display="flex">
             <Box my="auto">{data.name}</Box>
           </Box>
           <LabelEdit
@@ -80,4 +78,4 @@ const WidgetLayout = ({ index, data, onSave }) => {
   );
 };
 
-export default WidgetLayout;
+export default ScreenWidgetLayout;
