@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import OpenInBrowserIcon from "@material-ui/icons/OpenInBrowser";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import LabelEdit from "../controls/LabelEdit";
 import { dbGetWidget, dbSaveWidgetData } from "../api/db";
 
@@ -115,7 +115,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                     <OpenInBrowserIcon color="primary"></OpenInBrowserIcon>
                   </IconButton>
                   <IconButton>
-                    <DeleteIcon color="primary"></DeleteIcon>
+                    <DeleteForeverIcon color="primary"></DeleteForeverIcon>
                   </IconButton>
                 </Stack>
                 <label>Preview</label>

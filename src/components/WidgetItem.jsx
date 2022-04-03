@@ -1,9 +1,9 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
-import { Stack, Switch, IconButton, Divider } from "@mui/material";
+import { Stack, IconButton, Divider } from "@mui/material";
 import EditIcon from "@material-ui/icons/Edit";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import WidgetSettings from "../dialogs/WidgetSettings";
 import { dbGetWidget } from "../api/db";
 
@@ -92,7 +92,7 @@ const WidgetItem = ({ index, id }) => {
                   <EditIcon color="primary"></EditIcon>
                 </IconButton>
                 <IconButton>
-                  <DeleteIcon color="primary"></DeleteIcon>
+                  <DeleteForeverIcon color="primary"></DeleteForeverIcon>
                 </IconButton>
               </Box>
             </Box>
