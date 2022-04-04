@@ -141,8 +141,12 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
             </Stack>
           </DialogContent>
           <DialogActions>
-            <Button onClick={confirm}>OK</Button>
-            <Button onClick={cancel}>Cancel</Button>
+            <Button onClick={confirm} variant="outlined">
+              OK
+            </Button>
+            <Button onClick={cancel} variant="outlined">
+              Cancel
+            </Button>
           </DialogActions>
         </Dialog>
       ) : (

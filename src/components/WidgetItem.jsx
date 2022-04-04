@@ -6,10 +6,12 @@ import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import WidgetSettings from "../dialogs/WidgetSettings";
 import { dbGetWidget } from "../api/db";
+import ConfirmDialog from "../dialogs/ConfirmDialog";
 
 const WidgetItem = ({ index, widgetId, onDelete }) => {
   const [widgetData, setWidgetData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   const updateWidget = (newData) => setWidgetData(() => newData);
 
@@ -27,7 +29,12 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
   };
 
   const handleDeleteWidget = () => {
+    setDeleteConfirmOpen(() => true);
+  };
+
+  const handleDeleteConfirm = () => {
     onDelete(widgetId);
+    setDeleteConfirmOpen(() => false);
   };
 
   return (
@@ -111,6 +118,22 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
             <></>
           )}
         </Box>
+      ) : (
+        <></>
+      )}
+      {deleteConfirmOpen ? (
+        <ConfirmDialog
+          title="Delete widget"
+          children={
+            <div>
+              <p>Do you want to delete the widget</p>
+              <p>'{widgetData.name}'?</p>
+            </div>
+          }
+          open={deleteConfirmOpen}
+          setOpen={setDeleteConfirmOpen}
+          onConfirm={handleDeleteConfirm}
+        />
       ) : (
         <></>
       )}

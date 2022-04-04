@@ -6,10 +6,12 @@ import EditIconTwoTone from "@material-ui/icons/EditTwoTone";
 import DeleteForeverIconTwoTone from "@material-ui/icons/DeleteForeverTwoTone";
 import ScreenSettings from "../dialogs/ScreenSettings";
 import { dbGetScreen } from "../api/db";
+import ConfirmDialog from "../dialogs/ConfirmDialog";
 
 const ScreenItem = ({ index, screenId, onDelete }) => {
   const [screenData, setScreenData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   useEffect(() => {
     dbGetScreen(screenId).then(updateScreen);
@@ -27,7 +29,12 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
   };
 
   const handleDeleteScreen = () => {
+    setDeleteConfirmOpen(() => true);
+  };
+
+  const handleDeleteConfirm = () => {
     onDelete(screenId);
+    setDeleteConfirmOpen(() => false);
   };
 
   return (
@@ -111,6 +118,22 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
             <></>
           )}
         </Box>
+      ) : (
+        <></>
+      )}
+      {deleteConfirmOpen ? (
+        <ConfirmDialog
+          title="Delete screen"
+          children={
+            <div>
+              <p>Do you want to delete the screen</p>
+              <p>'{screenData.name}'?</p>
+            </div>
+          }
+          open={deleteConfirmOpen}
+          setOpen={setDeleteConfirmOpen}
+          onConfirm={handleDeleteConfirm}
+        />
       ) : (
         <></>
       )}
