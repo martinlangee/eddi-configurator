@@ -2,8 +2,7 @@
 
 - ScreenSettings:
 
-  - Function to delete screen-widget
-  - (shift up shift down?)
+  - sorting of screen-widgets by name
 
 - Fix select statement to create widget and screen-list dependent on "see public"
 

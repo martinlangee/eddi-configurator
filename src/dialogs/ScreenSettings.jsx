@@ -92,16 +92,20 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   };
 
   const addScreenWidget = (widgetId) =>
-    setConfScreenWidgets((prev) => [
-      ...prev,
-      {
-        ...allWidgets.find((w) => w.id === widgetId),
-        screen_id: screenId,
-        widget_id: widgetId,
-        x_pos: 0,
-        y_pos: 0,
-      },
-    ]);
+    setConfScreenWidgets((prev) => {
+      let newSW = [
+        ...prev,
+        {
+          ...allWidgets.find((w) => w.id === widgetId),
+          screen_id: screenId,
+          widget_id: widgetId,
+          x_pos: 0,
+          y_pos: 0,
+        },
+      ];
+      newSW.sort((a, b) => a.name.localeCompare(b.name));
+      return newSW;
+    });
 
   const removeScreenWidget = (widgetId) => {
     setConfScreenWidgets(() =>
