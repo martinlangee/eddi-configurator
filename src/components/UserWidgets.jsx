@@ -1,18 +1,14 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
+import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
-import {
-  dbGetCurrentUser,
-  dbGetUserWidgets,
-  dbSaveUserSeePublicWidgets,
-} from "../api/db";
+import { dbGetUserWidgets } from "../api/db";
 import WidgetItem from "./WidgetItem";
 import WidgetSettings from "../dialogs/WidgetSettings";
 
 const UserWidgets = () => {
   const [widgets, setWidgets] = useState(null);
-  const [seePublicWidgets, setSeePublicWidgets] = useState(undefined);
+  //const [seePublicWidgets, setSeePublicWidgets] = useState(undefined);  TODO: future
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const updateWidgets = async () => {
@@ -21,8 +17,9 @@ const UserWidgets = () => {
 
   useEffect(() => {
     updateWidgets();
-  }, [seePublicWidgets, widgets?.length]);
+  }, [/*seePublicWidgets,*/ widgets?.length]);
 
+  /* TODO: future
   useEffect(() => {
     dbGetCurrentUser().then((newData) =>
       setSeePublicWidgets(() => newData.see_public_widgets)
@@ -32,8 +29,7 @@ const UserWidgets = () => {
   const changeSeePublicWidgets = async (value) => {
     await dbSaveUserSeePublicWidgets(value);
     setSeePublicWidgets(() => value);
-  };
-
+  } */
   const handleNewWidgetOpen = () => {
     setSettingsOpen(true);
   };
@@ -48,7 +44,9 @@ const UserWidgets = () => {
   return (
     <div>
       <Stack m={5} direction="row">
-        {seePublicWidgets !== undefined ? (
+        <Typography variant="h6">Widgets configuration</Typography>
+        {/* TODO: future
+        seePublicWidgets !== undefined ? (
           <FormControlLabel
             control={
               <Switch
@@ -62,7 +60,7 @@ const UserWidgets = () => {
           />
         ) : (
           <></>
-        )}
+        )*/}
         <Box sx={{ flexGrow: 1 }} />
         <Button
           onClick={handleNewWidgetOpen}

@@ -172,6 +172,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                 initValue={screenData.size_y}
               />
               <Box m="auto" pt={2}>
+                {/* TODO: future 
                 <FormControlLabel
                   control={
                     <Switch
@@ -182,7 +183,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                     />
                   }
                   label="Public"
-                />
+                /> */}
               </Box>
             </Stack>
             <DialogTitle ml={-3}>Select and place the widgets</DialogTitle>

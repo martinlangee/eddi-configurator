@@ -1,19 +1,15 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
+import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
-import {
-  dbGetCurrentUser,
-  dbGetUserScreens,
-  dbSaveUserSeePublicScreens,
-} from "../api/db";
+import { dbGetUserScreens } from "../api/db";
 import ScreenItem from "./ScreenItem";
 import WaitingBox from "./WaitingBox";
 import ScreenSettings from "../dialogs/ScreenSettings";
 
 const UserScreens = () => {
   const [screens, setScreens] = useState([]);
-  const [seePublicScreens, setSeePublicScreens] = useState(undefined);
+  // const [seePublicScreens, setSeePublicScreens] = useState(undefined);  TODO: future
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const updateScreens = async () => {
@@ -22,8 +18,9 @@ const UserScreens = () => {
 
   useEffect(() => {
     updateScreens();
-  }, [seePublicScreens, screens?.length]);
+  }, [/*seePublicScreens,*/ screens?.length]);
 
+  /* TODO: future
   useEffect(() => {
     dbGetCurrentUser().then((newData) =>
       setSeePublicScreens(() => newData.see_public_screens)
@@ -33,7 +30,7 @@ const UserScreens = () => {
   const changeSeePublicScreens = async (value) => {
     await dbSaveUserSeePublicScreens(value);
     setSeePublicScreens(() => value);
-  };
+  }; */
 
   const handleNewScreenOpen = () => {
     setSettingsOpen(true);
@@ -49,7 +46,9 @@ const UserScreens = () => {
   return (
     <div>
       <Stack m={5} direction="row">
-        {seePublicScreens !== undefined ? (
+        <Typography variant="h6">Screens configuration</Typography>
+        {/* TODO: future
+        seePublicScreens !== undefined ? (
           <FormControlLabel
             control={
               <Switch
@@ -63,7 +62,7 @@ const UserScreens = () => {
           />
         ) : (
           <></>
-        )}
+        )*/}
         <Box sx={{ flexGrow: 1 }} />
         <Button
           onClick={handleNewScreenOpen}

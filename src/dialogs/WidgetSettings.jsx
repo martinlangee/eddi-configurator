@@ -7,9 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  FormControlLabel,
   Stack,
-  Switch,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
@@ -110,7 +108,8 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
               </Stack>
               <Stack>
                 <Stack mb={5} direction="row">
-                  <FormControlLabel
+                  {/* TODO: future
+                   <FormControlLabel
                     control={
                       <Switch
                         name="public"
@@ -121,7 +120,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                       />
                     }
                     label="Public"
-                  />
+                  /> */}
                   <Box sx={{ flexGrow: 1 }} />
                   <Button
                     variant="outlined"
