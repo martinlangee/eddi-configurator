@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
-import { dbGetUserScreens } from "../api/db";
+import { dbDeleteScreen, dbGetUserScreens } from "../api/db";
 import ScreenItem from "./ScreenItem";
 import WaitingBox from "./WaitingBox";
 import ScreenSettings from "../dialogs/ScreenSettings";
@@ -43,6 +43,12 @@ const UserScreens = () => {
     }
   };
 
+  const handleDeleteScreen = (screenId) => {
+    dbDeleteScreen(screenId).then(() => {
+      updateScreens();
+    });
+  };
+
   return (
     <div>
       <Stack m={5} direction="row">
@@ -76,7 +82,12 @@ const UserScreens = () => {
       <div>
         {screens ? (
           screens.map((screen, idx) => (
-            <ScreenItem key={idx} index={idx} id={screen.id} />
+            <ScreenItem
+              key={idx}
+              index={idx}
+              screenId={screen.id}
+              onDelete={handleDeleteScreen}
+            />
           ))
         ) : (
           <WaitingBox />

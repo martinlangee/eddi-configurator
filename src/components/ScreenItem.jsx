@@ -7,13 +7,13 @@ import DeleteForeverIconTwoTone from "@material-ui/icons/DeleteForeverTwoTone";
 import ScreenSettings from "../dialogs/ScreenSettings";
 import { dbGetScreen } from "../api/db";
 
-const ScreenItem = ({ index, id }) => {
+const ScreenItem = ({ index, screenId, onDelete }) => {
   const [screenData, setScreenData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   useEffect(() => {
-    dbGetScreen(id).then(updateScreen);
-  }, [id]);
+    dbGetScreen(screenId).then(updateScreen);
+  }, [screenId]);
 
   const updateScreen = (newData) => setScreenData(() => newData);
 
@@ -22,8 +22,12 @@ const ScreenItem = ({ index, id }) => {
   const handleSettingsClose = (confirmed) => {
     setSettingsOpen(false);
     if (confirmed) {
-      dbGetScreen(id).then(updateScreen);
+      dbGetScreen(screenId).then(updateScreen);
     }
+  };
+
+  const handleDeleteScreen = () => {
+    onDelete(screenId);
   };
 
   return (
@@ -55,7 +59,7 @@ const ScreenItem = ({ index, id }) => {
           <Stack direction="row" m="10px">
             <Box minWidth="30px" display="flex">
               {/* <Box m="auto">{index + 1}</Box> */}
-              <Box m="auto">{id}</Box>
+              <Box m="auto">{screenId}</Box>
             </Box>
             <Box
               mx={1}
@@ -91,7 +95,7 @@ const ScreenItem = ({ index, id }) => {
                 <IconButton onClick={handleSettingsOpen}>
                   <EditIconTwoTone color="primary" />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleDeleteScreen}>
                   <DeleteForeverIconTwoTone color="primary" />
                 </IconButton>
               </Box>
@@ -99,7 +103,7 @@ const ScreenItem = ({ index, id }) => {
           </Stack>
           {settingsOpen ? (
             <ScreenSettings
-              screenId={screenData.id}
+              screenId={screenId}
               isOpen={settingsOpen}
               handleClose={handleSettingsClose}
             />

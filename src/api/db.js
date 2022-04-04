@@ -75,6 +75,12 @@ export async function dbGetUserScreens(userId) {
     return resp.data;
 }
 
+export async function dbDeleteScreen(screenId) {
+    const url = `${screenUrl}/${screenId}`;
+    const resp = await Axios.delete(url);
+    return resp;
+}
+
 export async function dbGetWidget(id) {
     const url = `${widgetUrl}/${id}`;
     const resp = await Axios.get(url);
