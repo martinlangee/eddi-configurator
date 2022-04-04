@@ -13,7 +13,6 @@ const ConfirmDialog = ({ title, children, open, setOpen, onConfirm }) => {
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="confirm-dialog"
-      sx={{ minWidth: "300px" }}
     >
       <DialogTitle id="confirm-dialog">{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
