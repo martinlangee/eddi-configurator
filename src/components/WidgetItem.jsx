@@ -11,11 +11,11 @@ const WidgetItem = ({ index, id }) => {
   const [widgetData, setWidgetData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
+  const updateWidget = (newData) => setWidgetData(() => newData);
+
   useEffect(() => {
     dbGetWidget(id).then(updateWidget);
   }, [id]);
-
-  const updateWidget = (newData) => setWidgetData(() => newData);
 
   const handleSettingsOpen = () => setSettingsOpen(true);
 
