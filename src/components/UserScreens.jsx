@@ -8,14 +8,20 @@ import {
 } from "../api/db";
 import ScreenItem from "./ScreenItem";
 import WaitingBox from "./WaitingBox";
+import ScreenSettings from "../dialogs/ScreenSettings";
 
 const UserScreens = () => {
   const [screens, setScreens] = useState([]);
   const [seePublicScreens, setSeePublicScreens] = useState(undefined);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const updateScreens = async () => {
+    return dbGetUserScreens().then((newData) => setScreens(() => newData));
+  };
 
   useEffect(() => {
-    dbGetUserScreens().then((newData) => setScreens(() => newData));
-  }, [seePublicScreens]);
+    updateScreens();
+  }, [seePublicScreens, screens?.length]);
 
   useEffect(() => {
     dbGetCurrentUser().then((newData) =>
@@ -26,6 +32,17 @@ const UserScreens = () => {
   const changeSeePublicScreens = async (value) => {
     await dbSaveUserSeePublicScreens(value);
     setSeePublicScreens(() => value);
+  };
+
+  const handleNewScreenOpen = () => {
+    setSettingsOpen(true);
+  };
+
+  const handleNewScreenClose = (confirmed) => {
+    setSettingsOpen(false);
+    if (confirmed) {
+      updateScreens();
+    }
   };
 
   return (
@@ -47,7 +64,11 @@ const UserScreens = () => {
           <></>
         )}
         <Box sx={{ flexGrow: 1 }} />
-        <Button variant="outlined" sx={{ minWidth: "200px" }}>
+        <Button
+          onClick={handleNewScreenOpen}
+          variant="outlined"
+          sx={{ minWidth: "200px" }}
+        >
           New screen ...
         </Button>
       </Stack>
@@ -60,6 +81,15 @@ const UserScreens = () => {
           <WaitingBox />
         )}
       </div>
+      {settingsOpen ? (
+        <ScreenSettings
+          screenId={-1}
+          isOpen={settingsOpen}
+          handleClose={handleNewScreenClose}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

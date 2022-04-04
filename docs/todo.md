@@ -1,8 +1,8 @@
 # ToDo's
 
-- Add(ok)/delete widget
+- Add(ok) / delete widget
 
-- Add/delete screen
+- Add(ok) / delete screen
 
 - Fix select statement to create widget and screen-list dependent on "see public"
 
@@ -12,10 +12,20 @@
 
 - Authentication
 
-- Form validation. Rules:
+- Form validation -> rules:
 
-  - E-Mail: /\S+@\S+\.\S+/ + unique in DB
-  - User name: not empty + unique in DB
+  - Screen-Widgets:
+
+    - at least one widget must be selected (no empty screen allowed)
+
+  - User:
+
+    - E-Mail: /\S+@\S+\.\S+/ + unique in DB
+    - User name: not empty + unique in DB
+
+  - Screen + Widget:
+
+    - Name: unique for user_id
 
 - Settings => "Account" and move into Avatar-Menu
 

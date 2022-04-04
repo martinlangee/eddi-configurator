@@ -9,27 +9,6 @@ const screenWidgetsUrl = `${baseUrl}/screenwidgets`;
 // TODO: remove when authentication works
 const CURRENT_USERID = 15;
 
-export async function dbGetNewWidget() {
-    const currentUser = await dbGetCurrentUser();
-    return {
-        description: "Enter description",
-        first_name: currentUser.first_name,
-        id: undefined,
-        last_name: currentUser.last_name,
-        last_saved: "",
-        name: "New widget",
-        public: false,
-        size_x: 100,
-        size_y: 100,
-        thumbnail: {
-            data: (1)[0],
-            type: "Buffer"
-        },
-        user_id: currentUser.id,
-        user_name: currentUser.user_name
-    }
-};
-
 export async function dbGetCurrentUser() {
     const url = `${userUrl}/${CURRENT_USERID}`;
     const resp = await Axios.get(url);
@@ -53,6 +32,28 @@ export async function dbSaveUserSeePublicScreens(value) {
     const resp = await Axios.put(url, {});
     return resp;
 }
+
+export async function dbGetNewWidget() {
+    const currentUser = await dbGetCurrentUser();
+    return {
+        description: "Enter description",
+        first_name: currentUser.first_name,
+        id: undefined,
+        last_name: currentUser.last_name,
+        last_saved: "",
+        name: "New widget",
+        public: false,
+        size_x: 100,
+        size_y: 100,
+        content: "",
+        thumbnail: {
+            data: (1)[0],
+            type: "Buffer"
+        },
+        user_id: currentUser.id,
+        user_name: currentUser.user_name
+    }
+};
 
 export async function dbGetUserWidgets(userId) {
     const id = userId ? userId : CURRENT_USERID;
@@ -83,8 +84,30 @@ export async function dbSaveWidget(widget) {
 export async function dbInsertWidget(widget) {
     const url = `${widgetUrl}`;
     const resp = await Axios.post(url, widget);
-    return resp;
+    return resp.data.rows[0].id;
 }
+
+export async function dbGetNewScreen() {
+    const currentUser = await dbGetCurrentUser();
+    return {
+        description: "Enter description",
+        first_name: currentUser.first_name,
+        id: undefined,
+        last_name: currentUser.last_name,
+        last_saved: "",
+        name: "New screen",
+        public: false,
+        size_x: 600,
+        size_y: 800,
+        content: "",
+        thumbnail: {
+            data: (1)[0],
+            type: "Buffer"
+        },
+        user_id: currentUser.id,
+        user_name: currentUser.user_name
+    }
+};
 
 export async function dbGetScreen(id) {
     const url = `${screenUrl}/${id}`;
@@ -96,6 +119,12 @@ export async function dbSaveScreen(screen) {
     const url = `${screenUrl}/${screen.id}`;
     const resp = await Axios.put(url, screen);
     return resp;
+}
+
+export async function dbInsertScreen(screen) {
+    const url = `${screenUrl}`;
+    const resp = await Axios.post(url, screen);
+    return resp.data.rows[0].id;
 }
 
 export async function dbGetScreenWidgets(screenId) {

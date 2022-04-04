@@ -18,9 +18,11 @@ import {
 import { Box } from "@mui/system";
 import LabelEdit from "../controls/LabelEdit";
 import {
+  dbGetNewScreen,
   dbGetScreen,
   dbGetScreenWidgets,
   dbGetUserWidgets,
+  dbInsertScreen,
   dbSaveScreen,
   dbSaveScreenWidgets,
 } from "../api/db";
@@ -30,12 +32,20 @@ import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 
 const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   const [screenData, setScreenData] = useState(null);
-  const [confScreenWidgets, setConfScreenWidgets] = useState([]);
+
   const [allWidgets, setAllWidgets] = useState([]);
+  const [confScreenWidgets, setConfScreenWidgets] = useState([]);
   const [availableWidgets, setAvailableWidgets] = useState([]);
 
   useEffect(() => {
-    dbGetScreen(screenId).then((newData) => setScreenData(() => newData));
+    if (screenId === undefined) return;
+
+    // screenId === -1 => creating new screen
+    if (screenId < 0) {
+      dbGetNewScreen().then((newData) => setScreenData(() => newData));
+    } else {
+      dbGetScreen(screenId).then((newData) => setScreenData(() => newData));
+    }
   }, [screenId]);
 
   useEffect(() => {
@@ -112,7 +122,11 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   };
 
   const confirm = async () => {
-    await dbSaveScreen(screenData);
+    if (screenId < 0) {
+      screenId = await dbInsertScreen(screenData);
+    } else {
+      await dbSaveScreen(screenData);
+    }
     await dbSaveScreenWidgets(screenId, confScreenWidgets);
     handleClose(true);
   };
@@ -224,7 +238,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                       {availableWidgets && availableWidgets.length ? (
                         availableWidgets.map((widget) => (
                           <MenuItem key={widget.id} value={widget.id}>
-                            {widget.name}
+                            {widget.id}: {widget.name}
                           </MenuItem>
                         ))
                       ) : (
