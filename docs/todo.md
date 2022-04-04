@@ -14,3 +14,5 @@
 - Authentication
 
 - Settings => "Account" and move into Avatar-Menu
+
+- display owner on settings page of public widget/screen

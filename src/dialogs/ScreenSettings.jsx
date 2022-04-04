@@ -17,7 +17,7 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import LabelEdit from "../controls/LabelEdit";
 import {
   dbGetScreen,
@@ -32,7 +32,7 @@ import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 
 const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   const [screenData, setScreenData] = useState(null);
-  const [confWidgets, setConfWidgets] = useState([]);
+  const [confScreenWidgets, setConfScreenWidgets] = useState([]);
   const [allWidgets, setAllWidgets] = useState([]);
   const [availableWidgets, setAvailableWidgets] = useState([]);
 
@@ -42,7 +42,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
 
   useEffect(() => {
     dbGetScreenWidgets(screenId).then((newData) =>
-      setConfWidgets(() => newData)
+      setConfScreenWidgets(() => newData)
     );
   }, [screenId]);
 
@@ -55,11 +55,12 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
       // filtering out all widgets that are already configured
       allWidgets.filter(
         (fromAll) =>
-          confWidgets.find((fromConf) => fromAll.id === fromConf.widget_id) ===
-          undefined
+          confScreenWidgets.find(
+            (fromConf) => fromAll.id === fromConf.widget_id
+          ) === undefined
       )
     );
-  }, [confWidgets, allWidgets]);
+  }, [confScreenWidgets, allWidgets]);
 
   const checkInput = (dbField, value) => {
     // TODO: check if data are correct
@@ -75,9 +76,9 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   };
 
   const localSaveWidgetLayout = (index, dbField, value) => {
-    let newData = confWidgets;
+    let newData = confScreenWidgets;
     newData[index][dbField] = value;
-    setConfWidgets(() => newData);
+    setConfScreenWidgets(() => newData);
 
     // this doesn't work:
     //    setWidgetData((prev) => {
@@ -90,17 +91,27 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
     //    });
   };
 
-  const widgetSelected = (widgetId) => {
-    console.log("#####", widgetId);
-    setConfWidgets((prev) => [
+  const addScreenWidget = (widgetId) =>
+    setConfScreenWidgets((prev) => [
       ...prev,
-      allWidgets.find((w) => w.id === widgetId),
+      {
+        ...allWidgets.find((w) => w.id === widgetId),
+        screen_id: screenId,
+        widget_id: widgetId,
+        x_pos: 0,
+        y_pos: 0,
+      },
     ]);
+
+  const removeScreenWidget = (widgetId) => {
+    setConfScreenWidgets(() =>
+      confScreenWidgets.filter((w) => w.widget_id !== widgetId)
+    );
   };
 
   const confirm = async () => {
     await dbSaveScreenData(screenData);
-    await dbSaveScreenWidgets(screenId, confWidgets);
+    await dbSaveScreenWidgets(screenId, confScreenWidgets);
     handleClose(true);
   };
 
@@ -157,21 +168,22 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   label="Public"
                 />
                 <IconButton>
-                  <DeleteIcon color="primary"></DeleteIcon>
+                  <DeleteForeverIcon color="primary"></DeleteForeverIcon>
                 </IconButton>
               </Box>
             </Stack>
             <DialogTitle ml={-3}>Select and place the widgets</DialogTitle>
             <Stack direction="row">
               <Stack mt={0} mr={3} minWidth="500px">
-                <Stack spacing="3px" pb={1}>
-                  {confWidgets ? (
-                    confWidgets.map((widget, idx) => (
+                <Stack spacing="3px" pb={3}>
+                  {confScreenWidgets ? (
+                    confScreenWidgets.map((widget, idx) => (
                       <ScreenWidgetLayout
                         key={idx}
                         index={idx}
                         data={widget}
                         onSave={localSaveWidgetLayout}
+                        onRemove={removeScreenWidget}
                       />
                     ))
                   ) : (
@@ -183,7 +195,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   justifyContent="space-between"
                   style={{ color: "silver" }}
                 >
-                  {confWidgets && confWidgets.length ? (
+                  {confScreenWidgets && confScreenWidgets.length ? (
                     <Stack pl={1} pt={2}>
                       <Typography sx={{ fontStyle: "italic" }}>
                         (Dimensions in pixel)
@@ -195,14 +207,18 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   <FormControl sx={{ width: "300px", paddingRight: "7px" }}>
                     <InputLabel id="add-widget-label">
                       {availableWidgets && availableWidgets.length
-                        ? "Add widget"
+                        ? "Select widget to add"
                         : "< no further widgets available >"}
                     </InputLabel>
                     <Select
-                      label="Add widget"
+                      label={
+                        availableWidgets && availableWidgets.length
+                          ? "Select widget to add"
+                          : "< no further widgets available >"
+                      }
                       labelId="add-widget-label"
                       onChange={(e) => {
-                        widgetSelected(e.target.value);
+                        addScreenWidget(e.target.value);
                       }}
                       disabled={!availableWidgets || !availableWidgets.length}
                     >

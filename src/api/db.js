@@ -79,12 +79,6 @@ export async function dbGetScreenWidgets(screenId) {
 
 export async function dbSaveScreenWidgets(screenId, widgets) {
     const url = `${screenWidgetUrl}/${screenId}`;
-    const resp = await Axios.put(url, widgets);
-    return resp.data;
-}
-
-export async function dbAddScreenWidget(screenId, widget) {
-    const url = `${screenWidgetUrl}/${screenId}`;
-    const resp = await Axios.post(url, widget);
+    const resp = await Axios.post(url, widgets);
     return resp.data;
 }

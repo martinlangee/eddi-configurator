@@ -1,15 +1,21 @@
 import "../App.css";
 import React from "react";
-import { Stack } from "@mui/material";
+import { IconButton, Stack } from "@mui/material";
 import { Box } from "@mui/system";
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import LabelEdit from "../controls/LabelEdit";
 
-const ScreenWidgetLayout = ({ index, data, onSave }) => {
-  const NAME_WIDTH = "150px";
-  const DATA_WIDTH = "80px";
+const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
+  const NAME_WIDTH = "170px";
+  const DATA_WIDTH = "70px";
 
   const saveLocal = (dbField, value) => {
     onSave(index, dbField, value);
+  };
+
+  const removeScreenWidget = () => {
+    console.log(index, data.widget_id, data.name, "remove clicked");
+    onRemove(data.widget_id);
   };
 
   return (
@@ -69,6 +75,12 @@ const ScreenWidgetLayout = ({ index, data, onSave }) => {
             initValue={data.size_y}
             width={DATA_WIDTH}
           />
+          <IconButton onClick={(e) => removeScreenWidget()}>
+            <HighlightOffIcon
+              color="primary"
+              fontSize="small"
+            ></HighlightOffIcon>
+          </IconButton>
         </Stack>
       ) : (
         <></>
