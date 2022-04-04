@@ -4,7 +4,7 @@ const baseUrl = "http://localhost:3010";
 const userUrl = `${baseUrl}/usr`;
 const widgetUrl = `${baseUrl}/widget`;
 const screenUrl = `${baseUrl}/screen`;
-const screenWidgetUrl = `${baseUrl}/screenwidget`;
+const screenWidgetsUrl = `${baseUrl}/screenwidgets`;
 
 // TODO: remove when authentication works
 const CURRENT_USERID = 15;
@@ -72,13 +72,13 @@ export async function dbSaveScreenData(screen) {
 }
 
 export async function dbGetScreenWidgets(screenId) {
-    const url = `${screenWidgetUrl}/${screenId}`;
+    const url = `${screenWidgetsUrl}/${screenId}`;
     const resp = await Axios.get(url);
     return resp.data;
 }
 
 export async function dbSaveScreenWidgets(screenId, widgets) {
-    const url = `${screenWidgetUrl}/${screenId}`;
+    const url = `${screenWidgetsUrl}/${screenId}`;
     const resp = await Axios.post(url, widgets);
     return resp.data;
 }
