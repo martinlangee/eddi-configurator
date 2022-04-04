@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
-import { dbGetUserWidgets } from "../api/db";
+import { dbDeleteWidget, dbGetUserWidgets } from "../api/db";
 import WidgetItem from "./WidgetItem";
 import WidgetSettings from "../dialogs/WidgetSettings";
 
@@ -41,6 +41,12 @@ const UserWidgets = () => {
     }
   };
 
+  const handleDeleteWidget = async (widgetId) => {
+    dbDeleteWidget(widgetId).then(() => {
+      updateWidgets();
+    });
+  };
+
   return (
     <div>
       <Stack m={5} direction="row">
@@ -74,7 +80,12 @@ const UserWidgets = () => {
       <div>
         {widgets
           ? widgets.map((widget, idx) => (
-              <WidgetItem key={idx} index={idx} id={widget.id} />
+              <WidgetItem
+                key={idx}
+                index={idx}
+                widgetId={widget.id}
+                onDelete={handleDeleteWidget}
+              />
             ))
           : ""}
       </div>

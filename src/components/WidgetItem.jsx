@@ -7,23 +7,27 @@ import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import WidgetSettings from "../dialogs/WidgetSettings";
 import { dbGetWidget } from "../api/db";
 
-const WidgetItem = ({ index, id }) => {
+const WidgetItem = ({ index, widgetId, onDelete }) => {
   const [widgetData, setWidgetData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const updateWidget = (newData) => setWidgetData(() => newData);
 
   useEffect(() => {
-    dbGetWidget(id).then(updateWidget);
-  }, [id]);
+    dbGetWidget(widgetId).then(updateWidget);
+  }, [widgetId]);
 
   const handleSettingsOpen = () => setSettingsOpen(true);
 
   const handleSettingsClose = (confirmed) => {
     setSettingsOpen(false);
     if (confirmed) {
-      dbGetWidget(id).then(updateWidget);
+      dbGetWidget(widgetId).then(updateWidget);
     }
+  };
+
+  const handleDeleteWidget = () => {
+    onDelete(widgetId);
   };
 
   return (
@@ -55,7 +59,7 @@ const WidgetItem = ({ index, id }) => {
           <Stack direction="row" m="10px">
             <Box minWidth="30px" display="flex">
               {/* <Box m="auto">{index + 1}</Box> */}
-              <Box m="auto">{id}</Box>
+              <Box m="auto">{widgetId}</Box>
             </Box>
             <Box
               mx={1}
@@ -91,7 +95,7 @@ const WidgetItem = ({ index, id }) => {
                 <IconButton onClick={handleSettingsOpen}>
                   <EditTwoToneIcon color="primary" />
                 </IconButton>
-                <IconButton>
+                <IconButton onClick={handleDeleteWidget}>
                   <DeleteForeverTwoToneIcon color="primary" />
                 </IconButton>
               </Box>
@@ -99,7 +103,7 @@ const WidgetItem = ({ index, id }) => {
           </Stack>
           {settingsOpen ? (
             <WidgetSettings
-              widgetId={widgetData.id}
+              widgetId={widgetId}
               isOpen={settingsOpen}
               handleClose={handleSettingsClose}
             />

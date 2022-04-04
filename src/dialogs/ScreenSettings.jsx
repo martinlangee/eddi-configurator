@@ -7,17 +7,16 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   Select,
   Stack,
-  Switch,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import LabelEdit from "../controls/LabelEdit";
 import {
+  CURRENT_USERID,
   dbGetNewScreen,
   dbGetScreen,
   dbGetScreenWidgets,
@@ -107,6 +106,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
           ...allWidgets.find((w) => w.id === widgetId),
           screen_id: screenId,
           widget_id: widgetId,
+          user_id: CURRENT_USERID,
           x_pos: 0,
           y_pos: 0,
         },
