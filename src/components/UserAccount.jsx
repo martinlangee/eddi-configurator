@@ -7,7 +7,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import LabelEdit from "../controls/LabelEdit";
 import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
-import { dbGetCurrentUser, dbSaveUserData } from "../api/db";
+import { dbGetCurrentUser, dbSaveUser } from "../api/db";
 import { Typography } from "@material-ui/core";
 import WaitingBox from "./WaitingBox";
 
@@ -21,7 +21,7 @@ const UserAccount = () => {
   const dbSave = (dbField, value) => {
     let newData = userData;
     newData[dbField] = value;
-    dbSaveUserData(newData);
+    dbSaveUser(newData);
   };
 
   return (

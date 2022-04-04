@@ -8,23 +8,31 @@ import {
   DialogTitle,
   Divider,
   FormControlLabel,
-  IconButton,
   Stack,
   Switch,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import OpenInBrowserIcon from "@material-ui/icons/OpenInBrowser";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import LabelEdit from "../controls/LabelEdit";
-import { dbGetWidget, dbSaveWidgetData } from "../api/db";
-
-// TODO: init and save "public"-Field
+import {
+  dbGetWidget,
+  dbSaveWidget,
+  dbGetNewWidget,
+  dbInsertWidget,
+} from "../api/db";
 
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   const [widgetData, setWidgetData] = useState(null);
 
   useEffect(() => {
-    dbGetWidget(widgetId).then((newData) => setWidgetData(() => newData));
+    if (widgetId === undefined) return;
+
+    // widgetId === -1 => creating new widget
+    if (widgetId < 0) {
+      dbGetNewWidget().then((newData) => setWidgetData(() => newData));
+    } else {
+      dbGetWidget(widgetId).then((newData) => setWidgetData(() => newData));
+    }
   }, [widgetId]);
 
   const checkInput = (dbField, value) => {
@@ -41,7 +49,11 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   };
 
   const confirm = async () => {
-    await dbSaveWidgetData(widgetData);
+    if (widgetId < 0) {
+      await dbInsertWidget(widgetData);
+    } else {
+      await dbSaveWidget(widgetData);
+    }
     handleClose(true);
   };
 
@@ -111,12 +123,12 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                     label="Public"
                   />
                   <Box sx={{ flexGrow: 1 }} />
-                  <IconButton>
-                    <OpenInBrowserIcon color="primary"></OpenInBrowserIcon>
-                  </IconButton>
-                  <IconButton>
-                    <DeleteForeverIcon color="primary"></DeleteForeverIcon>
-                  </IconButton>
+                  <Button
+                    variant="outlined"
+                    startIcon={<OpenInBrowserIcon color="primary" />}
+                  >
+                    Load content ...
+                  </Button>
                 </Stack>
                 <label>Preview</label>
                 <Box mt={1} display="flex">

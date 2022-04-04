@@ -9,13 +9,34 @@ const screenWidgetsUrl = `${baseUrl}/screenwidgets`;
 // TODO: remove when authentication works
 const CURRENT_USERID = 15;
 
+export async function dbGetNewWidget() {
+    const currentUser = await dbGetCurrentUser();
+    return {
+        description: "Enter description",
+        first_name: currentUser.first_name,
+        id: undefined,
+        last_name: currentUser.last_name,
+        last_saved: "",
+        name: "New widget",
+        public: false,
+        size_x: 100,
+        size_y: 100,
+        thumbnail: {
+            data: (1)[0],
+            type: "Buffer"
+        },
+        user_id: currentUser.id,
+        user_name: currentUser.user_name
+    }
+};
+
 export async function dbGetCurrentUser() {
     const url = `${userUrl}/${CURRENT_USERID}`;
     const resp = await Axios.get(url);
     return resp.data[0];
 }
 
-export async function dbSaveUserData(user) {
+export async function dbSaveUser(user) {
     const url = `${userUrl}/${user.id}`;
     const resp = await Axios.put(url, user);
     return resp;
@@ -53,9 +74,15 @@ export async function dbGetWidget(id) {
     return resp.data[0];
 }
 
-export async function dbSaveWidgetData(widget) {
+export async function dbSaveWidget(widget) {
     const url = `${widgetUrl}/${widget.id}`;
     const resp = await Axios.put(url, widget);
+    return resp;
+}
+
+export async function dbInsertWidget(widget) {
+    const url = `${widgetUrl}`;
+    const resp = await Axios.post(url, widget);
     return resp;
 }
 
@@ -65,7 +92,7 @@ export async function dbGetScreen(id) {
     return resp.data[0];
 }
 
-export async function dbSaveScreenData(screen) {
+export async function dbSaveScreen(screen) {
     const url = `${screenUrl}/${screen.id}`;
     const resp = await Axios.put(url, screen);
     return resp;

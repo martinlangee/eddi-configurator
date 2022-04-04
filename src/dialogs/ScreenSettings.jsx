@@ -8,7 +8,6 @@ import {
   DialogTitle,
   FormControl,
   FormControlLabel,
-  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -17,13 +16,12 @@ import {
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import LabelEdit from "../controls/LabelEdit";
 import {
   dbGetScreen,
   dbGetScreenWidgets,
   dbGetUserWidgets,
-  dbSaveScreenData,
+  dbSaveScreen,
   dbSaveScreenWidgets,
 } from "../api/db";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
@@ -114,7 +112,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   };
 
   const confirm = async () => {
-    await dbSaveScreenData(screenData);
+    await dbSaveScreen(screenData);
     await dbSaveScreenWidgets(screenId, confScreenWidgets);
     handleClose(true);
   };
@@ -146,14 +144,14 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                 width="200px"
               />
               <LabelEdit
-                label="Width [px]"
+                label="Width"
                 width="80px"
                 dbField="size_x"
                 onSave={localSaveScreenData}
                 initValue={screenData.size_x}
               />
               <LabelEdit
-                label="Height [px]"
+                label="Height"
                 width="80px"
                 dbField="size_y"
                 onSave={localSaveScreenData}
@@ -171,15 +169,12 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   }
                   label="Public"
                 />
-                <IconButton>
-                  <DeleteForeverIcon color="primary"></DeleteForeverIcon>
-                </IconButton>
               </Box>
             </Stack>
             <DialogTitle ml={-3}>Select and place the widgets</DialogTitle>
             <Stack direction="row">
               <Stack mt={0} mr={3} minWidth="500px">
-                <Stack spacing="3px" pb={3}>
+                <Stack spacing="3px" pb={2}>
                   {confScreenWidgets ? (
                     confScreenWidgets.map((widget, idx) => (
                       <ScreenWidgetLayout
@@ -202,7 +197,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   {confScreenWidgets && confScreenWidgets.length ? (
                     <Stack pl={1} pt={2}>
                       <Typography sx={{ fontStyle: "italic" }}>
-                        (Dimensions in pixel)
+                        [Dimensions in pixel]
                       </Typography>
                     </Stack>
                   ) : (

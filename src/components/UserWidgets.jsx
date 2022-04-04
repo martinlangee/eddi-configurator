@@ -7,14 +7,20 @@ import {
   dbSaveUserSeePublicWidgets,
 } from "../api/db";
 import WidgetItem from "./WidgetItem";
+import WidgetSettings from "../dialogs/WidgetSettings";
 
 const UserWidgets = () => {
   const [widgets, setWidgets] = useState(null);
   const [seePublicWidgets, setSeePublicWidgets] = useState(undefined);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const updateWidgets = async () => {
+    return dbGetUserWidgets().then((newData) => setWidgets(() => newData));
+  };
 
   useEffect(() => {
-    dbGetUserWidgets().then((newData) => setWidgets(() => newData));
-  }, [seePublicWidgets]);
+    updateWidgets();
+  }, [seePublicWidgets, widgets?.length]);
 
   useEffect(() => {
     dbGetCurrentUser().then((newData) =>
@@ -25,6 +31,17 @@ const UserWidgets = () => {
   const changeSeePublicWidgets = async (value) => {
     await dbSaveUserSeePublicWidgets(value);
     setSeePublicWidgets(() => value);
+  };
+
+  const handleNewWidgetOpen = () => {
+    setSettingsOpen(true);
+  };
+
+  const handleNewWidgetClose = (confirmed) => {
+    setSettingsOpen(false);
+    if (confirmed) {
+      updateWidgets();
+    }
   };
 
   return (
@@ -46,7 +63,11 @@ const UserWidgets = () => {
           <></>
         )}
         <Box sx={{ flexGrow: 1 }} />
-        <Button variant="outlined" sx={{ minWidth: "200px" }}>
+        <Button
+          onClick={handleNewWidgetOpen}
+          variant="outlined"
+          sx={{ minWidth: "200px" }}
+        >
           New widget ...
         </Button>
       </Stack>
@@ -57,6 +78,15 @@ const UserWidgets = () => {
             ))
           : ""}
       </div>
+      {settingsOpen ? (
+        <WidgetSettings
+          widgetId={-1}
+          isOpen={settingsOpen}
+          handleClose={handleNewWidgetClose}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
