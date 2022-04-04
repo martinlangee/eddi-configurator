@@ -1,6 +1,7 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Switch, FormControlLabel } from "@mui/material";
+import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
 import {
   dbGetCurrentUser,
   dbGetUserWidgets,
@@ -66,6 +67,7 @@ const UserWidgets = () => {
         <Button
           onClick={handleNewWidgetOpen}
           variant="outlined"
+          startIcon={<FiberNewTwoToneIcon color="primary" />}
           sx={{ minWidth: "200px" }}
         >
           New widget ...

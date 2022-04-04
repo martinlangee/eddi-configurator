@@ -2,7 +2,7 @@ import "../App.css";
 import React from "react";
 import { IconButton, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+import HighlightOffIconTwoTone from "@material-ui/icons/HighlightOffTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 
 const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
@@ -76,10 +76,10 @@ const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
             width={DATA_WIDTH}
           />
           <IconButton onClick={(e) => removeScreenWidget()}>
-            <HighlightOffIcon
+            <HighlightOffIconTwoTone
               color="primary"
               fontSize="small"
-            ></HighlightOffIcon>
+            ></HighlightOffIconTwoTone>
           </IconButton>
         </Stack>
       ) : (

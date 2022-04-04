@@ -12,7 +12,7 @@ import {
   Switch,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import OpenInBrowserIcon from "@material-ui/icons/OpenInBrowser";
+import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import {
   dbGetWidget,
@@ -125,7 +125,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                   <Box sx={{ flexGrow: 1 }} />
                   <Button
                     variant="outlined"
-                    startIcon={<OpenInBrowserIcon color="primary" />}
+                    startIcon={<FileOpenTwoToneIcon color="primary" />}
                   >
                     Load content ...
                   </Button>

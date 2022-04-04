@@ -2,8 +2,8 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Stack, IconButton, Divider } from "@mui/material";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
+import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import WidgetSettings from "../dialogs/WidgetSettings";
 import { dbGetWidget } from "../api/db";
 
@@ -89,10 +89,10 @@ const WidgetItem = ({ index, id }) => {
             <Box display="flex" minWidth="100px">
               <Box m="auto">
                 <IconButton onClick={handleSettingsOpen}>
-                  <EditIcon color="primary"></EditIcon>
+                  <EditTwoToneIcon color="primary" />
                 </IconButton>
                 <IconButton>
-                  <DeleteForeverIcon color="primary"></DeleteForeverIcon>
+                  <DeleteForeverTwoToneIcon color="primary" />
                 </IconButton>
               </Box>
             </Box>

@@ -2,8 +2,8 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Stack, IconButton, Divider } from "@mui/material";
-import EditIcon from "@material-ui/icons/Edit";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import EditIconTwoTone from "@material-ui/icons/EditTwoTone";
+import DeleteForeverIconTwoTone from "@material-ui/icons/DeleteForeverTwoTone";
 import ScreenSettings from "../dialogs/ScreenSettings";
 import { dbGetScreen } from "../api/db";
 
@@ -89,10 +89,10 @@ const ScreenItem = ({ index, id }) => {
             <Box display="flex" minWidth="100px">
               <Box m="auto">
                 <IconButton onClick={handleSettingsOpen}>
-                  <EditIcon color="primary"></EditIcon>
+                  <EditIconTwoTone color="primary" />
                 </IconButton>
                 <IconButton>
-                  <DeleteForeverIcon color="primary"></DeleteForeverIcon>
+                  <DeleteForeverIconTwoTone color="primary" />
                 </IconButton>
               </Box>
             </Box>

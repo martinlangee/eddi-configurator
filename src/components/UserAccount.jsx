@@ -2,8 +2,8 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Avatar, IconButton, Stack } from "@mui/material";
 import { Box } from "@mui/system";
-import OpenInBrowserIcon from "@material-ui/icons/OpenInBrowser";
-import DeleteIcon from "@material-ui/icons/Delete";
+import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
+import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
@@ -65,12 +65,12 @@ const UserAccount = () => {
                   <Box m={3} />
                   <Box m="auto">
                     <IconButton>
-                      <OpenInBrowserIcon color="primary"></OpenInBrowserIcon>
+                      <FileOpenTwoToneIcon color="primary" />
                     </IconButton>
                   </Box>
                   <Box m="auto">
                     <IconButton>
-                      <DeleteIcon color="primary"></DeleteIcon>
+                      <DeleteForeverTwoToneIcon color="primary" />
                     </IconButton>
                   </Box>
                 </Stack>
