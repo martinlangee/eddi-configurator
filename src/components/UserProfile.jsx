@@ -9,9 +9,8 @@ import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
 import { dbGetCurrentUser, dbSaveUser } from "../api/db";
 import { Typography } from "@material-ui/core";
-import WaitingBox from "./WaitingBox";
 
-const UserAccount = () => {
+const UserProfile = () => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const UserAccount = () => {
 
   return (
     <div>
-      {userData ? (
+      {userData && (
         <>
           <Stack ml={5} mt={5}>
             <strong>Personal data</strong>
@@ -92,11 +91,9 @@ const UserAccount = () => {
             </Stack>
           </Stack>
         </>
-      ) : (
-        <WaitingBox />
       )}
     </div>
   );
 };
 
-export default UserAccount;
+export default UserProfile;

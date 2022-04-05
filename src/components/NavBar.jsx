@@ -5,6 +5,7 @@ import { Avatar, Box } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
 import { dbGetCurrentUser } from "../api/db";
+import AuthService from "../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
   navlinks: {
@@ -43,6 +44,21 @@ function Navbar() {
     dbGetCurrentUser().then((userData) => setUserName(() => userData.id)); // TODO: replace 'userData.id' with 'userData.user_name' before relase
   }, []);
 
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = AuthService.getCurrentUser();
+    if (user) {
+      setCurrentUser(user);
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
+  }, []);
+
+  const logOut = () => {
+    AuthService.logout();
+  };
+
   return (
     <AppBar position="static" style={{ backgroundColor: cyan["800"] }}>
       <Toolbar>
@@ -60,28 +76,34 @@ function Navbar() {
           >
             Home
           </NavLink>
-          <NavLink
-            to="/widgets"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Widgets
-          </NavLink>
-          <NavLink
-            to="/screens"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Screens
-          </NavLink>
-          <NavLink
-            to="/account"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Account
-          </NavLink>
+          {currentUser && (
+            <>
+              <NavLink
+                to="/widgets"
+                className={classes.link}
+                activeclassname={classes.activeLink}
+              >
+                Widgets
+              </NavLink>
+              <NavLink
+                to="/screens"
+                className={classes.link}
+                activeclassname={classes.activeLink}
+              >
+                Screens
+              </NavLink>
+            </>
+          )}
           <Box sx={{ flexGrow: 1 }} />
+          {currentUser && (
+            <NavLink
+              to="/profile"
+              className={classes.link}
+              activeclassname={classes.activeLink}
+            >
+              Profile
+            </NavLink>
+          )}
           <NavLink
             to="/login"
             className={classes.link}
@@ -96,23 +118,36 @@ function Navbar() {
           >
             Sign up
           </NavLink>
-          <NavLink
-            to="/admin"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Admin
-          </NavLink>
-          <NavLink
-            to="/"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Sign out
-          </NavLink>
-          <Box ml={2}>
-            <Avatar {...stringAvatar(userName)} />
-          </Box>
+          {showAdminBoard && (
+            <NavLink
+              to="/admin"
+              className={classes.link}
+              activeclassname={classes.activeLink}
+            >
+              Admin
+            </NavLink>
+          )}
+          {currentUser && (
+            <>
+              <NavLink
+                to="/user"
+                className={classes.link}
+                activeclassname={classes.activeLink}
+              >
+                User
+              </NavLink>
+              <NavLink
+                to="/"
+                className={classes.link}
+                activeclassname={classes.activeLink}
+              >
+                Sign out
+              </NavLink>
+              <Box ml={2}>
+                <Avatar {...stringAvatar(userName)} />
+              </Box>
+            </>
+          )}
         </Box>
       </Toolbar>
     </AppBar>

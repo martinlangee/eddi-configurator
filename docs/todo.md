@@ -47,3 +47,5 @@
 - display "widget is used on screens: ....." on widget page + dialogs
 
 - display "screen uses widgets: ....." on screens page
+
+- Future: User "Sequelize" as ORM in backend

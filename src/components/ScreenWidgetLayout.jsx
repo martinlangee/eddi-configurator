@@ -21,7 +21,7 @@ const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
   return (
     <Stack>
       {/* Header line: printed only once above the first widget */}
-      {!index ? (
+      {!index && (
         <Stack direction="row" spacing={1} mb={1}>
           <Box minWidth={NAME_WIDTH} pl={1}>
             <strong>Name</strong>
@@ -39,10 +39,8 @@ const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
             <strong>Height</strong>
           </Box>
         </Stack>
-      ) : (
-        ""
       )}
-      {data ? (
+      {data && (
         <Stack
           direction="row"
           spacing={1}
@@ -82,8 +80,6 @@ const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
             ></HighlightOffIconTwoTone>
           </IconButton>
         </Stack>
-      ) : (
-        <></>
       )}
     </Stack>
   );
