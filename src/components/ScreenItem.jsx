@@ -40,7 +40,7 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
   return (
     <Box>
       {/* Header line: printed only once above the first screen */}
-      {!index ? (
+      {!index && (
         <Stack direction="row" m="10px">
           <Box minWidth="30px"></Box>
           <Box ml={2} minWidth="150px" maxWidth="150px">
@@ -56,11 +56,9 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
           </Box>
           <Box minWidth="100px"></Box>
         </Stack>
-      ) : (
-        <></>
       )}
       {/* Screen lines */}
-      {screenData ? (
+      {screenData && (
         <Box>
           <Divider />
           <Stack direction="row" m="10px">
@@ -118,10 +116,8 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
             <></>
           )}
         </Box>
-      ) : (
-        <></>
       )}
-      {deleteConfirmOpen ? (
+      {deleteConfirmOpen && (
         <ConfirmDialog
           title="Delete screen"
           children={
@@ -134,8 +130,6 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
           setOpen={setDeleteConfirmOpen}
           onConfirm={handleDeleteConfirm}
         />
-      ) : (
-        <></>
       )}
     </Box>
   );

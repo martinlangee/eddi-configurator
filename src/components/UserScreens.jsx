@@ -4,7 +4,6 @@ import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
 import { dbDeleteScreen, dbGetUserScreens } from "../api/db";
 import ScreenItem from "./ScreenItem";
-import WaitingBox from "./WaitingBox";
 import ScreenSettings from "../dialogs/ScreenSettings";
 
 const UserScreens = () => {
@@ -80,7 +79,7 @@ const UserScreens = () => {
         </Button>
       </Stack>
       <div>
-        {screens ? (
+        {screens &&
           screens.map((screen, idx) => (
             <ScreenItem
               key={idx}
@@ -88,19 +87,14 @@ const UserScreens = () => {
               screenId={screen.id}
               onDelete={handleDeleteScreen}
             />
-          ))
-        ) : (
-          <WaitingBox />
-        )}
+          ))}
       </div>
-      {settingsOpen ? (
+      {settingsOpen && (
         <ScreenSettings
           screenId={-1}
           isOpen={settingsOpen}
           handleClose={handleNewScreenClose}
         />
-      ) : (
-        <></>
       )}
     </div>
   );

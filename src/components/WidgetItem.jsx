@@ -40,7 +40,7 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
   return (
     <Box>
       {/* Header line: printed only once above the first widget */}
-      {!index ? (
+      {!index && (
         <Stack direction="row" m="10px">
           <Box minWidth="30px"></Box>
           <Box ml={2} minWidth="150px" maxWidth="150px">
@@ -56,11 +56,9 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
           </Box>
           <Box minWidth="100px"></Box>
         </Stack>
-      ) : (
-        <></>
       )}
       {/* Widget lines */}
-      {widgetData ? (
+      {widgetData && (
         <Box>
           <Divider />
           <Stack direction="row" m="10px">
@@ -118,10 +116,8 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
             <></>
           )}
         </Box>
-      ) : (
-        <></>
       )}
-      {deleteConfirmOpen ? (
+      {deleteConfirmOpen && (
         <ConfirmDialog
           title="Delete widget"
           children={
@@ -134,8 +130,6 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
           setOpen={setDeleteConfirmOpen}
           onConfirm={handleDeleteConfirm}
         />
-      ) : (
-        <></>
       )}
     </Box>
   );

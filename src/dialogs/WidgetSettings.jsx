@@ -61,7 +61,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   return (
     <>
-      {widgetData ? (
+      {widgetData && (
         <Dialog maxWidth="false" open={isOpen} onClose={cancel}>
           <DialogTitle>Widget properties</DialogTitle>
           <DialogContent>
@@ -149,8 +149,6 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
             </Button>
           </DialogActions>
         </Dialog>
-      ) : (
-        <></>
       )}
     </>
   );

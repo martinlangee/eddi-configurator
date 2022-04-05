@@ -137,7 +137,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
 
   return (
     <>
-      {screenData ? (
+      {screenData && (
         <Dialog maxWidth="false" open={isOpen} onClose={cancel}>
           <DialogTitle>Screen properties and configuration</DialogTitle>
           <DialogContent>
@@ -209,14 +209,12 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   justifyContent="space-between"
                   style={{ color: "silver" }}
                 >
-                  {confScreenWidgets && confScreenWidgets.length ? (
+                  {confScreenWidgets && confScreenWidgets.length && (
                     <Stack pl={1} pt={2}>
                       <Typography sx={{ fontStyle: "italic" }}>
                         [Dimensions in pixel]
                       </Typography>
                     </Stack>
-                  ) : (
-                    <></>
                   )}
                   <FormControl sx={{ width: "300px", paddingRight: "7px" }}>
                     <InputLabel id="add-widget-label">
@@ -270,8 +268,6 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
             </Button>
           </DialogActions>
         </Dialog>
-      ) : (
-        <></>
       )}
     </>
   );

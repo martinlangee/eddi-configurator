@@ -78,25 +78,22 @@ const UserWidgets = () => {
         </Button>
       </Stack>
       <div>
-        {widgets
-          ? widgets.map((widget, idx) => (
-              <WidgetItem
-                key={idx}
-                index={idx}
-                widgetId={widget.id}
-                onDelete={handleDeleteWidget}
-              />
-            ))
-          : ""}
+        {widgets &&
+          widgets.map((widget, idx) => (
+            <WidgetItem
+              key={idx}
+              index={idx}
+              widgetId={widget.id}
+              onDelete={handleDeleteWidget}
+            />
+          ))}
       </div>
-      {settingsOpen ? (
+      {settingsOpen && (
         <WidgetSettings
           widgetId={-1}
           isOpen={settingsOpen}
           handleClose={handleNewWidgetClose}
         />
-      ) : (
-        <></>
       )}
     </div>
   );
