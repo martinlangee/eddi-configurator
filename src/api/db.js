@@ -1,6 +1,6 @@
 const Axios = require("axios");
 
-const baseUrl = "http://localhost:8081";
+const baseUrl = "http://localhost:8081/api";
 const userUrl = `${baseUrl}/usr`;
 const widgetUrl = `${baseUrl}/widget`;
 const screenUrl = `${baseUrl}/screen`;
