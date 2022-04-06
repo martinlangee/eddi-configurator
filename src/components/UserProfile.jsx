@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { Avatar, IconButton, Stack, Typography } from "@mui/material";
+import { Avatar, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
@@ -20,6 +20,10 @@ const UserProfile = () => {
     let newData = userData;
     newData[dbField] = value;
     dbSaveUser(newData);
+  };
+
+  const changePwd = (dbField, value) => {
+    // TODO: implement change PWD
   };
 
   return (
@@ -62,14 +66,18 @@ const UserProfile = () => {
                   />
                   <Box m={3} />
                   <Box m="auto">
-                    <IconButton>
-                      <FileOpenTwoToneIcon color="primary" />
-                    </IconButton>
+                    <Tooltip title="Load image ...">
+                      <IconButton>
+                        <FileOpenTwoToneIcon color="primary" />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                   <Box m="auto">
-                    <IconButton>
-                      <DeleteForeverTwoToneIcon color="primary" />
-                    </IconButton>
+                    <Tooltip title="Remove image">
+                      <IconButton>
+                        <DeleteForeverTwoToneIcon color="primary" />
+                      </IconButton>
+                    </Tooltip>
                   </Box>
                 </Stack>
               </Stack>
@@ -78,11 +86,15 @@ const UserProfile = () => {
           <Stack ml={5} mt={3}>
             <strong>Access</strong>
             <Stack ml={10} mt={3} mb={5} spacing={2}>
-              <PasswordEdit label="Password *" dbField="pwd" onSave={dbSave} />
+              <PasswordEdit
+                label="Password *"
+                dbField="pwd1"
+                onSave={changePwd}
+              />
               <PasswordEdit
                 label="Password (repeat) *"
-                dbField="pwd"
-                onSave={dbSave}
+                dbField="pwd2"
+                onSave={changePwd}
               />
             </Stack>
             <Stack ml={10}>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import { Avatar, Box } from "@mui/material";
+import { Avatar, Box, Tooltip } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
 import AuthService from "../services/auth.service";
@@ -91,13 +91,13 @@ function Navbar() {
             </>
           )}
           <Box sx={{ flexGrow: 1 }} />
-          {currentUser && (
+          {currentUser && currentUser.level >= 10 && (
             <NavLink
-              to="/profile"
+              to="/admin"
               className={classes.link}
               activeclassname={classes.activeLink}
             >
-              Profile
+              Admin
             </NavLink>
           )}
           {!currentUser && (
@@ -128,9 +128,19 @@ function Navbar() {
               >
                 Sign out
               </NavLink>
-              <Box ml={2}>
-                <Avatar {...stringAvatar(currentUser.username)} />
-              </Box>
+              <NavLink to="/profile">
+                <Box ml={2}>
+                  <Tooltip
+                    title={
+                      <>
+                        Profile of: <strong>{currentUser.username}</strong>
+                      </>
+                    }
+                  >
+                    <Avatar {...stringAvatar(currentUser.username)} />
+                  </Tooltip>
+                </Box>
+              </NavLink>
             </>
           )}
         </Box>

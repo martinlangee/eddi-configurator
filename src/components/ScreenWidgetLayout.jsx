@@ -1,6 +1,6 @@
 import "../App.css";
 import React from "react";
-import { IconButton, Stack } from "@mui/material";
+import { IconButton, Stack, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import HighlightOffIconTwoTone from "@material-ui/icons/HighlightOffTwoTone";
 import LabelEdit from "../controls/LabelEdit";
@@ -73,12 +73,14 @@ const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
             initValue={data.size_y}
             width={DATA_WIDTH}
           />
-          <IconButton onClick={(e) => removeScreenWidget()}>
-            <HighlightOffIconTwoTone
-              color="primary"
-              fontSize="small"
-            ></HighlightOffIconTwoTone>
-          </IconButton>
+          <Tooltip title="Remove widget">
+            <IconButton onClick={(e) => removeScreenWidget()}>
+              <HighlightOffIconTwoTone
+                color="primary"
+                fontSize="small"
+              ></HighlightOffIconTwoTone>
+            </IconButton>
+          </Tooltip>
         </Stack>
       )}
     </Stack>

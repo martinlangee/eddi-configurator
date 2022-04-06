@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -5,11 +6,22 @@ import {
   DialogContent,
   DialogTitle,
 } from "@mui/material";
-import React from "react";
 
 const ConfirmDialog = ({ title, children, open, setOpen, onConfirm }) => {
+  useEffect(() => {
+    document
+      .getElementById("dialog")
+      .addEventListener("keydown", function (event) {
+        if (event.code === "Enter" || event.code === "NumpadEnter") {
+          event.preventDefault();
+          document.getElementById("btnOK").click();
+        }
+      });
+  }, []);
+
   return (
     <Dialog
+      id="dialog"
       open={open}
       onClose={() => setOpen(false)}
       aria-labelledby="confirm-dialog"
@@ -18,6 +30,7 @@ const ConfirmDialog = ({ title, children, open, setOpen, onConfirm }) => {
       <DialogContent>{children}</DialogContent>
       <DialogActions>
         <Button
+          id="btnOK"
           variant="outlined"
           onClick={() => {
             setOpen(false);
