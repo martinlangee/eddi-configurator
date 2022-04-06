@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Grid,
@@ -11,8 +11,9 @@ import {
 } from "@material-ui/core";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
+import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
 import { cyan } from "@mui/material/colors";
-import { Stack } from "@mui/material";
+import { Alert, Stack } from "@mui/material";
 import AuthService from "../services/auth.service";
 
 const Login = () => {
@@ -123,7 +124,13 @@ const Login = () => {
         />
         */}
           <Button
-            startIcon={<LockOpenIcon color="primary" />}
+            startIcon={
+              loading ? (
+                <HourglassTopOutlinedIcon color="primary" />
+              ) : (
+                <LockOpenIcon color="primary" />
+              )
+            }
             variant="outlined"
             fullWidth
             onClick={handleLogin}
@@ -142,6 +149,11 @@ const Login = () => {
               Sign Up
             </Link>
           </Stack>
+          {message && (
+            <Stack>
+              <Alert severity="error">{message}</Alert>
+            </Stack>
+          )}
         </Stack>
       </Paper>
     </Grid>
