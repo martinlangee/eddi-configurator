@@ -4,7 +4,6 @@ import { IconButton, Stack } from "@mui/material";
 import { Box } from "@mui/system";
 import HighlightOffIconTwoTone from "@material-ui/icons/HighlightOffTwoTone";
 import LabelEdit from "../controls/LabelEdit";
-import { Typography } from "@mui/material";
 
 const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
   const NAME_WIDTH = "170px";
