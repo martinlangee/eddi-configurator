@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useState } from "react";
-import { Stack, TextField } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
@@ -20,11 +20,19 @@ const PasswordEdit = ({ label, dbField, onSave }) => {
 
   return (
     <Stack direction="column">
-      <label style={{ marginBottom: "5px" }}>{label}</label>
+      {label && (
+        <Typography
+          variant="body2"
+          color="gray"
+          style={{ marginBottom: "5px" }}
+        >
+          {label}
+        </Typography>
+      )}
       <Box display="flex">
         <TextField
           sx={{ width: "300px" }}
-          variant="outlined"
+          variant="standard"
           type={showPassword ? "text" : "password"}
           size="small"
           onSave={onSave}

@@ -23,7 +23,7 @@ const ScreenWidgetLayout = ({ index, data, onSave, onRemove }) => {
       {/* Header line: printed only once above the first widget */}
       {index === undefined && (
         <Stack direction="row" spacing={1} mb={1}>
-          <Box minWidth={NAME_WIDTH} pl={1}>
+          <Box minWidth="162px" pl={1}>
             <strong>Name</strong>
           </Box>
           <Box minWidth={DATA_WIDTH}>

@@ -99,7 +99,6 @@ const Login = () => {
           <TextField
             label="E-mail"
             placeholder="Enter E-mail"
-            size="small"
             fullWidth
             required
             onChange={onChangeEmail}
@@ -109,7 +108,6 @@ const Login = () => {
           <TextField
             label="Password"
             placeholder="Enter password"
-            size="small"
             type="password"
             fullWidth
             required

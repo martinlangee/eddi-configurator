@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useState } from "react";
-import { Stack, TextField } from "@mui/material";
+import { Stack, TextField, Typography } from "@mui/material";
 
 const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
   const [value, setValue] = useState(initValue);
@@ -17,7 +17,15 @@ const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
 
   return (
     <Stack>
-      {label && <label style={{ marginBottom: "5px" }}>{label}</label>}
+      {label && (
+        <Typography
+          variant="body2"
+          color="gray"
+          style={{ marginBottom: "5px" }}
+        >
+          {label}
+        </Typography>
+      )}
       {rows > 1 ? (
         <TextField
           id="textField"
@@ -34,7 +42,7 @@ const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
         <TextField
           id="textField"
           sx={{ width: { width } }}
-          variant="outlined"
+          variant="standard"
           size="small"
           value={value}
           onChange={onChange}
