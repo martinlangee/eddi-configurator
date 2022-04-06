@@ -2,7 +2,7 @@ import axios from "axios";
 import { USER_URL } from "../api/db";
 
 const register = (username, email, password) => {
-    return axios.post(USER_URL + "signup", {
+    return axios.post(`${USER_URL}/signup`, {
         username,
         email,
         password,
@@ -11,7 +11,7 @@ const register = (username, email, password) => {
 
 const login = (email, password) => {
     return axios
-        .post(USER_URL + "login", {
+        .post(`${USER_URL}/login`, {
             email,
             password,
         })

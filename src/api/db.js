@@ -9,7 +9,6 @@ const SCREEN_WIDGET_URL = `${API_URL}/screenwidgets`;
 
 const currentUserId = () => {
     const user = AuthService.getCurrentUser();
-    console.log(user);
     return user ? user.id : 0;
 }
 
