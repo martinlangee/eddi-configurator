@@ -7,7 +7,7 @@ import WidgetItem from "./WidgetItem";
 import WidgetSettings from "../dialogs/WidgetSettings";
 
 const UserWidgets = () => {
-  const [widgets, setWidgets] = useState(null);
+  const [widgets, setWidgets] = useState([]);
   //const [seePublicWidgets, setSeePublicWidgets] = useState(undefined);  TODO: future
   const [settingsOpen, setSettingsOpen] = useState(false);
 
@@ -88,6 +88,15 @@ const UserWidgets = () => {
             />
           ))}
       </div>
+      <Stack ml={5}>
+        {widgets === undefined ||
+          (widgets.length === 0 && (
+            <Typography variant="subtitle1">
+              <p>No widgets defined.</p>
+              To define a new widget click the 'NEW WIDGET ...' button.
+            </Typography>
+          ))}
+      </Stack>
       {settingsOpen && (
         <WidgetSettings
           widgetId={-1}

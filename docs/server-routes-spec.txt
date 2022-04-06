@@ -1,0 +1,16 @@
+Routes on the server:
+
+/api/user : POST
+=> change user data (...)
+
+/api/user/signup : POST
+=> check if username or email exist already 
+=> error
+=> create new user (user_name, eamail, pwd) on DB => success
+
+/api/user/login : POST
+=> send user_name + pwd_hash
+=> update token on frontend (token expires after 1h ?)
+=> update frontend routes
+
+/api/widget/:widgetId : GET

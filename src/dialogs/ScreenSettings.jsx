@@ -16,7 +16,6 @@ import {
 import { Box } from "@mui/system";
 import LabelEdit from "../controls/LabelEdit";
 import {
-  CURRENT_USERID,
   dbGetNewScreen,
   dbGetScreen,
   dbGetScreenWidgets,
@@ -26,6 +25,7 @@ import {
   dbSaveScreenWidgets,
 } from "../api/db";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
+import AuthService from "../services/auth.service";
 
 // TODO: init and save "public"-Field
 
@@ -106,7 +106,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
           ...allWidgets.find((w) => w.id === widgetId),
           screen_id: screenId,
           widget_id: widgetId,
-          user_id: CURRENT_USERID,
+          user_id: AuthService.getCurrentUser().id,
           x_pos: 0,
           y_pos: 0,
         },
@@ -188,9 +188,10 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
             </Stack>
             <DialogTitle ml={-3}>Select and place the widgets</DialogTitle>
             <Stack direction="row">
-              <Stack mt={0} mr={3} minWidth="500px">
+              <Stack mr={3} minWidth="500px">
                 <Stack spacing="3px" pb={2}>
-                  {confScreenWidgets ? (
+                  <ScreenWidgetLayout />
+                  {confScreenWidgets &&
                     confScreenWidgets.map((widget, idx) => (
                       <ScreenWidgetLayout
                         key={idx}
@@ -199,23 +200,18 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                         onSave={localSaveWidgetLayout}
                         onRemove={removeScreenWidget}
                       />
-                    ))
-                  ) : (
-                    <ScreenWidgetLayout index={0} />
-                  )}
+                    ))}
                 </Stack>
                 <Stack
                   direction="row"
                   justifyContent="space-between"
                   style={{ color: "silver" }}
                 >
-                  {confScreenWidgets && confScreenWidgets.length && (
-                    <Stack pl={1} pt={2}>
-                      <Typography sx={{ fontStyle: "italic" }}>
-                        [Dimensions in pixel]
-                      </Typography>
-                    </Stack>
-                  )}
+                  <Stack pl={1} pt={2}>
+                    <Typography sx={{ fontStyle: "italic" }}>
+                      [Dimensions in pixel]
+                    </Typography>
+                  </Stack>
                   <FormControl sx={{ width: "300px", paddingRight: "7px" }}>
                     <InputLabel id="add-widget-label">
                       {availableWidgets && availableWidgets.length

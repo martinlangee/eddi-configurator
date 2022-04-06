@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { Avatar, Box } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
-import { dbGetCurrentUser } from "../api/db";
 import AuthService from "../services/auth.service";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,25 +37,22 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
   const classes = useStyles();
-  const [userName, setUserName] = useState("");
-
-  useEffect(() => {
-    dbGetCurrentUser().then((userData) => setUserName(() => userData.id)); // TODO: replace 'userData.id' with 'userData.user_name' before relase
-  }, []);
-
-  const [showAdminBoard, setShowAdminBoard] = useState(false);
   const [currentUser, setCurrentUser] = useState(undefined);
+
+  const updateCurrentUser = (user) => {
+    setCurrentUser(user);
+  };
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
     if (user) {
-      setCurrentUser(user);
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      updateCurrentUser(user);
     }
   }, []);
 
-  const logOut = () => {
-    AuthService.logout();
+  const performSignout = () => {
+    AuthService.signout();
+    updateCurrentUser();
   };
 
   return (
@@ -104,47 +100,36 @@ function Navbar() {
               Profile
             </NavLink>
           )}
-          <NavLink
-            to="/login"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Log in
-          </NavLink>
-          <NavLink
-            to="/signup"
-            className={classes.link}
-            activeclassname={classes.activeLink}
-          >
-            Sign up
-          </NavLink>
-          {showAdminBoard && (
-            <NavLink
-              to="/admin"
-              className={classes.link}
-              activeclassname={classes.activeLink}
-            >
-              Admin
-            </NavLink>
+          {!currentUser && (
+            <>
+              <NavLink
+                to="/login"
+                className={classes.link}
+                activeclassname={classes.activeLink}
+              >
+                Log in
+              </NavLink>
+              <NavLink
+                to="/signup"
+                className={classes.link}
+                activeclassname={classes.activeLink}
+              >
+                Sign up
+              </NavLink>
+            </>
           )}
           {currentUser && (
             <>
               <NavLink
-                to="/user"
-                className={classes.link}
-                activeclassname={classes.activeLink}
-              >
-                User
-              </NavLink>
-              <NavLink
                 to="/"
                 className={classes.link}
                 activeclassname={classes.activeLink}
+                onClick={performSignout}
               >
                 Sign out
               </NavLink>
               <Box ml={2}>
-                <Avatar {...stringAvatar(userName)} />
+                <Avatar {...stringAvatar(currentUser.username)} />
               </Box>
             </>
           )}

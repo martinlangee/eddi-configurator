@@ -1,19 +1,18 @@
 import axios from "axios";
-
-const API_URL = "http://localhost:8081/auth/";
+import { USER_URL } from "../api/db";
 
 const register = (username, email, password) => {
-    return axios.post(API_URL + "signup", {
+    return axios.post(USER_URL + "signup", {
         username,
         email,
         password,
     });
 };
 
-const login = (username, password) => {
+const login = (email, password) => {
     return axios
-        .post(API_URL + "signin", {
-            username,
+        .post(USER_URL + "login", {
+            email,
             password,
         })
         .then((response) => {
@@ -24,7 +23,7 @@ const login = (username, password) => {
         });
 };
 
-const logout = () => {
+const signout = () => {
     localStorage.removeItem("user");
 };
 
@@ -35,7 +34,7 @@ const getCurrentUser = () => {
 const AuthService = {
     register,
     login,
-    logout,
+    signout,
     getCurrentUser,
 };
 

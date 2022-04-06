@@ -51,7 +51,7 @@ const UserScreens = () => {
   return (
     <div>
       <Stack m={5} direction="row">
-        <Typography variant="h6">Screens configuration</Typography>
+        <Typography variant="h6">Screen configuration</Typography>
         {/* TODO: future
         seePublicScreens !== undefined ? (
           <FormControlLabel
@@ -89,6 +89,15 @@ const UserScreens = () => {
             />
           ))}
       </div>
+      <Stack ml={5}>
+        {screens === undefined ||
+          (screens.length === 0 && (
+            <Typography variant="subtitle1">
+              <p>No screens defined.</p>
+              To define a new screen click the 'NEW SCREEN ...' button.
+            </Typography>
+          ))}
+      </Stack>
       {settingsOpen && (
         <ScreenSettings
           screenId={-1}

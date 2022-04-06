@@ -7,8 +7,6 @@ import UserProfile from "./components/UserProfile";
 import Home from "./components/Home.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import BoardUser from "./components/BoardUser";
-import BoardAdmin from "./components/BoardAdmin";
 
 function App() {
   return (
@@ -22,8 +20,6 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
-        <Route path="/user" element={<BoardUser />} />
-        <Route path="/admin" element={<BoardAdmin />} />
       </Routes>
     </Router>
   );

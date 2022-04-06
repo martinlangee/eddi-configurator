@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { Avatar, IconButton, Stack } from "@mui/material";
+import { Avatar, IconButton, Stack, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
@@ -8,7 +8,6 @@ import LabelEdit from "../controls/LabelEdit";
 import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
 import { dbGetCurrentUser, dbSaveUser } from "../api/db";
-import { Typography } from "@material-ui/core";
 
 const UserProfile = () => {
   const [userData, setUserData] = useState(null);
