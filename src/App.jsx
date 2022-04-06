@@ -7,6 +7,7 @@ import UserProfile from "./components/UserProfile";
 import Home from "./components/Home.jsx";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Admin from "./components/Admin";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route exact path="/home" element={<Home />} />
         <Route path="/widgets" element={<UserWidgets />} />
         <Route path="/screens" element={<UserScreens />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Register />} />
