@@ -11,15 +11,20 @@ import {
   Link,
   Alert,
   Stack,
+  Box,
 } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import AccountCircleTwoToneIcon from "@mui/icons-material/AccountCircleTwoTone";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import AuthService from "../services/auth.service";
 
 const Register = () => {
   let navigate = useNavigate();
+  const [showPwd1, setShowPwd1] = useState(false);
+  const [showPwd2, setShowPwd2] = useState(false);
+
   const [username, setUsername] = useState("");
   const [invalidUsername, setInvalidUsername] = useState(false);
   const [usernameHelperText, setUsernameHelperText] = useState(false);
@@ -159,30 +164,48 @@ const Register = () => {
           error={invalidEmail}
           helperText={emailHelperText}
         />
-        <TextField
-          label="Password"
-          placeholder="Enter password"
-          type="password"
-          size="small"
-          variant="standard"
-          fullWidth
-          required
-          onChange={onChangePassword1}
-          error={invalidPwd1}
-          helperText={pwd1HelperText}
-        />
-        <TextField
-          label="Password (repeat)"
-          placeholder="Re-enter password"
-          type="password"
-          size="small"
-          variant="standard"
-          fullWidth
-          required
-          onChange={onChangePassword2}
-          error={invalidPwd2}
-          helperText={pwd2HelperText}
-        />
+        <Box display="flex">
+          <TextField
+            label="Password"
+            placeholder="Enter password"
+            type={showPwd1 ? "text" : "password"}
+            size="small"
+            variant="standard"
+            fullWidth
+            required
+            onChange={onChangePassword1}
+            error={invalidPwd1}
+            helperText={pwd1HelperText}
+          />
+          <Box my="auto">
+            <VisibilityIcon
+              style={{ color: "Silver" }}
+              onMouseOver={() => setShowPwd1(true)}
+              onMouseLeave={() => setShowPwd1(false)}
+            />
+          </Box>
+        </Box>
+        <Box display="flex">
+          <TextField
+            label="Password (repeat)"
+            placeholder="Re-enter password"
+            type={showPwd2 ? "text" : "password"}
+            size="small"
+            variant="standard"
+            fullWidth
+            required
+            onChange={onChangePassword2}
+            error={invalidPwd2}
+            helperText={pwd2HelperText}
+          />
+          <Box my="auto">
+            <VisibilityIcon
+              style={{ color: "Silver" }}
+              onMouseOver={() => setShowPwd2(true)}
+              onMouseLeave={() => setShowPwd2(false)}
+            />
+          </Box>
+        </Box>
         {/*} TODO: future
         <FormControlLabel
           control={<Checkbox name="checkedB" color="primary" />}

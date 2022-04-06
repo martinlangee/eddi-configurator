@@ -11,15 +11,18 @@ import {
   Link,
   Alert,
   Stack,
+  Box,
 } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import HourglassTopOutlinedIcon from "@mui/icons-material/HourglassTopOutlined";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import AuthService from "../services/auth.service";
 
 const Login = () => {
   let navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [invalidEmail, setInvalidEmail] = useState(false);
   const [emailHelperText, setEmailHelperText] = useState(false);
@@ -103,18 +106,27 @@ const Login = () => {
           error={invalidEmail}
           helperText={emailHelperText}
         />
-        <TextField
-          label="Password"
-          placeholder="Enter password"
-          size="small"
-          variant="standard"
-          type="password"
-          fullWidth
-          required
-          onChange={onChangePassword}
-          error={invalidPassword}
-          helperText={passwordHelperText}
-        />
+        <Box display="flex">
+          <TextField
+            label="Password"
+            placeholder="Enter password"
+            size="small"
+            variant="standard"
+            type={showPassword ? "text" : "password"}
+            fullWidth
+            required
+            onChange={onChangePassword}
+            error={invalidPassword}
+            helperText={passwordHelperText}
+          />
+          <Box my="auto">
+            <VisibilityIcon
+              style={{ color: "Silver" }}
+              onMouseOver={() => setShowPassword(true)}
+              onMouseLeave={() => setShowPassword(false)}
+            />
+          </Box>
+        </Box>
         {/*} TODO: future
         <FormControlLabel
           control={<Checkbox name="checkedB" color="primary" />}
