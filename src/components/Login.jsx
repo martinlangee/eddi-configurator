@@ -21,37 +21,29 @@ import AuthService from "../services/auth.service";
 const Login = () => {
   let navigate = useNavigate();
   const [email, setEmail] = useState("");
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [emailHelperText, setEmailHelperText] = useState(false);
   const [password, setPassword] = useState("");
-  const [inputValid, setInputValid] = useState(false);
+  const [invalidPassword, setInvalidPassword] = useState(false);
+  const [passwordHelperText, setPasswordHelperText] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  useEffect(
-    () => setInputValid(!invalidEmail() && !invalidPassword()),
-    [email, password]
-  );
+  useEffect(() => {
+    setInvalidEmail(() => !isEmail(email));
+    setEmailHelperText(() => invalidEmail && "Please enter valid E-mail");
+  }, [email, invalidEmail]);
 
-  const invalidEmail = () => {
-    return !isEmail(email);
-  };
-
-  const emailHelperText = () => {
-    return invalidEmail() && "Please enter valid E-mail";
-  };
+  useEffect(() => {
+    setInvalidPassword(() => password.length < 8);
+    setPasswordHelperText(
+      () => invalidPassword && "Please enter valid password (at least 8 chars)"
+    );
+  }, [password, invalidPassword]);
 
   const onChangeEmail = (e) => {
     const newEmail = e.target.value;
     setEmail(() => newEmail);
-  };
-
-  const invalidPassword = () => {
-    return password.length < 8;
-  };
-
-  const passwordHelperText = () => {
-    return (
-      invalidPassword() && "Please enter valid password (at least 8 chars)"
-    );
   };
 
   const onChangePassword = (e) => {
@@ -63,7 +55,7 @@ const Login = () => {
     e.preventDefault();
     setMessage("");
     setLoading(true);
-    if (inputValid) {
+    if (!invalidEmail && !invalidPassword) {
       AuthService.login(email, password).then(
         () => {
           navigate("/widgets");
@@ -108,8 +100,8 @@ const Login = () => {
           fullWidth
           required
           onChange={onChangeEmail}
-          error={invalidEmail()}
-          helperText={emailHelperText()}
+          error={invalidEmail}
+          helperText={emailHelperText}
         />
         <TextField
           label="Password"
@@ -120,8 +112,8 @@ const Login = () => {
           fullWidth
           required
           onChange={onChangePassword}
-          error={invalidPassword()}
-          helperText={passwordHelperText()}
+          error={invalidPassword}
+          helperText={passwordHelperText}
         />
         {/*} TODO: future
         <FormControlLabel
@@ -141,7 +133,7 @@ const Login = () => {
           color="primary"
           fullWidth
           onClick={handleLogin}
-          disabled={!inputValid}
+          disabled={invalidEmail || invalidPassword}
         >
           Log in
         </Button>

@@ -21,48 +21,65 @@ import AuthService from "../services/auth.service";
 const Register = () => {
   let navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const [invalidUsername, setInvalidUsername] = useState(false);
+  const [usernameHelperText, setUsernameHelperText] = useState(false);
+
   const [email, setEmail] = useState("");
+  const [invalidEmail, setInvalidEmail] = useState(false);
+  const [emailHelperText, setEmailHelperText] = useState(false);
+
   const [password1, setPassword1] = useState("");
+  const [invalidPwd1, setInvalidPwd1] = useState(false);
+  const [pwd1HelperText, setPwd1HelperText] = useState(false);
+
   const [password2, setPassword2] = useState("");
+  const [invalidPwd2, setInvalidPwd2] = useState(false);
+  const [pwd2HelperText, setPwd2HelperText] = useState(false);
+
   const [inputValid, setInputValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  useEffect(
-    () =>
-      setInputValid(
-        !invalidUsername() &&
-          !invalidEmail() &&
-          !invalidPassword1() &&
-          !invalidPassword2()
-      ),
-    [username, email, password1, password2]
-  );
+  useEffect(() => {
+    setInvalidEmail(() => !isEmail(email));
+    setEmailHelperText(() => invalidEmail && "Please enter valid E-mail");
+  }, [email, invalidEmail]);
 
-  const invalidUsername = () => {
-    return (
-      username.length < 6 || username.length > 20 || username.indexOf(" ") >= 0
+  useEffect(() => {
+    setInvalidUsername(
+      () =>
+        username.length < 6 ||
+        username.length > 20 ||
+        username.indexOf(" ") >= 0
     );
-  };
+    setUsernameHelperText(
+      () =>
+        invalidUsername &&
+        "Please enter valid user name (6 to 20 characters, no spaces)"
+    );
+  }, [username, invalidUsername]);
 
-  const usernameHelperText = () => {
-    return (
-      invalidUsername() &&
-      "Please enter valid user name (6 to 20 characters, no spaces)"
+  useEffect(() => {
+    setInvalidPwd1(() => password1.length < 8);
+    setPwd1HelperText(
+      () => invalidPwd1 && "Please enter valid password (at least 8 chars)"
     );
-  };
+  }, [password1, invalidPwd1]);
+
+  useEffect(() => {
+    setInvalidPwd2(() => password1 !== password2);
+    setPwd2HelperText(() => invalidPwd2 && "Passwords not equal");
+  }, [password1, password2, invalidPwd2]);
+
+  useEffect(() => {
+    setInputValid(
+      () => !invalidUsername && !invalidEmail && !invalidPwd1 && !invalidPwd2
+    );
+  }, [invalidUsername, invalidEmail, invalidPwd1, invalidPwd2]);
 
   const onChangeUsername = (e) => {
     const newUsername = e.target.value;
     setUsername(() => newUsername);
-  };
-
-  const invalidEmail = () => {
-    return !isEmail(email);
-  };
-
-  const emailHelperText = () => {
-    return invalidEmail() && "Please enter valid E-mail";
   };
 
   const onChangeEmail = (e) => {
@@ -70,29 +87,14 @@ const Register = () => {
     setEmail(() => newEmail);
   };
 
-  const invalidPassword1 = () => {
-    return password1.length < 8;
-  };
-
-  const password1HelperText = () =>
-    invalidPassword1() && "Please enter valid password (at least 8 chars)";
-
   const onChangePassword1 = (e) => {
     const newPwd = e.target.value;
     setPassword1(() => newPwd);
   };
 
-  const invalidPassword2 = () => {
-    return password1 !== password2;
-  };
-
   const onChangePassword2 = (e) => {
     const newPwd = e.target.value;
     setPassword2(() => newPwd);
-  };
-
-  const password2HelperText = () => {
-    return invalidPassword2() && "Passwords not equal";
   };
 
   const handleRegister = (e) => {
@@ -143,8 +145,8 @@ const Register = () => {
           fullWidth
           required
           onChange={onChangeUsername}
-          error={invalidUsername()}
-          helperText={usernameHelperText()}
+          error={invalidUsername}
+          helperText={usernameHelperText}
         />
         <TextField
           label="E-mail"
@@ -154,8 +156,8 @@ const Register = () => {
           fullWidth
           required
           onChange={onChangeEmail}
-          error={invalidEmail()}
-          helperText={emailHelperText()}
+          error={invalidEmail}
+          helperText={emailHelperText}
         />
         <TextField
           label="Password"
@@ -166,8 +168,8 @@ const Register = () => {
           fullWidth
           required
           onChange={onChangePassword1}
-          error={invalidPassword1()}
-          helperText={password1HelperText()}
+          error={invalidPwd1}
+          helperText={pwd1HelperText}
         />
         <TextField
           label="Password (repeat)"
@@ -178,8 +180,8 @@ const Register = () => {
           fullWidth
           required
           onChange={onChangePassword2}
-          error={invalidPassword2()}
-          helperText={password2HelperText()}
+          error={invalidPwd2}
+          helperText={pwd2HelperText}
         />
         {/*} TODO: future
         <FormControlLabel
