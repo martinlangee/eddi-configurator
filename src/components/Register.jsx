@@ -44,6 +44,7 @@ const Register = () => {
   const [inputValid, setInputValid] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [messageSeverity, setMessageSeverity] = useState("error");
 
   useEffect(() => {
     setInvalidEmail(() => !isEmail(email));
@@ -109,8 +110,24 @@ const Register = () => {
     if (inputValid) {
       AuthService.register(username, email, password1).then(
         () => {
-          navigate("/login");
-          window.location.reload();
+          setLoading(false);
+          setMessage(
+            <Stack direction="row">
+              <Typography>
+                New user created. To log in go to the&nbsp;
+                <Link
+                  href="#"
+                  onClick={() => {
+                    navigate("/login");
+                  }}
+                >
+                  Log In
+                </Link>
+                &nbsp;page.
+              </Typography>
+            </Stack>
+          );
+          setMessageSeverity("success");
         },
         (error) => {
           const resMessage =
@@ -241,7 +258,7 @@ const Register = () => {
         </Stack>
         {message && (
           <Stack>
-            <Alert severity="error">{message}</Alert>
+            <Alert severity={messageSeverity}>{message}</Alert>
           </Stack>
         )}
       </Stack>
