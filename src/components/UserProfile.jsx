@@ -56,14 +56,14 @@ const UserProfile = () => {
 
   const validateUsername = (value) =>
     value.length < 6 || value.length > 20 || value.indexOf(" ") >= 0
-      ? "Enter a valid user name (6 to 20 characters, no spaces)"
+      ? "Enter 6 to 20 characters, no spaces"
       : "";
 
   const validateEmail = (value) =>
-    !isEmail(value) ? "Enter a valid E-mail address" : "";
+    !isEmail(value) ? "Enter valid E-mail address" : "";
 
   const validatePwd1 = () => {
-    return pwd1.length < 8 ? "Enter a valid password (at least 8 chars)" : "";
+    return pwd1.length < 8 ? "Enter at least 8 charscters" : "";
   };
 
   const validatePwd2 = () => {
