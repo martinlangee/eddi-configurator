@@ -22,7 +22,7 @@ const LabelEdit = ({
   };
 
   const focusOut = () => {
-    const errMessage = onValidate ? onValidate(value) : "";
+    const errMessage = onValidate ? onValidate(value, dbField) : "";
     setError(() => errMessage);
     if (!errMessage && onSave) {
       onSave(dbField, value).then((err) => {

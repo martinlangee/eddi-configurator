@@ -26,6 +26,7 @@ import {
 } from "../api/db";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 import AuthService from "../services/auth.service";
+import { isPosInteger } from "../utils/utils";
 
 // TODO: Screen:
 // - Name not Empty
@@ -75,16 +76,25 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
     );
   }, [confScreenWidgets, allWidgets]);
 
-  const checkInput = (dbField, value) => {
-    // TODO: check if data are correct
-    return true;
+  const validateName = (value) =>
+    !value || value.trim().length < 5
+      ? "Enter a valid name (5 or more characters)"
+      : "";
+
+  const validateDimension = (value) => {
+    const msg =
+      !isPosInteger(value) || value > 800 || value < 30
+        ? "Enter a valid dimension (30...800)"
+        : "";
+    return msg;
   };
 
-  const localSaveScreenData = (dbField, value) => {
-    if (!checkInput(dbField, value)) return;
-
-    setScreenData((prev) => {
-      return { ...prev, [dbField]: value };
+  const localSaveScreenData = async (dbField, value) => {
+    return new Promise((resolve) => {
+      setScreenData((prev) => {
+        return { ...prev, [dbField]: value };
+      });
+      resolve(""); // no error message on save
     });
   };
 
@@ -152,6 +162,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                 label="Name"
                 dbField="name"
                 initValue={screenData.name}
+                onValidate={validateName}
                 onSave={localSaveScreenData}
                 width="200px"
               />
@@ -161,19 +172,21 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                 dbField="description"
                 initValue={screenData.description}
                 onSave={localSaveScreenData}
-                width="200px"
+                width="250px"
               />
               <LabelEdit
-                label="Width"
+                label="Width [px]"
                 width="80px"
                 dbField="size_x"
+                onValidate={validateDimension}
                 onSave={localSaveScreenData}
                 initValue={screenData.size_x}
               />
               <LabelEdit
-                label="Height"
+                label="Height [px]"
                 width="80px"
                 dbField="size_y"
+                onValidate={validateDimension}
                 onSave={localSaveScreenData}
                 initValue={screenData.size_y}
               />
@@ -202,7 +215,9 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                       <ScreenWidgetLayout
                         key={idx}
                         index={idx}
-                        data={widget}
+                        widget={widget}
+                        screenWidth={screenData.size_x}
+                        screenHeight={screenData.size_y}
                         onSave={localSaveWidgetLayout}
                         onRemove={removeScreenWidget}
                       />
@@ -213,7 +228,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   justifyContent="space-between"
                   style={{ color: "silver" }}
                 >
-                  <Stack pl={1} pt={2}>
+                  <Stack pl={1} pt={1}>
                     <Typography sx={{ fontStyle: "italic" }}>
                       [Dimensions in pixel]
                     </Typography>
@@ -225,6 +240,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                         : "< no further widgets available >"}
                     </InputLabel>
                     <Select
+                      size="small"
                       label={
                         availableWidgets && availableWidgets.length
                           ? "Select widget to add"
