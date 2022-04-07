@@ -147,7 +147,7 @@ const Login = () => {
           onClick={handleLogin}
           disabled={invalidEmail || invalidPassword}
         >
-          Log in
+          Log In
         </Button>
         <Stack spacing={2} mt={2} direction="row">
           <Typography>You have no account ?</Typography>

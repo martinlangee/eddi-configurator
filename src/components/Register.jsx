@@ -152,7 +152,7 @@ const Register = () => {
         <Avatar style={{ backgroundColor: cyan["800"] }}>
           <AccountCircleTwoToneIcon />
         </Avatar>
-        <h2>Sign up</h2>
+        <h2>Sign Up New User</h2>
       </Grid>
       <Stack spacing={4}>
         <TextField
