@@ -42,9 +42,6 @@ export function stringAvatar(name, w, h) {
 }
 
 export function isPosInteger(str) {
-    if (typeof str !== 'string') {
-        return false;
-    }
     const num = Number(str);
     return Number.isInteger(num) && num > 0;
 }
