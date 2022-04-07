@@ -1,5 +1,6 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
+import { isEmail } from "validator";
 import { Avatar, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
@@ -7,28 +8,42 @@ import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
-import { dbGetCurrentUser, dbSaveUser } from "../api/db";
+import { dbGetCurrentUser, dbSaveUserDate } from "../api/db";
 
 const UserProfile = () => {
-  const [userData, setUserData] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    dbGetCurrentUser().then((newData) => setUserData(() => newData));
+    dbGetCurrentUser().then((newData) => setUser(() => newData));
   }, []);
 
-  const dbSave = (dbField, value) => {
-    let newData = userData;
-    newData[dbField] = value;
-    dbSaveUser(newData);
+  const dbSave = async (dbField, value) => {
+    const resp = await dbSaveUserDate(dbField, value);
+    // if user_name changed => reload to update Avatar
+    if (dbField === "user_name") {
+      setTimeout(() => window.location.reload(), 200);
+    }
+    return resp.message;
   };
 
   const changePwd = (dbField, value) => {
     // TODO: implement change PWD
   };
 
+  const validateUsername = (value) =>
+    value.length < 6 ||
+    value.length > 20 ||
+    value.indexOf(" ") >= 0 ||
+    value.match(/^\d/)
+      ? "Enter a valid user name (6 to 20 characters, no spaces, no leading number)"
+      : "";
+
+  const validateEmail = (value) =>
+    !isEmail(value) ? "Enter a valid E-mail address" : "";
+
   return (
     <div>
-      {userData && (
+      {user && (
         <>
           <Stack ml={5} mt={5}>
             <strong>Personal data</strong>
@@ -37,33 +52,33 @@ const UserProfile = () => {
                 <LabelEdit
                   label="User name *"
                   dbField="user_name"
-                  initValue={userData.user_name}
+                  initValue={user.user_name}
+                  onValidate={validateUsername}
                   onSave={dbSave}
                 />
                 <LabelEdit
                   label="First name"
                   dbField="first_name"
-                  initValue={userData.first_name}
+                  initValue={user.first_name}
                   onSave={dbSave}
                 />
                 <LabelEdit
                   label="Last name"
                   dbField="last_name"
-                  initValue={userData.last_name}
+                  initValue={user.last_name}
                   onSave={dbSave}
                 />
                 <LabelEdit
                   label="E-Mail *"
                   dbField="email"
-                  initValue={userData.email}
+                  initValue={user.email}
+                  onValidate={validateEmail}
                   onSave={dbSave}
                 />
               </Stack>
               <Stack>
                 <Stack direction="row" ml={20} mt={4}>
-                  <Avatar
-                    {...stringAvatar(userData.user_name, "150px", "150px")}
-                  />
+                  <Avatar {...stringAvatar(user.user_name, "150px", "150px")} />
                   <Box m={3} />
                   <Box m="auto">
                     <Tooltip title="Load image ...">

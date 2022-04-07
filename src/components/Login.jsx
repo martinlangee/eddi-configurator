@@ -34,13 +34,13 @@ const Login = () => {
 
   useEffect(() => {
     setInvalidEmail(() => !isEmail(email));
-    setEmailHelperText(() => invalidEmail && "Please enter valid E-mail");
+    setEmailHelperText(() => invalidEmail && "Enter a valid E-mail");
   }, [email, invalidEmail]);
 
   useEffect(() => {
     setInvalidPassword(() => password.length < 8);
     setPasswordHelperText(
-      () => invalidPassword && "Please enter valid password (at least 8 chars)"
+      () => invalidPassword && "Enter a valid password (at least 8 chars)"
     );
   }, [password, invalidPassword]);
 

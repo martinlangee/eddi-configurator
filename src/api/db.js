@@ -18,10 +18,10 @@ export async function dbGetCurrentUser() {
     return resp.data[0];
 }
 
-export async function dbSaveUser(user) {
-    const url = `${USER_URL}/${user.id}`;
-    const resp = await Axios.put(url, user);
-    return resp;
+export async function dbSaveUserDate(dbField, value) {
+    const url = `${USER_URL}/${currentUserId()}`;
+    const resp = await Axios.put(url, { dbField, value });
+    return resp.data;
 }
 
 export async function dbSaveUserSeePublicWidgets(value) {

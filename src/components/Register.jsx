@@ -47,7 +47,7 @@ const Register = () => {
 
   useEffect(() => {
     setInvalidEmail(() => !isEmail(email));
-    setEmailHelperText(() => invalidEmail && "Please enter valid E-mail");
+    setEmailHelperText(() => invalidEmail && "Enter a valid E-mail address");
   }, [email, invalidEmail]);
 
   useEffect(() => {
@@ -55,19 +55,20 @@ const Register = () => {
       () =>
         username.length < 6 ||
         username.length > 20 ||
-        username.indexOf(" ") >= 0
+        username.indexOf(" ") >= 0 ||
+        username.match(/^\d/)
     );
     setUsernameHelperText(
       () =>
         invalidUsername &&
-        "Please enter valid user name (6 to 20 characters, no spaces)"
+        "Enter a valid user name (6 to 20 characters, no spaces, no leading number)"
     );
   }, [username, invalidUsername]);
 
   useEffect(() => {
     setInvalidPwd1(() => password1.length < 8);
     setPwd1HelperText(
-      () => invalidPwd1 && "Please enter valid password (at least 8 chars)"
+      () => invalidPwd1 && "Enter a valid password (at least 8 chars)"
     );
   }, [password1, invalidPwd1]);
 

@@ -18,6 +18,7 @@ import {
   dbGetNewWidget,
   dbInsertWidget,
 } from "../api/db";
+import { isPosInteger } from "../utils/utils";
 
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   const [widgetData, setWidgetData] = useState(null);
@@ -33,16 +34,22 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
     }
   }, [widgetId]);
 
-  const checkInput = (dbField, value) => {
-    // TODO: check if data are correct
-    return true;
-  };
+  const validateName = (value) =>
+    value && value.trim().length > 4
+      ? ""
+      : "Enter a valid name (5 or more characters)";
 
-  const localSave = (dbField, value) => {
-    if (!checkInput(dbField, value)) return;
+  const validateDimension = (value) =>
+    isPosInteger(value) && value <= 800 && value >= 30
+      ? ""
+      : "Enter a valid dimension (30...800)";
 
-    setWidgetData((prev) => {
-      return { ...prev, [dbField]: value };
+  const localSave = async (dbField, value) => {
+    return new Promise((resolve) => {
+      setWidgetData((prev) => {
+        return { ...prev, [dbField]: value };
+      });
+      resolve(""); // no error message on save
     });
   };
 
@@ -71,6 +78,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                   label="Name"
                   dbField="name"
                   initValue={widgetData.name}
+                  onValidate={validateName}
                   onSave={localSave}
                 />
                 <LabelEdit
@@ -86,6 +94,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                     width="100px"
                     dbField="size_x"
                     initValue={widgetData.size_x}
+                    onValidate={validateDimension}
                     onSave={localSave}
                   />
                   <LabelEdit
@@ -93,6 +102,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                     width="100px"
                     dbField="size_y"
                     initValue={widgetData.size_y}
+                    onValidate={validateDimension}
                     onSave={localSave}
                   />
                 </Stack>

@@ -1,16 +1,34 @@
 import "../App.css";
 import React, { useState } from "react";
-import { Stack, TextField, Typography } from "@mui/material";
+import { Alert, Box, Stack, TextField, Typography } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
-const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
+const LabelEdit = ({
+  label,
+  dbField,
+  initValue,
+  onSave,
+  onValidate,
+  rows,
+  width,
+  isPassword,
+}) => {
+  const [hidden, setHidden] = useState(false);
   const [value, setValue] = useState(initValue);
+  const [error, setError] = useState("");
 
-  const onChange = (e) => {
-    setValue(e.target.value);
+  const onChange = async (e) => {
+    setValue(() => e.target.value);
   };
 
   const focusOut = () => {
-    if (onSave) onSave(dbField, value);
+    const errMessage = onValidate === undefined ? "" : onValidate(value);
+    setError(() => errMessage);
+    if (!errMessage && onSave) {
+      onSave(dbField, value).then((err) => {
+        setError(() => errMessage);
+      });
+    }
   };
 
   width = width === undefined ? "300px" : width;
@@ -39,15 +57,32 @@ const LabelEdit = ({ label, dbField, initValue, rows, onSave, width }) => {
           onBlur={focusOut}
         />
       ) : (
-        <TextField
-          id="textField"
-          sx={{ width: { width } }}
-          variant="standard"
-          size="small"
-          value={value}
-          onChange={onChange}
-          onBlur={focusOut}
-        />
+        <Box display="flex">
+          <TextField
+            id="textField"
+            sx={{ width: { width } }}
+            type={hidden ? "password" : "text"}
+            variant="standard"
+            size="small"
+            value={value}
+            onChange={onChange}
+            onBlur={focusOut}
+          />
+          {isPassword && (
+            <Box my="auto" ml={1}>
+              <VisibilityIcon
+                style={{ color: "Silver" }}
+                onMouseOver={() => setHidden(false)}
+                onMouseLeave={() => setHidden(true)}
+              />
+            </Box>
+          )}
+        </Box>
+      )}
+      {error && (
+        <Stack>
+          <Alert severity="error">{error}</Alert>
+        </Stack>
       )}
     </Stack>
   );

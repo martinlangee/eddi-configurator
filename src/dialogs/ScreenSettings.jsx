@@ -27,6 +27,12 @@ import {
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 import AuthService from "../services/auth.service";
 
+// TODO: Screen:
+// - Name not Empty
+// - Dimensions are numbers, min 50, max 800
+// - Width + Height: min 50, max 800
+// - Screen-Widget: dimensions and positions are numbers and min+max check
+
 // TODO: init and save "public"-Field
 
 const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
