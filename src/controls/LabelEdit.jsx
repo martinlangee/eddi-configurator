@@ -13,16 +13,16 @@ const LabelEdit = ({
   width,
   isPassword,
 }) => {
-  const [hidden, setHidden] = useState(false);
+  const [hidden, setHidden] = useState(isPassword);
   const [value, setValue] = useState(initValue);
   const [error, setError] = useState("");
 
-  const onChange = async (e) => {
+  const onChange = (e) => {
     setValue(() => e.target.value);
   };
 
   const focusOut = () => {
-    const errMessage = onValidate === undefined ? "" : onValidate(value);
+    const errMessage = onValidate ? onValidate(value) : "";
     setError(() => errMessage);
     if (!errMessage && onSave) {
       onSave(dbField, value).then((err) => {

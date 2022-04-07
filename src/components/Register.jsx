@@ -55,13 +55,12 @@ const Register = () => {
       () =>
         username.length < 6 ||
         username.length > 20 ||
-        username.indexOf(" ") >= 0 ||
-        username.match(/^\d/)
+        username.indexOf(" ") >= 0
     );
     setUsernameHelperText(
       () =>
         invalidUsername &&
-        "Enter a valid user name (6 to 20 characters, no spaces, no leading number)"
+        "Enter a valid user name (6 to 20 characters, no spaces)"
     );
   }, [username, invalidUsername]);
 

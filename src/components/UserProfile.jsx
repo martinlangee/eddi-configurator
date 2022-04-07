@@ -1,17 +1,31 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { isEmail } from "validator";
-import { Avatar, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import {
+  Alert,
+  Avatar,
+  Button,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
-import PasswordEdit from "../controls/PasswordEdit";
 import { stringAvatar } from "../utils/utils";
 import { dbGetCurrentUser, dbSaveUserDate } from "../api/db";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
+  const [pwdStatus, setPwdStatus] = useState({
+    result: true,
+    message: "",
+    status: 202,
+  });
+  const [pwd1, setPwd1] = useState("");
+  const [pwd2, setPwd2] = useState("");
 
   useEffect(() => {
     dbGetCurrentUser().then((newData) => setUser(() => newData));
@@ -26,20 +40,56 @@ const UserProfile = () => {
     return resp.message;
   };
 
-  const changePwd = (dbField, value) => {
-    // TODO: implement change PWD
+  const changePwd1 = (dbField, value) => {
+    return new Promise((resolve) => {
+      setPwd1(() => value);
+      resolve("");
+    });
+  };
+
+  const changePwd2 = (dbField, value) => {
+    return new Promise((resolve) => {
+      setPwd2(() => value);
+      resolve("");
+    });
   };
 
   const validateUsername = (value) =>
-    value.length < 6 ||
-    value.length > 20 ||
-    value.indexOf(" ") >= 0 ||
-    value.match(/^\d/)
-      ? "Enter a valid user name (6 to 20 characters, no spaces, no leading number)"
+    value.length < 6 || value.length > 20 || value.indexOf(" ") >= 0
+      ? "Enter a valid user name (6 to 20 characters, no spaces)"
       : "";
 
   const validateEmail = (value) =>
     !isEmail(value) ? "Enter a valid E-mail address" : "";
+
+  const validatePwd1 = () => {
+    return pwd1.length < 8 ? "Enter a valid password (at least 8 chars)" : "";
+  };
+
+  const validatePwd2 = () => {
+    return pwd1 !== pwd2 ? "Passwords not equal" : "";
+  };
+
+  const performPwdChange = async () => {
+    setPwdStatus(() => {
+      return { result: false, message: "", status: 400 };
+    });
+    let errMessage = validatePwd1() || validatePwd2();
+    if (errMessage) {
+      setPwdStatus(() => {
+        return { result: false, message: errMessage, status: 400 };
+      });
+    } else {
+      const resp = await dbSaveUserDate("password", pwd1);
+      setPwdStatus(() => resp);
+    }
+    // let the error message disappear after some seconds
+    setTimeout(() => {
+      setPwdStatus(() => {
+        return { result: true, message: "", status: 202 };
+      });
+    }, 7000);
+  };
 
   return (
     <div>
@@ -98,22 +148,44 @@ const UserProfile = () => {
               </Stack>
             </Stack>
           </Stack>
-          <Stack ml={5} mt={3}>
-            <strong>Access</strong>
-            <Stack ml={10} mt={3} mb={5} spacing={2}>
-              <PasswordEdit
-                label="Password *"
-                dbField="pwd1"
-                onSave={changePwd}
-              />
-              <PasswordEdit
-                label="Password (repeat) *"
-                dbField="pwd2"
-                onSave={changePwd}
-              />
+          <Stack direction="row">
+            <Stack ml={5} mt={3}>
+              <strong>Access</strong>
+              <Stack ml={10} mt={3} mb={5} spacing={2}>
+                <LabelEdit
+                  label="Password *"
+                  dbField="pwd1"
+                  onSave={changePwd1}
+                  isPassword="true"
+                />
+                <LabelEdit
+                  label="Password (repeat) *"
+                  dbField="pwd2"
+                  onSave={changePwd2}
+                  isPassword="true"
+                />
+              </Stack>
+              <Stack ml={10}>
+                <Typography style={{ color: "gray" }}>* = mandatory</Typography>
+              </Stack>
             </Stack>
-            <Stack ml={10}>
-              <Typography style={{ color: "gray" }}>* = mandatory</Typography>
+            <Stack ml={10} mt={15} spacing={1}>
+              <Button
+                sx={{ margin: "0 auto" }}
+                variant="outlined"
+                onClick={performPwdChange}
+              >
+                Change password
+              </Button>
+              {pwdStatus.message && (
+                <Stack>
+                  <Alert
+                    severity={pwdStatus.status !== 202 ? "error" : "success"}
+                  >
+                    {pwdStatus.message}
+                  </Alert>
+                </Stack>
+              )}
             </Stack>
           </Stack>
         </>

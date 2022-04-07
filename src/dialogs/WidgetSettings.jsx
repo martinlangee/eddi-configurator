@@ -35,14 +35,14 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   }, [widgetId]);
 
   const validateName = (value) =>
-    value && value.trim().length > 4
-      ? ""
-      : "Enter a valid name (5 or more characters)";
+    !value || value.trim().length < 5
+      ? "Enter a valid name (5 or more characters)"
+      : "";
 
   const validateDimension = (value) =>
-    isPosInteger(value) && value <= 800 && value >= 30
-      ? ""
-      : "Enter a valid dimension (30...800)";
+    !isPosInteger(value) || value > 800 || value < 30
+      ? "Enter a valid dimension (30...800)"
+      : "";
 
   const localSave = async (dbField, value) => {
     return new Promise((resolve) => {
