@@ -272,7 +272,19 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                     m="auto"
                     sx={{ width: "350px", height: "250px" }}
                     bgcolor="silver"
-                  />
+                  >
+                    <Box
+                      position="relative"
+                      sx={{
+                        top: "10px",
+                        left: "50px",
+                        width: "150px",
+                        height: "130px",
+                        backgroundColor: "blue",
+                        zIndex: "tooltip",
+                      }}
+                    />
+                  </Box>
                 </Box>
               </Stack>
             </Stack>
