@@ -38,8 +38,7 @@ const ScreenWidgetLayout = ({
       setData((prev) => {
         return { ...prev, [dbField]: value };
       });
-      //      const message = validateData(dbField, value);
-      //      if (!message) onSave(index, dbField, value);
+      onSave(index, dbField, value);
       resolve(""); // no error message on save
     });
   };
