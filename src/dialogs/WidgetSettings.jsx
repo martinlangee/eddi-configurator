@@ -12,12 +12,7 @@ import {
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import LabelEdit from "../controls/LabelEdit";
-import {
-  dbGetWidget,
-  dbSaveWidget,
-  dbGetNewWidget,
-  dbInsertWidget,
-} from "../api/db";
+import Api from "../api/api";
 import { isPosInteger } from "../utils/utils";
 
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
@@ -28,9 +23,9 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
     // widgetId === -1 => creating new widget
     if (widgetId < 0) {
-      dbGetNewWidget().then((newData) => setWidgetData(() => newData));
+      Api.getNewWidget().then((newData) => setWidgetData(() => newData));
     } else {
-      dbGetWidget(widgetId).then((newData) => setWidgetData(() => newData));
+      Api.getWidget(widgetId).then((newData) => setWidgetData(() => newData));
     }
   }, [widgetId]);
 
@@ -39,7 +34,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   const validateDimension = (value) =>
     !isPosInteger(value) || value > 800 || value < 30
-      ? "Valid size 30...800"
+      ? "Valid size: 30...800"
       : "";
 
   const localSave = async (dbField, value) => {
@@ -53,9 +48,9 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   const confirm = async () => {
     if (widgetId < 0) {
-      await dbInsertWidget(widgetData);
+      await Api.insertWidget(widgetData);
     } else {
-      await dbSaveWidget(widgetData);
+      await Api.saveWidget(widgetData);
     }
     handleClose(true);
   };

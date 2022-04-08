@@ -1,8 +1,8 @@
 import AuthService from "../services/auth.service";
 const Axios = require("axios");
 
-export const API_URL = "http://localhost:3010/api";
-export const USER_URL = `${API_URL}/user`;
+const API_URL = "http://localhost:3010/api";
+const USER_URL = `${API_URL}/user`;
 const WIDGET_URL = `${API_URL}/widget`;
 const SCREEN_URL = `${API_URL}/screen`;
 const SCREEN_WIDGET_URL = `${API_URL}/screenwidgets`;
@@ -12,32 +12,32 @@ const currentUserId = () => {
     return user ? user.id : 0;
 }
 
-export async function dbGetCurrentUser() {
+async function getCurrentUser() {
     const url = `${USER_URL}/${currentUserId()}`;
     const resp = await Axios.get(url);
     return resp.data[0];
 }
 
-export async function dbSaveUserDate(dbField, value) {
+async function saveUserDate(dbField, value) {
     const url = `${USER_URL}/${currentUserId()}`;
     const resp = await Axios.put(url, { dbField, value });
     return resp.data;
 }
 
-export async function dbSaveUserSeePublicWidgets(value) {
+async function saveUserSeePublicWidgets(value) {
     const url = `${USER_URL}/${currentUserId()}?see_public_widgets=${value}`;
     const resp = await Axios.put(url, {});
     return resp;
 }
 
-export async function dbSaveUserSeePublicScreens(value) {
+async function saveUserSeePublicScreens(value) {
     const url = `${USER_URL}/${currentUserId()}?see_public_screens=${value}`;
     const resp = await Axios.put(url, {});
     return resp;
 }
 
-export async function dbGetNewWidget() {
-    const currentUser = await dbGetCurrentUser();
+async function getNewWidget() {
+    const currentUser = await getCurrentUser();
     return {
         description: "Enter description",
         first_name: currentUser.first_name,
@@ -58,50 +58,50 @@ export async function dbGetNewWidget() {
     }
 };
 
-export async function dbGetUserWidgets() {
+async function getUserWidgets() {
     const url = `${WIDGET_URL}?userId=${currentUserId()}`;
     const resp = await Axios.get(url);
     return resp.data;
 }
 
-export async function dbDeleteWidget(widgetId) {
+async function deleteWidget(widgetId) {
     const url = `${WIDGET_URL}/${widgetId}`;
     const resp = await Axios.delete(url);
     return resp;
 }
 
-export async function dbGetUserScreens() {
+async function getUserScreens() {
     const url = `${SCREEN_URL}?userId=${currentUserId()}`;
     const resp = await Axios.get(url);
     return resp.data;
 }
 
-export async function dbDeleteScreen(screenId) {
+async function deleteScreen(screenId) {
     const url = `${SCREEN_URL}/${screenId}`;
     const resp = await Axios.delete(url);
     return resp;
 }
 
-export async function dbGetWidget(id) {
+async function getWidget(id) {
     const url = `${WIDGET_URL}/${id}`;
     const resp = await Axios.get(url);
     return resp.data[0];
 }
 
-export async function dbSaveWidget(widget) {
+async function saveWidget(widget) {
     const url = `${WIDGET_URL}/${widget.id}`;
     const resp = await Axios.put(url, widget);
     return resp;
 }
 
-export async function dbInsertWidget(widget) {
+async function insertWidget(widget) {
     const url = `${WIDGET_URL}`;
     const resp = await Axios.post(url, widget);
     return resp.data.rows[0].id;
 }
 
-export async function dbGetNewScreen() {
-    const currentUser = await dbGetCurrentUser();
+async function getNewScreen() {
+    const currentUser = await getCurrentUser();
     return {
         description: "Enter description",
         first_name: currentUser.first_name,
@@ -122,32 +122,57 @@ export async function dbGetNewScreen() {
     }
 };
 
-export async function dbGetScreen(id) {
+async function getScreen(id) {
     const url = `${SCREEN_URL}/${id}`;
     const resp = await Axios.get(url);
     return resp.data[0];
 }
 
-export async function dbSaveScreen(screen) {
+async function saveScreen(screen) {
     const url = `${SCREEN_URL}/${screen.id}`;
     const resp = await Axios.put(url, screen);
     return resp;
 }
 
-export async function dbInsertScreen(screen) {
+async function insertScreen(screen) {
     const url = `${SCREEN_URL}`;
     const resp = await Axios.post(url, screen);
     return resp.data.rows[0].id;
 }
 
-export async function dbGetScreenWidgets(screenId) {
+async function getScreenWidgets(screenId) {
     const url = `${SCREEN_WIDGET_URL}/${screenId}`;
     const resp = await Axios.get(url);
     return resp.data;
 }
 
-export async function dbSaveScreenWidgets(screenId, widgets) {
+async function saveScreenWidgets(screenId, widgets) {
     const url = `${SCREEN_WIDGET_URL}/${screenId}`;
     const resp = await Axios.post(url, widgets);
     return resp.data;
 }
+
+const Api = {
+    API_URL,
+    USER_URL,
+    getCurrentUser,
+    saveUserDate,
+    saveUserSeePublicWidgets,
+    saveUserSeePublicScreens,
+    getNewWidget,
+    getUserWidgets,
+    deleteWidget,
+    getUserScreens,
+    deleteScreen,
+    getWidget,
+    saveWidget,
+    insertWidget,
+    getNewScreen,
+    getScreen,
+    saveScreen,
+    insertScreen,
+    getScreenWidgets,
+    saveScreenWidgets
+}
+
+export default Api;

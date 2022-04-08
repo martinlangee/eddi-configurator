@@ -15,7 +15,7 @@ import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import { stringAvatar } from "../utils/utils";
-import { dbGetCurrentUser, dbSaveUserDate } from "../api/db";
+import Api from "../api/api";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -28,11 +28,11 @@ const UserProfile = () => {
   const [pwd2, setPwd2] = useState("");
 
   useEffect(() => {
-    dbGetCurrentUser().then((newData) => setUser(() => newData));
+    Api.getCurrentUser().then((newData) => setUser(() => newData));
   }, []);
 
-  const dbSave = async (dbField, value) => {
-    const resp = await dbSaveUserDate(dbField, value);
+  const save = async (dbField, value) => {
+    const resp = await Api.saveUserDate(dbField, value);
     // if user_name changed => reload to update Avatar
     if (dbField === "user_name") {
       setTimeout(() => window.location.reload(), 200);
@@ -80,7 +80,7 @@ const UserProfile = () => {
         return { result: false, message: errMessage, status: 400 };
       });
     } else {
-      const resp = await dbSaveUserDate("password", pwd1);
+      const resp = await Api.saveUserDate("password", pwd1);
       setPwdStatus(() => resp);
     }
     // let the error message disappear after some seconds
@@ -104,26 +104,26 @@ const UserProfile = () => {
                   dbField="user_name"
                   initValue={user.user_name}
                   onValidate={validateUsername}
-                  onSave={dbSave}
+                  onSave={save}
                 />
                 <LabelEdit
                   label="First name"
                   dbField="first_name"
                   initValue={user.first_name}
-                  onSave={dbSave}
+                  onSave={save}
                 />
                 <LabelEdit
                   label="Last name"
                   dbField="last_name"
                   initValue={user.last_name}
-                  onSave={dbSave}
+                  onSave={save}
                 />
                 <LabelEdit
                   label="E-Mail *"
                   dbField="email"
                   initValue={user.email}
                   onValidate={validateEmail}
-                  onSave={dbSave}
+                  onSave={save}
                 />
               </Stack>
               <Stack>
@@ -175,7 +175,7 @@ const UserProfile = () => {
                 variant="outlined"
                 onClick={performPwdChange}
               >
-                Change password
+                Update password
               </Button>
               {pwdStatus.message && (
                 <Stack>

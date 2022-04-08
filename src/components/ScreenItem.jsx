@@ -5,7 +5,7 @@ import { Stack, IconButton, Divider } from "@mui/material";
 import EditIconTwoTone from "@material-ui/icons/EditTwoTone";
 import DeleteForeverIconTwoTone from "@material-ui/icons/DeleteForeverTwoTone";
 import ScreenSettings from "../dialogs/ScreenSettings";
-import { dbGetScreen } from "../api/db";
+import Api from "../api/api";
 import ConfirmDialog from "../dialogs/ConfirmDialog";
 
 const ScreenItem = ({ index, screenId, onDelete }) => {
@@ -14,7 +14,7 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
 
   useEffect(() => {
-    dbGetScreen(screenId).then(updateScreen);
+    Api.getScreen(screenId).then(updateScreen);
   }, [screenId]);
 
   const updateScreen = (newData) => setScreenData(() => newData);
@@ -24,7 +24,7 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
   const handleSettingsClose = (confirmed) => {
     setSettingsOpen(false);
     if (confirmed) {
-      dbGetScreen(screenId).then(updateScreen);
+      Api.getScreen(screenId).then(updateScreen);
     }
   };
 

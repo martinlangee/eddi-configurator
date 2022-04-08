@@ -1,8 +1,8 @@
 import axios from "axios";
-import { USER_URL } from "../api/db";
+import Api from "../api/api";
 
 const register = (username, email, password) => {
-    return axios.post(`${USER_URL}/signup`, {
+    return axios.post(`${Api.USER_URL}/signup`, {
         username,
         email,
         password,
@@ -11,7 +11,7 @@ const register = (username, email, password) => {
 
 const login = (email, password) => {
     return axios
-        .post(`${USER_URL}/login`, {
+        .post(`${Api.USER_URL}/login`, {
             email,
             password,
         })

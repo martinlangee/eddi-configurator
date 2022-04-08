@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
-import { dbDeleteWidget, dbGetUserWidgets } from "../api/db";
+import Api from "../api/api";
 import WidgetItem from "./WidgetItem";
 import WidgetSettings from "../dialogs/WidgetSettings";
 
@@ -12,7 +12,7 @@ const UserWidgets = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const updateWidgets = async () => {
-    return dbGetUserWidgets().then((newData) => setWidgets(() => newData));
+    return Api.getUserWidgets().then((newData) => setWidgets(() => newData));
   };
 
   useEffect(() => {
@@ -21,13 +21,13 @@ const UserWidgets = () => {
 
   /* TODO: future
   useEffect(() => {
-    dbGetCurrentUser().then((newData) =>
+    Api.getCurrentUser().then((newData) =>
       setSeePublicWidgets(() => newData.see_public_widgets)
     );
   }, []);
 
   const changeSeePublicWidgets = async (value) => {
-    await dbSaveUserSeePublicWidgets(value);
+    await saveUserSeePublicWidgets(value);
     setSeePublicWidgets(() => value);
   } */
   const handleNewWidgetOpen = () => {
@@ -42,7 +42,7 @@ const UserWidgets = () => {
   };
 
   const handleDeleteWidget = async (widgetId) => {
-    dbDeleteWidget(widgetId).then(() => {
+    Api.deleteWidget(widgetId).then(() => {
       updateWidgets();
     });
   };

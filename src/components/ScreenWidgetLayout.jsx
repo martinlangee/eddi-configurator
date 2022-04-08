@@ -20,17 +20,17 @@ const ScreenWidgetLayout = ({
   const [data, setData] = useState(widget);
 
   const validateData = (value, dbField) => {
-    if (!isPosInteger(value)) return "No positive number";
+    if (!isPosInteger(value)) return "Enter positive number";
     value = Number(value);
     if (dbField.includes("size_") && value < 30) return "Minimum size 30x30";
     if (dbField === "x_pos")
-      return value + data.size_x > screenWidth ? "Overhang on the right" : "";
+      return value + data.size_x > screenWidth ? "Overhang righthand" : "";
     if (dbField === "size_x")
-      return value + data.x_pos > screenWidth ? "Overhang on the right" : "";
+      return value + data.x_pos > screenWidth ? "Overhang righthand" : "";
     if (dbField === "y_pos")
-      return value + data.size_y > screenHeight ? "Overhang at the bottom" : "";
+      return value + data.size_y > screenHeight ? "Overhang down" : "";
     if (dbField === "size_y")
-      return value + data.y_pos > screenHeight ? "Overhangs at the bottom" : "";
+      return value + data.y_pos > screenHeight ? "Overhang down" : "";
   };
 
   const saveLocal = (dbField, value) => {

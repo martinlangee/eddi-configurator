@@ -2,7 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Stack, Button, Box, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
-import { dbDeleteScreen, dbGetUserScreens } from "../api/db";
+import Api from "../api/api";
 import ScreenItem from "./ScreenItem";
 import ScreenSettings from "../dialogs/ScreenSettings";
 
@@ -12,7 +12,7 @@ const UserScreens = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const updateScreens = async () => {
-    return dbGetUserScreens().then((newData) => setScreens(() => newData));
+    return Api.getUserScreens().then((newData) => setScreens(() => newData));
   };
 
   useEffect(() => {
@@ -21,13 +21,13 @@ const UserScreens = () => {
 
   /* TODO: future
   useEffect(() => {
-    dbGetCurrentUser().then((newData) =>
+    Api.getCurrentUser().then((newData) =>
       setSeePublicScreens(() => newData.see_public_screens)
     );
   }, []);
 
   const changeSeePublicScreens = async (value) => {
-    await dbSaveUserSeePublicScreens(value);
+    await saveUserSeePublicScreens(value);
     setSeePublicScreens(() => value);
   }; */
 
@@ -43,7 +43,7 @@ const UserScreens = () => {
   };
 
   const handleDeleteScreen = (screenId) => {
-    dbDeleteScreen(screenId).then(() => {
+    Api.deleteScreen(screenId).then(() => {
       updateScreens();
     });
   };

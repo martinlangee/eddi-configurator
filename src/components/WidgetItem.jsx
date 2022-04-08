@@ -5,7 +5,7 @@ import { Stack, IconButton, Divider } from "@mui/material";
 import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import WidgetSettings from "../dialogs/WidgetSettings";
-import { dbGetWidget } from "../api/db";
+import Api from "../api/api";
 import ConfirmDialog from "../dialogs/ConfirmDialog";
 
 const WidgetItem = ({ index, widgetId, onDelete }) => {
@@ -16,7 +16,7 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
   const updateWidget = (newData) => setWidgetData(() => newData);
 
   useEffect(() => {
-    dbGetWidget(widgetId).then(updateWidget);
+    Api.getWidget(widgetId).then(updateWidget);
   }, [widgetId]);
 
   const handleSettingsOpen = () => setSettingsOpen(true);
@@ -24,7 +24,7 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
   const handleSettingsClose = (confirmed) => {
     setSettingsOpen(false);
     if (confirmed) {
-      dbGetWidget(widgetId).then(updateWidget);
+      Api.getWidget(widgetId).then(updateWidget);
     }
   };
 

@@ -15,15 +15,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import LabelEdit from "../controls/LabelEdit";
-import {
-  dbGetNewScreen,
-  dbGetScreen,
-  dbGetScreenWidgets,
-  dbGetUserWidgets,
-  dbInsertScreen,
-  dbSaveScreen,
-  dbSaveScreenWidgets,
-} from "../api/db";
+import Api from "../api/api";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 import AuthService from "../services/auth.service";
 import { isPosInteger } from "../utils/utils";
@@ -48,20 +40,20 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
 
     // screenId === -1 => creating new screen
     if (screenId < 0) {
-      dbGetNewScreen().then((newData) => setScreenData(() => newData));
+      Api.getNewScreen().then((newData) => setScreenData(() => newData));
     } else {
-      dbGetScreen(screenId).then((newData) => setScreenData(() => newData));
+      Api.getScreen(screenId).then((newData) => setScreenData(() => newData));
     }
   }, [screenId]);
 
   useEffect(() => {
-    dbGetScreenWidgets(screenId).then((newData) =>
+    Api.getScreenWidgets(screenId).then((newData) =>
       setConfScreenWidgets(() => newData)
     );
   }, [screenId]);
 
   useEffect(() => {
-    dbGetUserWidgets().then((newData) => setAllWidgets(() => newData));
+    Api.getUserWidgets().then((newData) => setAllWidgets(() => newData));
   }, [screenId]);
 
   useEffect(() => {
@@ -77,14 +69,12 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   }, [confScreenWidgets, allWidgets]);
 
   const validateName = (value) =>
-    !value || value.trim().length < 5
-      ? "Enter a valid name (5 or more characters)"
-      : "";
+    !value || value.trim().length < 5 ? "Enter 5 or more characters" : "";
 
   const validateDimension = (value) => {
     const msg =
       !isPosInteger(value) || value > 800 || value < 30
-        ? "Enter a valid dimension (30...800)"
+        ? "Valid dimension: 30...800"
         : "";
     return msg;
   };
@@ -139,11 +129,11 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
 
   const confirm = async () => {
     if (screenId < 0) {
-      screenId = await dbInsertScreen(screenData);
+      screenId = await Api.insertScreen(screenData);
     } else {
-      await dbSaveScreen(screenData);
+      await Api.saveScreen(screenData);
     }
-    await dbSaveScreenWidgets(screenId, confScreenWidgets);
+    await Api.saveScreenWidgets(screenId, confScreenWidgets);
     handleClose(true);
   };
 
