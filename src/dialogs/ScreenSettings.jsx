@@ -34,6 +34,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   const [allWidgets, setAllWidgets] = useState([]);
   const [confScreenWidgets, setConfScreenWidgets] = useState([]);
   const [availableWidgets, setAvailableWidgets] = useState([]);
+  const [previewSize, setPreviewSize] = useState({ w: "300px", h: "250px" });
 
   useEffect(() => {
     if (screenId === undefined) return;
@@ -67,6 +68,30 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
       )
     );
   }, [confScreenWidgets, allWidgets]);
+
+  useEffect(
+    () =>
+      setPreviewSize(() => {
+        const MAX_SIZE = 300;
+        let newSize = { w: "300px", h: "250px" };
+        // determine the correct preview image size ratio
+        if (screenData) {
+          if (screenData.size_x > screenData.size_y) {
+            newSize.w = `${MAX_SIZE}px`;
+            newSize.h = `${
+              (MAX_SIZE / screenData.size_x) * screenData.size_y
+            }px`;
+          } else {
+            newSize.w = `${
+              (MAX_SIZE / screenData.size_y) * screenData.size_x
+            }px`;
+            newSize.h = `${MAX_SIZE}px`;
+          }
+        }
+        return newSize;
+      }),
+    [screenData]
+  );
 
   const validateName = (value) =>
     !value || value.trim().length < 5 ? "Enter 5 or more characters" : "";
@@ -260,10 +285,10 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                 <Box mt={1} display="flex">
                   <Box
                     m="auto"
-                    sx={{ width: "350px", height: "250px" }}
+                    sx={{ width: previewSize.w, height: previewSize.h }}
                     bgcolor="silver"
                   >
-                    <Box
+                    {/* <Box
                       position="relative"
                       sx={{
                         top: "10px",
@@ -273,7 +298,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                         backgroundColor: "blue",
                         zIndex: "tooltip",
                       }}
-                    />
+                    /> */}
                   </Box>
                 </Box>
               </Stack>
