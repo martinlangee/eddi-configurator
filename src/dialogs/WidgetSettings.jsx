@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  Paper,
   Stack,
 } from "@mui/material";
 import { Box } from "@mui/system";
@@ -133,13 +134,13 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                   </Button>
                 </Stack>
                 <label>Preview</label>
-                <Box mt={1} display="flex">
+                <Paper mt={1} display="flex" elevation={3}>
                   <Box
                     m="auto"
                     sx={{ width: "350px", height: "250px" }}
-                    bgcolor="silver"
+                    bgcolor="#e8e8e8"
                   />
-                </Box>
+                </Paper>
               </Stack>
             </Stack>
           </DialogContent>

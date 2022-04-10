@@ -22,19 +22,16 @@ const ScreenWidgetLayout = ({
   const validateData = (value, dbField) => {
     if (!isPosInteger(value)) return "Enter positive number";
     value = Number(value);
-    if (dbField.includes("size_") && value < 30) return "Minimum size 30x30";
-    if (dbField === "x_pos")
-      return value + data.size_x > screenWidth ? "Overhang righthand" : "";
-    if (dbField === "size_x")
-      return value + data.x_pos > screenWidth ? "Overhang righthand" : "";
-    if (dbField === "y_pos")
-      return value + data.size_y > screenHeight ? "Overhang down" : "";
-    if (dbField === "size_y")
-      return value + data.y_pos > screenHeight ? "Overhang down" : "";
+    if (dbField.includes("size_")) {
+      if (value < 30) return "Minimum size 30x30";
+      if (value > 2000) return "Maximum size 2000x2000";
+    }
+    return "";
   };
 
   const saveLocal = (dbField, value) => {
     return new Promise((resolve) => {
+      value = Number(value);
       setData((prev) => {
         return { ...prev, [dbField]: value };
       });

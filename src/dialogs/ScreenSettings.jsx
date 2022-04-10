@@ -9,33 +9,32 @@ import {
   FormControl,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { cyan } from "@mui/material/colors";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 import AuthService from "../services/auth.service";
 import { isPosInteger } from "../utils/utils";
 
-// TODO: Screen:
-// - Name not Empty
-// - Dimensions are numbers, min 50, max 800
-// - Width + Height: min 50, max 800
-// - Screen-Widget: dimensions and positions are numbers and min+max check
-
 // TODO: init and save "public"-Field
 
 const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
+  const MAX_SIZE = 300;
   const [screenData, setScreenData] = useState(null);
-
   const [allWidgets, setAllWidgets] = useState([]);
   const [confScreenWidgets, setConfScreenWidgets] = useState([]);
+  const [screenWidgetGeom, setScreenWidgetGeom] = useState([]);
   const [availableWidgets, setAvailableWidgets] = useState([]);
   const [previewSize, setPreviewSize] = useState({ w: "300px", h: "250px" });
 
+  // update screen data or init new screen
   useEffect(() => {
     if (screenId === undefined) return;
 
@@ -47,16 +46,19 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
     }
   }, [screenId]);
 
+  // update widgets configured on this screen
   useEffect(() => {
     Api.getScreenWidgets(screenId).then((newData) =>
       setConfScreenWidgets(() => newData)
     );
   }, [screenId]);
 
+  // update all user widgets
   useEffect(() => {
     Api.getUserWidgets().then((newData) => setAllWidgets(() => newData));
   }, [screenId]);
 
+  // update available widgets (not yet placed on screen)
   useEffect(() => {
     setAvailableWidgets(() =>
       // filtering out all widgets that are already configured
@@ -69,37 +71,63 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
     );
   }, [confScreenWidgets, allWidgets]);
 
-  useEffect(
-    () =>
-      setPreviewSize(() => {
-        const MAX_SIZE = 300;
-        let newSize = { w: "300px", h: "250px" };
-        // determine the correct preview image size ratio
-        if (screenData) {
-          if (screenData.size_x > screenData.size_y) {
-            newSize.w = `${MAX_SIZE}px`;
-            newSize.h = `${
-              (MAX_SIZE / screenData.size_x) * screenData.size_y
-            }px`;
-          } else {
-            newSize.w = `${
-              (MAX_SIZE / screenData.size_y) * screenData.size_x
-            }px`;
-            newSize.h = `${MAX_SIZE}px`;
+  const transformXY = (screenSizeX, screenSizeY, val) => {
+    return `${Math.round(
+      (val * MAX_SIZE) / (screenSizeX > screenSizeY ? screenSizeX : screenSizeY)
+    )}px`;
+  };
+
+  // update preview frame geometry
+  useEffect(() => {
+    setPreviewSize(() => {
+      // determine the correct preview image size ratio
+      return screenData
+        ? {
+            w: transformXY(
+              screenData.size_x,
+              screenData.size_y,
+              screenData.size_x
+            ),
+            h: transformXY(
+              screenData.size_x,
+              screenData.size_y,
+              screenData.size_y
+            ),
           }
-        }
-        return newSize;
-      }),
-    [screenData]
-  );
+        : { w: "300px", h: "250px" };
+    });
+  }, [screenData]);
+
+  // update the widget geometry visualization
+  useEffect(() => {
+    setScreenWidgetGeom(() => {
+      return confScreenWidgets.map((widget) => {
+        return {
+          name: widget.name,
+          left: transformXY(screenData.size_x, screenData.size_y, widget.x_pos),
+          top: transformXY(screenData.size_x, screenData.size_y, widget.y_pos),
+          width: transformXY(
+            screenData.size_x,
+            screenData.size_y,
+            widget.size_x
+          ),
+          height: transformXY(
+            screenData.size_x,
+            screenData.size_y,
+            widget.size_y
+          ),
+        };
+      });
+    });
+  }, [screenData, confScreenWidgets]);
 
   const validateName = (value) =>
     !value || value.trim().length < 5 ? "Enter 5 or more characters" : "";
 
   const validateDimension = (value) => {
     const msg =
-      !isPosInteger(value) || value > 800 || value < 30
-        ? "Valid dimension: 30...800"
+      !isPosInteger(value) || value > 2000 || value < 30
+        ? "Valid dimension: 30...2000"
         : "";
     return msg;
   };
@@ -114,19 +142,9 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   };
 
   const localSaveWidgetLayout = (index, dbField, value) => {
-    let newData = confScreenWidgets;
-    newData[index][dbField] = value;
-    setConfScreenWidgets(() => newData);
-
-    // this doesn't work:
-    //    setWidgetData((prev) => {
-    //      return { ...prev[index], [dbField]: value };
-    //    });
-
-    // this could be worth a test:
-    //    setWidgetData((prev) => {
-    //      return Object.values({ ...prev, [index]: ...prev[index], [dbField]: value }});
-    //    });
+    let newArr = [...confScreenWidgets];
+    newArr[index][dbField] = value;
+    setConfScreenWidgets(() => newArr);
   };
 
   const addScreenWidget = (widgetId) =>
@@ -282,25 +300,35 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
               </Stack>
               <Stack>
                 <label>Preview</label>
-                <Box mt={1} display="flex">
+                <Paper mt={1} display="flex" elevation={3}>
                   <Box
+                    position="relative"
                     m="auto"
-                    sx={{ width: previewSize.w, height: previewSize.h }}
-                    bgcolor="silver"
+                    sx={{
+                      width: previewSize.w,
+                      height: previewSize.h,
+                      bgcolor: "#e8e8e8",
+                    }}
                   >
-                    {/* <Box
-                      position="relative"
-                      sx={{
-                        top: "10px",
-                        left: "50px",
-                        width: "150px",
-                        height: "130px",
-                        backgroundColor: "blue",
-                        zIndex: "tooltip",
-                      }}
-                    /> */}
+                    {screenWidgetGeom &&
+                      screenWidgetGeom.length &&
+                      screenWidgetGeom.map((widget, idx) => (
+                        <Tooltip title={widget.name} key={idx}>
+                          <Box
+                            position="absolute"
+                            zIndex={idx}
+                            sx={{
+                              left: widget.left,
+                              top: widget.top,
+                              width: widget.width,
+                              height: widget.height,
+                              backgroundColor: cyan["500"] + "80",
+                            }}
+                          />
+                        </Tooltip>
+                      ))}
                   </Box>
-                </Box>
+                </Paper>
               </Stack>
             </Stack>
           </DialogContent>
