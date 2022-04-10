@@ -15,6 +15,12 @@ const currentUserId = () => {
     return user ? user.id : 0;
 }
 
+async function getAllUsers() {
+    const url = `${USER_URL}`;
+    const resp = await Axios.get(url);
+    return resp.data;
+}
+
 async function getCurrentUser() {
     const url = `${USER_URL}/${currentUserId()}`;
     const resp = await Axios.get(url);
@@ -61,6 +67,12 @@ async function getNewWidget() {
     }
 };
 
+async function getAllWidgets() {
+    const url = `${WIDGET_URL}`;
+    const resp = await Axios.get(url);
+    return resp.data;
+}
+
 async function getUserWidgets() {
     const url = `${WIDGET_URL}?userId=${currentUserId()}`;
     const resp = await Axios.get(url);
@@ -71,6 +83,12 @@ async function deleteWidget(widgetId) {
     const url = `${WIDGET_URL}/${widgetId}`;
     const resp = await Axios.delete(url);
     return resp;
+}
+
+async function getAllScreens() {
+    const url = `${SCREEN_URL}`;
+    const resp = await Axios.get(url);
+    return resp.data;
 }
 
 async function getUserScreens() {
@@ -149,6 +167,12 @@ async function getScreenWidgets(screenId) {
     return resp.data;
 }
 
+async function getAllScreenWidgets() {
+    const url = `${SCREEN_WIDGET_URL}`;
+    const resp = await Axios.get(url);
+    return resp.data;
+}
+
 async function saveScreenWidgets(screenId, widgets) {
     const url = `${SCREEN_WIDGET_URL}/${screenId}`;
     const resp = await Axios.post(url, widgets);
@@ -158,13 +182,16 @@ async function saveScreenWidgets(screenId, widgets) {
 const Api = {
     API_URL,
     USER_URL,
+    getAllUsers,
     getCurrentUser,
     saveUserDate,
     saveUserSeePublicWidgets,
     saveUserSeePublicScreens,
     getNewWidget,
+    getAllWidgets,
     getUserWidgets,
     deleteWidget,
+    getAllScreens,
     getUserScreens,
     deleteScreen,
     getWidget,
@@ -174,6 +201,7 @@ const Api = {
     getScreen,
     saveScreen,
     insertScreen,
+    getAllScreenWidgets,
     getScreenWidgets,
     saveScreenWidgets
 }
