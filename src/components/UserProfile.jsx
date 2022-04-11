@@ -1,12 +1,7 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
 import { isEmail } from "validator";
-import {
-  Alert,
-  Button,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Alert, Button, Stack, Typography } from "@mui/material";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import AvatarPicker from "./AvatarPicker";
@@ -62,6 +57,10 @@ const UserProfile = () => {
 
   const validatePwd2 = () => {
     return pwd1 !== pwd2 ? "Passwords not equal" : "";
+  };
+
+  const handleAvatarChange = (file) => {
+    console.log(file);
   };
 
   const performPwdChange = async () => {
@@ -121,7 +120,7 @@ const UserProfile = () => {
                 />
               </Stack>
               <Stack direction="row" ml={15}>
-                <AvatarPicker />
+                <AvatarPicker handleChangeImage={handleAvatarChange} />
               </Stack>
             </Stack>
           </Stack>

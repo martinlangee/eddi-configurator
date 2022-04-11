@@ -1,11 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import t from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import { Avatar, Badge, List } from "@material-ui/core";
+import { Avatar, Badge, List, Box } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
-import useTheme from "@material-ui/core/styles/useTheme";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { cyan } from "@mui/material/colors";
 
 import("screw-filereader");
 
@@ -28,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
   large: {
     width: theme.spacing(25),
     height: theme.spacing(25),
-    border: `4px solid ${theme.palette.primary.main}`,
+    border: `4px solid ${cyan["800"]}`,
+    background: cyan["600"],
   },
 }));
 
@@ -37,18 +39,15 @@ const EditIconButton = withStyles((theme) => ({
     width: 22,
     height: 22,
     padding: 15,
-    border: `2px solid ${theme.palette.primary.main}`,
+    border: `2px solid ${cyan["800"]}`,
   },
 }))(IconButton);
 
-export const AvatarPicker = (props) => {
-  const [file, setFile] = React.useState("");
-  const theme = useTheme();
+export const AvatarPicker = ({ handleChangeImage, avatarImage }) => {
+  const [file, setFile] = useState("");
   const classes = useStyles();
 
   const imageRef = useRef();
-
-  const { handleChangeImage, avatarImage } = props;
 
   useEffect(() => {
     if (!file && avatarImage) {
@@ -77,13 +76,22 @@ export const AvatarPicker = (props) => {
 
     canvas.toBlob((blob) => {
       const resizedFile = new File([blob], file.name, fileObject);
-      setFile(URL.createObjectURL(resizedFile));
+      const fileUrl = URL.createObjectURL(resizedFile);
+      setFile(fileUrl);
       handleChangeImage(resizedFile);
     });
   };
 
   const showOpenFileDialog = () => {
     imageRef.current.click();
+  };
+
+  const removeAvatarImage = () => {
+    if (file) {
+      URL.revokeObjectURL(file);
+      setFile("");
+      handleChangeImage(null);
+    }
   };
 
   const handleChange = (event) => {
@@ -109,12 +117,20 @@ export const AvatarPicker = (props) => {
               horizontal: "right",
             }}
             badgeContent={
-              <EditIconButton
-                onClick={showOpenFileDialog}
-                style={{ background: theme.palette.primary.main }}
-              >
-                <EditIcon />
-              </EditIconButton>
+              <Box ml={-5}>
+                <EditIconButton
+                  onClick={showOpenFileDialog}
+                  style={{ marginTop: "35px", background: cyan["50"] }}
+                >
+                  <EditIcon />
+                </EditIconButton>
+                <EditIconButton
+                  onClick={removeAvatarImage}
+                  style={{ background: cyan["50"] }}
+                >
+                  <DeleteOutlineIcon />
+                </EditIconButton>
+              </Box>
             }
           >
             <Avatar alt={"avatar"} src={file} className={classes.large} />
