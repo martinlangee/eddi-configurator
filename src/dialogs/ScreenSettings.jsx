@@ -21,7 +21,7 @@ import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
 import AuthService from "../services/auth.service";
-import { isPosInteger } from "../utils/utils";
+import { isPosInteger, transformXY } from "../utils/utils";
 
 // TODO: init and save "public"-Field
 
@@ -73,12 +73,6 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
     );
   }, [confScreenWidgets, allWidgets]);
 
-  const transformXY = (screenSizeX, screenSizeY, val) => {
-    return `${Math.round(
-      (val * MAX_SIZE) / (screenSizeX > screenSizeY ? screenSizeX : screenSizeY)
-    )}px`;
-  };
-
   // update preview frame geometry
   useEffect(() => {
     setPreviewSize(() => {
@@ -86,11 +80,13 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
       return screenData
         ? {
             w: transformXY(
+              MAX_SIZE,
               screenData.size_x,
               screenData.size_y,
               screenData.size_x
             ),
             h: transformXY(
+              MAX_SIZE,
               screenData.size_x,
               screenData.size_y,
               screenData.size_y
@@ -106,14 +102,26 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
       return confScreenWidgets.map((widget) => {
         return {
           name: widget.name,
-          left: transformXY(screenData.size_x, screenData.size_y, widget.x_pos),
-          top: transformXY(screenData.size_x, screenData.size_y, widget.y_pos),
+          left: transformXY(
+            MAX_SIZE,
+            screenData.size_x,
+            screenData.size_y,
+            widget.x_pos
+          ),
+          top: transformXY(
+            MAX_SIZE,
+            screenData.size_x,
+            screenData.size_y,
+            widget.y_pos
+          ),
           width: transformXY(
+            MAX_SIZE,
             screenData.size_x,
             screenData.size_y,
             widget.size_x
           ),
           height: transformXY(
+            MAX_SIZE,
             screenData.size_x,
             screenData.size_y,
             widget.size_y
@@ -302,7 +310,11 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
               </Stack>
               <Stack>
                 <label>Preview</label>
-                <Paper mt={1} display="flex" elevation={3}>
+                <Paper
+                  display="flex"
+                  elevation={3}
+                  sx={{ margin: "5px auto 0 0" }}
+                >
                   <Box
                     position="relative"
                     m="auto"

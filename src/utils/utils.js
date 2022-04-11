@@ -45,3 +45,10 @@ export function isPosInteger(str) {
     const num = Number(str);
     return Number.isInteger(num) && num >= 0;
 }
+
+export function transformXY(maxSize, sizeX, sizeY, val) {
+    const res = `${Math.round(
+      (Number(val) * maxSize) / (Number(sizeX) > Number(sizeY) ? Number(sizeX) : Number(sizeY))
+    )}px`;
+    return res;
+};

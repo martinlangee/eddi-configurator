@@ -14,10 +14,12 @@ import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
-import { isPosInteger } from "../utils/utils";
+import { isPosInteger, transformXY } from "../utils/utils";
 
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
+  const MAX_SIZE = 350;
   const [widgetData, setWidgetData] = useState(null);
+  const [previewSize, setPreviewSize] = useState({ w: "350px", h: "250px" });
 
   useEffect(() => {
     if (widgetId === undefined) return;
@@ -30,12 +32,35 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
     }
   }, [widgetId]);
 
+  // update preview frame geometry
+  useEffect(() => {
+    setPreviewSize(() => {
+      // determine the correct preview image size ratio
+      return widgetData
+        ? {
+            w: transformXY(
+              MAX_SIZE,
+              widgetData.size_x,
+              widgetData.size_y,
+              widgetData.size_x
+            ),
+            h: transformXY(
+              MAX_SIZE,
+              widgetData.size_x,
+              widgetData.size_y,
+              widgetData.size_y
+            ),
+          }
+        : { w: "350px", h: "250px" };
+    });
+  }, [widgetData]);
+
   const validateName = (value) =>
     !value || value.trim().length < 5 ? "Enter 5 or more characters" : "";
 
   const validateDimension = (value) =>
-    !isPosInteger(value) || value > 800 || value < 30
-      ? "Valid size: 30...800"
+    !isPosInteger(value) || value > 2000 || value < 30
+      ? "Valid size: 30...2000"
       : "";
 
   const localSave = async (dbField, value) => {
@@ -134,10 +159,14 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                   </Button>
                 </Stack>
                 <label>Preview</label>
-                <Paper mt={1} display="flex" elevation={3}>
+                <Paper
+                  display="flex"
+                  elevation={3}
+                  sx={{ margin: "5px auto 0 0" }}
+                >
                   <Box
                     m="auto"
-                    sx={{ width: "350px", height: "250px" }}
+                    sx={{ width: previewSize.w, height: previewSize.h }}
                     bgcolor="#e8e8e8"
                   />
                 </Paper>
