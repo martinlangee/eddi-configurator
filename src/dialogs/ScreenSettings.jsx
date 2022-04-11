@@ -62,12 +62,14 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   useEffect(() => {
     setAvailableWidgets(() =>
       // filtering out all widgets that are already configured
-      allWidgets.filter(
-        (fromAll) =>
-          confScreenWidgets.find(
-            (fromConf) => fromAll.id === fromConf.widget_id
-          ) === undefined
-      )
+      allWidgets
+        .filter(
+          (fromAll) =>
+            confScreenWidgets.find(
+              (fromConf) => fromAll.id === fromConf.widget_id
+            ) === undefined
+        )
+        .sort((w1, w2) => w1.name.localeCompare(w2.name))
     );
   }, [confScreenWidgets, allWidgets]);
 
