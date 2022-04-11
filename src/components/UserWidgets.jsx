@@ -12,7 +12,11 @@ const UserWidgets = () => {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   const updateWidgets = async () => {
-    return Api.getUserWidgets().then((newData) => setWidgets(() => newData));
+    return Api.getUserWidgets()
+      .then((newData) => {
+        setWidgets(() => newData);
+      })
+      .catch((e) => console.log(e));
   };
 
   useEffect(() => {

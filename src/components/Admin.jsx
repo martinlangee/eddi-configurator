@@ -17,6 +17,7 @@ const Admin = () => {
 
   // update all table data, filter out binary values (images, thumbnails) cause the table component cannot handle them
   useEffect(() => {
+    // users
     Api.getAllUsers().then((usrs) => {
       console.log(usrs);
       setUserColumns(
@@ -31,6 +32,7 @@ const Admin = () => {
         )
       );
     });
+    // widgets
     Api.getAllWidgets().then((widg) => {
       setWidgetColumns(() =>
         Object.keys(widg && widg.length && widg[0]).filter(
@@ -43,6 +45,7 @@ const Admin = () => {
         )
       );
     });
+    // screens
     Api.getAllScreens().then((scrn) => {
       setScreenColumns(() =>
         Object.keys(scrn && scrn.length && scrn[0]).filter(
@@ -55,6 +58,7 @@ const Admin = () => {
         )
       );
     });
+    // screen-widgets cross table
     Api.getAllScreenWidgets().then((scrwdg) => {
       setScreenWidgetColumns(
         () =>

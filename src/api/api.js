@@ -2,8 +2,8 @@ import AuthService from "../services/auth.service";
 const Axios = require("axios");
 
 const API_URL =
-    /* process.env.NODE_ENV === 'development' ?
-       "http://localhost:3010/api" : */
+    process.env.NODE_ENV === 'development' ?
+    "http://localhost:3010/api" :
     "https://eddi-config-api.herokuapp.com/api";
 
 const USER_URL = `${API_URL}/user`;

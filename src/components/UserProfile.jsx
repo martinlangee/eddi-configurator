@@ -3,19 +3,13 @@ import React, { useEffect, useState } from "react";
 import { isEmail } from "validator";
 import {
   Alert,
-  Avatar,
   Button,
-  IconButton,
   Stack,
-  Tooltip,
   Typography,
 } from "@mui/material";
-import { Box } from "@mui/system";
-import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
-import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
-import { stringAvatar } from "../utils/utils";
 import Api from "../api/api";
+import AvatarPicker from "./AvatarPicker";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -63,7 +57,7 @@ const UserProfile = () => {
     !isEmail(value) ? "Enter valid E-mail address" : "";
 
   const validatePwd1 = () => {
-    return pwd1.length < 8 ? "Enter at least 8 charscters" : "";
+    return pwd1.length < 8 ? "Enter at least 8 characters" : "";
   };
 
   const validatePwd2 = () => {
@@ -126,30 +120,13 @@ const UserProfile = () => {
                   onSave={save}
                 />
               </Stack>
-              <Stack>
-                <Stack direction="row" ml={20} mt={4}>
-                  <Avatar {...stringAvatar(user.user_name, "150px", "150px")} />
-                  <Box m={3} />
-                  <Box m="auto">
-                    <Tooltip title="Load image ...">
-                      <IconButton>
-                        <FileOpenTwoToneIcon color="primary" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                  <Box m="auto">
-                    <Tooltip title="Remove image">
-                      <IconButton>
-                        <DeleteForeverTwoToneIcon color="primary" />
-                      </IconButton>
-                    </Tooltip>
-                  </Box>
-                </Stack>
+              <Stack direction="row" ml={15}>
+                <AvatarPicker />
               </Stack>
             </Stack>
           </Stack>
           <Stack direction="row">
-            <Stack ml={5} mt={3}>
+            <Stack ml={5} mt={8}>
               <strong>Access</strong>
               <Stack ml={10} mt={3} mb={5} spacing={2}>
                 <LabelEdit
@@ -169,9 +146,9 @@ const UserProfile = () => {
                 <Typography style={{ color: "gray" }}>* = mandatory</Typography>
               </Stack>
             </Stack>
-            <Stack ml={10} mt={15} spacing={1}>
+            <Stack ml={10} mt={20} spacing={1}>
               <Button
-                sx={{ margin: "0 auto" }}
+                sx={{ margin: "0 20px", width: "200px" }}
                 variant="outlined"
                 onClick={performPwdChange}
               >
