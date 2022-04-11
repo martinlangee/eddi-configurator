@@ -20,57 +20,25 @@ const Admin = () => {
     // users
     Api.getAllUsers().then((usrs) => {
       console.log(usrs);
-      setUserColumns(
-        () =>
-          usrs &&
-          usrs.length &&
-          Object.keys(usrs[0]).filter((key) => key !== "image")
-      );
-      setUsers(() =>
-        usrs.map((u) =>
-          Object.values(u).filter((val) => typeof val !== "object")
-        )
-      );
+      setUserColumns(() => usrs && usrs.length && Object.keys(usrs[0]));
+      setUsers(() => usrs.map((u) => Object.values(u)));
     });
     // widgets
     Api.getAllWidgets().then((widg) => {
-      setWidgetColumns(() =>
-        Object.keys(widg && widg.length && widg[0]).filter(
-          (key) => key !== "thumbnail"
-        )
-      );
-      setWidgets(() =>
-        widg.map((w) =>
-          Object.values(w).filter((val) => typeof val !== "object")
-        )
-      );
+      setWidgetColumns(() => Object.keys(widg && widg.length && widg[0]));
+      setWidgets(() => widg.map((w) => Object.values(w)));
     });
     // screens
     Api.getAllScreens().then((scrn) => {
-      setScreenColumns(() =>
-        Object.keys(scrn && scrn.length && scrn[0]).filter(
-          (key) => key !== "thumbnail"
-        )
-      );
-      setScreens(() =>
-        scrn.map((s) =>
-          Object.values(s).filter((val) => typeof val !== "object")
-        )
-      );
+      setScreenColumns(() => Object.keys(scrn && scrn.length && scrn[0]));
+      setScreens(() => scrn.map((s) => Object.values(s)));
     });
     // screen-widgets cross table
     Api.getAllScreenWidgets().then((scrwdg) => {
       setScreenWidgetColumns(
-        () =>
-          scrwdg &&
-          scrwdg.length &&
-          Object.keys(scrwdg[0]).filter((key) => key !== "thumbnail")
+        () => scrwdg && scrwdg.length && Object.keys(scrwdg[0])
       );
-      setScreenWidgets(() =>
-        scrwdg.map((sw) =>
-          Object.values(sw).filter((val) => typeof val !== "object")
-        )
-      );
+      setScreenWidgets(() => scrwdg.map((sw) => Object.values(sw)));
     });
   }, []);
 
