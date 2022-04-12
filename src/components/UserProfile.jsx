@@ -21,12 +21,19 @@ const UserProfile = () => {
   }, []);
 
   const save = async (dbField, value) => {
-    const resp = await Api.saveUserDate(dbField, value);
-    // if user_name changed => reload to update Avatar
-    if (dbField === "user_name") {
-      setTimeout(() => window.location.reload(), 200);
-    }
-    return resp.message;
+    return new Promise(async (resolve) => {
+      const resp = await Api.saveUserDate(dbField, value);
+      // if user_name changed => reload to update Avatar
+      if (dbField === "user_name") {
+        setTimeout(() => window.location.reload(), 200);
+      }
+      if (resp.result) {
+        setUser((prev) => {
+          return { ...prev, [dbField]: value };
+        });
+      }
+      resolve(resp.result ? "" : resp.message);
+    });
   };
 
   const changePwd1 = (dbField, value) => {
@@ -59,8 +66,22 @@ const UserProfile = () => {
     return pwd1 !== pwd2 ? "Passwords not equal" : "";
   };
 
-  const handleAvatarChange = (file) => {
-    console.log(file);
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+  const handleAvatarChange = async (file) => {
+    const base64 = file ? await convertToBase64(file) : "";
+    await save("image", base64);
   };
 
   const performPwdChange = async () => {
