@@ -15,6 +15,7 @@ const LabelEdit = ({
 }) => {
   const [hidden, setHidden] = useState(isPassword);
   const [value, setValue] = useState(initValue);
+  const [oldValue, setOldValue] = useState(initValue);
   const [error, setError] = useState("");
 
   const onChange = (e) => {
@@ -24,7 +25,8 @@ const LabelEdit = ({
   const focusOut = () => {
     const errMessage = onValidate ? onValidate(value, dbField) : "";
     setError(() => errMessage);
-    if (!errMessage && onSave) {
+    if (!errMessage && onSave && value !== oldValue) {
+      setOldValue(value);
       onSave(dbField, value).then((err) => {
         setError(() => errMessage);
       });
