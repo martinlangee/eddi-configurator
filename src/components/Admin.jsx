@@ -19,7 +19,6 @@ const Admin = () => {
   useEffect(() => {
     // users
     Api.getAllUsers().then((usrs) => {
-      console.log(usrs);
       setUserColumns(() => usrs && usrs.length && Object.keys(usrs[0]));
       setUsers(() => usrs.map((u) => Object.values(u)));
     });

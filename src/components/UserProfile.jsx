@@ -2,6 +2,7 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { isEmail } from "validator";
 import { Alert, Button, Stack, Typography } from "@mui/material";
+import { base64StringToBlob } from "blob-util";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import AvatarPicker from "./AvatarPicker";
@@ -66,12 +67,16 @@ const UserProfile = () => {
     return pwd1 !== pwd2 ? "Passwords not equal" : "";
   };
 
+  const convertToBlob = (base64) => {
+    return base64StringToBlob(base64, "image/png");
+  };
+
   const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        resolve(fileReader.result);
+        resolve(fileReader.result.split(",")[1]); // skip the prefix "data:image/png;base64,"
       };
       fileReader.onerror = (error) => {
         reject(error);
@@ -141,7 +146,10 @@ const UserProfile = () => {
                 />
               </Stack>
               <Stack direction="row" ml={15}>
-                <AvatarPicker handleChangeImage={handleAvatarChange} />
+                <AvatarPicker
+                  handleChangeImage={handleAvatarChange}
+                  avatarImage={convertToBlob(user.image)}
+                />
               </Stack>
             </Stack>
           </Stack>
