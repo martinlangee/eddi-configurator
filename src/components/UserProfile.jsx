@@ -70,7 +70,9 @@ const UserProfile = () => {
   const convertToBlob = (base64) => {
     // split payload and image type cause the latter must be taken dynamically from loaded image (could be png, jpg...)
     const data = base64.split(",");
-    return base64StringToBlob(data[1], data[0].split(/[:;]/));
+    return data[0] && data[1]
+      ? base64StringToBlob(data[1], data[0].split(/[:;]/))
+      : undefined;
   };
 
   const convertToBase64 = (file) => {
