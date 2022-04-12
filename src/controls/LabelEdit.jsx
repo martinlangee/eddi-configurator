@@ -28,7 +28,7 @@ const LabelEdit = ({
     if (!errMessage && onSave && value !== oldValue) {
       setOldValue(value);
       onSave(dbField, value).then((err) => {
-        setError(() => errMessage);
+        setError(() => err);
       });
     }
   };
