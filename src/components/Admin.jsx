@@ -19,8 +19,10 @@ const Admin = () => {
   useEffect(() => {
     // users
     Api.getAllUsers().then((usrs) => {
-      setUserColumns(() => usrs && usrs.length && Object.keys(usrs[0]));
-      setUsers(() => usrs.map((u) => Object.values(u)));
+      setUserColumns(() => Object.keys(usrs && usrs.length && usrs[0]));
+      setUsers(() =>
+        usrs.map((u) => Object.values(u).map((val) => String(val).slice(0, 30)))
+      );
     });
     // widgets
     Api.getAllWidgets().then((widg) => {
