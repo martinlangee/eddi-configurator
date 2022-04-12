@@ -1,6 +1,6 @@
 import "../App.css";
 import React, { useEffect, useState } from "react";
-import { Stack, Button, Box, Typography } from "@mui/material";
+import { Stack, Button, Typography } from "@mui/material";
 import FiberNewTwoToneIcon from "@mui/icons-material/FiberNewTwoTone";
 import Api from "../api/api";
 import ScreenItem from "./ScreenItem";
