@@ -89,8 +89,8 @@ export const AvatarPicker = ({ handleChangeImage, avatarImage }) => {
   const removeAvatarImage = () => {
     if (file) {
       URL.revokeObjectURL(file);
-      setFile("");
       handleChangeImage(null);
+      setFile(() => "");
     }
   };
 
@@ -133,7 +133,7 @@ export const AvatarPicker = ({ handleChangeImage, avatarImage }) => {
               </Box>
             }
           >
-            <Avatar alt={"avatar"} src={file} className={classes.large} />
+            <Avatar src={file} className={classes.large} />
           </Badge>
           <input
             ref={imageRef}
