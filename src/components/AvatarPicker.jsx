@@ -87,6 +87,7 @@ export const AvatarPicker = ({ handleChangeImage, avatarImage }) => {
   };
 
   const removeAvatarImage = () => {
+    // TODO: works only after second click (??)
     if (file) {
       URL.revokeObjectURL(file);
       handleChangeImage(null);

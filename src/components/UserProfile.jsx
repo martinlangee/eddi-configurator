@@ -68,7 +68,9 @@ const UserProfile = () => {
   };
 
   const convertToBlob = (base64) => {
-    return base64StringToBlob(base64, "image/png");
+    // split payload and image type cause the latter must be taken dynamically from loaded image (could be png, jpg...)
+    const data = base64.split(",");
+    return base64StringToBlob(data[1], data[0].split(/[:;]/));
   };
 
   const convertToBase64 = (file) => {
@@ -76,7 +78,7 @@ const UserProfile = () => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        resolve(fileReader.result.split(",")[1]); // skip the prefix "data:image/png;base64,"
+        resolve(fileReader.result);
       };
       fileReader.onerror = (error) => {
         reject(error);
