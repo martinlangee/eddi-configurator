@@ -156,7 +156,7 @@ function Navbar() {
                   >
                     <Avatar
                       src={convertToUrl(currentUser.image)}
-                      //{...stringAvatar(currentUser.username)}
+                      {...stringAvatar(currentUser.username)}
                     />
                   </Tooltip>
                 </Box>
