@@ -54,7 +54,9 @@ const UserWidgets = () => {
   return (
     <div>
       <Stack m={5} direction="row">
-        <Typography variant="h6">Widgets configuration</Typography>
+        <Typography sx={{ width: "595px" }} variant="h6">
+          Widgets configuration
+        </Typography>
         {/* TODO: future
         seePublicWidgets !== undefined ? (
           <FormControlLabel
@@ -71,12 +73,11 @@ const UserWidgets = () => {
         ) : (
           <></>
         )*/}
-        <Box sx={{ flexGrow: 1 }} />
         <Button
           onClick={handleNewWidgetOpen}
           variant="outlined"
           startIcon={<FiberNewTwoToneIcon color="primary" />}
-          sx={{ minWidth: "200px" }}
+          sx={{ minWidth: "250px" }}
         >
           New widget ...
         </Button>

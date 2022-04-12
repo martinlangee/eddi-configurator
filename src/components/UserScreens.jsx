@@ -51,7 +51,9 @@ const UserScreens = () => {
   return (
     <div>
       <Stack m={5} direction="row">
-        <Typography variant="h6">Screen configuration</Typography>
+        <Typography sx={{ width: "595px" }} variant="h6">
+          Screen configuration
+        </Typography>
         {/* TODO: future
         seePublicScreens !== undefined ? (
           <FormControlLabel
@@ -68,12 +70,11 @@ const UserScreens = () => {
         ) : (
           <></>
         )*/}
-        <Box sx={{ flexGrow: 1 }} />
         <Button
           onClick={handleNewScreenOpen}
           variant="outlined"
           startIcon={<FiberNewTwoToneIcon color="primary" />}
-          sx={{ minWidth: "200px" }}
+          sx={{ minWidth: "250px" }}
         >
           New screen ...
         </Button>
