@@ -31,11 +31,38 @@ const getCurrentUser = () => {
     return JSON.parse(localStorage.getItem("user"));
 };
 
+const saveUserDate = async(field, value) => {
+    return new Promise(async(resolve) => {
+        const resp = await Api.saveUserDate(field, value);
+        if (resp.result)
+            notifyObservers(field, value);
+        resolve(resp);
+    });
+}
+
+const observers = [];
+
+const notifyObservers = (field, value) => {
+    observers
+        .filter(obs => {
+            return obs.field === field;
+        }).forEach(
+            (obs) => {
+                obs.target(field, value);
+            });
+}
+
+const registerObserver = (field, target) => {
+    observers.push({ field, target });
+}
+
 const AuthService = {
     register,
     login,
     signout,
     getCurrentUser,
+    saveUserDate,
+    registerObserver,
 };
 
 export default AuthService;

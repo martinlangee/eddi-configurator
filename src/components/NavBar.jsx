@@ -44,7 +44,14 @@ function Navbar() {
     setCurrentUser(user);
   };
 
+  const notifyChanged = (field, value) => {
+    setCurrentUser((prev) => {
+      return { ...prev, [field]: value };
+    });
+  };
+
   useEffect(() => {
+    AuthService.registerObserver("image", notifyChanged);
     const user = AuthService.getCurrentUser();
     if (user) {
       updateCurrentUser(user);

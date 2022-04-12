@@ -6,6 +6,7 @@ import { base64StringToBlob } from "blob-util";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import AvatarPicker from "./AvatarPicker";
+import AuthService from "../services/auth.service";
 
 const UserProfile = () => {
   const [user, setUser] = useState(null);
@@ -23,7 +24,7 @@ const UserProfile = () => {
 
   const save = async (dbField, value) => {
     return new Promise(async (resolve) => {
-      const resp = await Api.saveUserDate(dbField, value);
+      const resp = await AuthService.saveUserDate(dbField, value);
       // if user_name changed => reload to update Avatar
       if (dbField === "user_name") {
         if (resp.result) setTimeout(() => window.location.reload(), 200);
