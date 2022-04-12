@@ -26,7 +26,7 @@ const UserProfile = () => {
       const resp = await Api.saveUserDate(dbField, value);
       // if user_name changed => reload to update Avatar
       if (dbField === "user_name") {
-        setTimeout(() => window.location.reload(), 200);
+        if (resp.result) setTimeout(() => window.location.reload(), 200);
       }
       if (resp.result) {
         setUser((prev) => {
@@ -67,7 +67,7 @@ const UserProfile = () => {
     return pwd1 !== pwd2 ? "Passwords not equal" : "";
   };
 
-  const convertToBlob = (base64) => {
+  const convertToUrl = (base64) => {
     // split payload and image type cause the latter must be taken dynamically from loaded image (could be png, jpg...)
     const data = base64.split(",");
     return data[0] && data[1]
@@ -152,7 +152,7 @@ const UserProfile = () => {
               <Stack direction="row" ml={15}>
                 <AvatarPicker
                   handleChangeImage={handleAvatarChange}
-                  avatarImage={convertToBlob(user.image)}
+                  avatarImage={convertToUrl(user.image)}
                 />
               </Stack>
             </Stack>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { AppBar, Toolbar, makeStyles } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { Avatar, Box, Tooltip } from "@mui/material";
+import { base64StringToBlob } from "blob-util";
 import { cyan } from "@mui/material/colors";
 import { stringAvatar } from "../utils/utils";
 import AuthService from "../services/auth.service";
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Navbar() {
   const classes = useStyles();
-  const [currentUser, setCurrentUser] = useState(undefined);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const updateCurrentUser = (user) => {
     setCurrentUser(user);
@@ -52,7 +53,16 @@ function Navbar() {
 
   const performSignout = () => {
     AuthService.signout();
-    updateCurrentUser();
+    updateCurrentUser(null);
+  };
+
+  const convertToUrl = (base64) => {
+    if (!base64) return undefined;
+    // split payload and image type cause the latter must be taken dynamically from loaded image (could be png, jpg...)
+    const data = base64.split(",");
+    return data[0] && data[1]
+      ? URL.createObjectURL(base64StringToBlob(data[1], data[0].split(/[:;]/)))
+      : undefined;
   };
 
   return (
@@ -137,7 +147,10 @@ function Navbar() {
                       </>
                     }
                   >
-                    <Avatar {...stringAvatar(currentUser.username)} />
+                    <Avatar
+                      src={convertToUrl(currentUser.image)}
+                      //{...stringAvatar(currentUser.username)}
+                    />
                   </Tooltip>
                 </Box>
               </NavLink>
