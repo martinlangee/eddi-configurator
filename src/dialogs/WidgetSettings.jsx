@@ -28,11 +28,16 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   useEffect(() => {
     if (widgetId === undefined) return;
 
+    const setData = (newData) => {
+      setWidgetData(() => newData);
+      setWidgetContent(newData.content);
+    };
+
     // widgetId === -1 => creating new widget
     if (widgetId < 0) {
-      Api.getNewWidget().then((newData) => setWidgetData(() => newData));
+      Api.getNewWidget().then((newData) => setData(newData));
     } else {
-      Api.getWidget(widgetId).then((newData) => setWidgetData(() => newData));
+      Api.getWidget(widgetId).then((newData) => setData(newData));
     }
   }, [widgetId]);
 
@@ -72,7 +77,7 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
       setWidgetData((prev) => {
         return { ...prev, [dbField]: value };
       });
-      resolve(""); // no error message on save
+      resolve(""); // no error message on save - they are handled on validation
     });
   };
 
@@ -82,20 +87,44 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   let fileReader;
 
+  const setWidgetContent = (html, restoreOld) => {
+    const cont = document.getElementById("preview-cont");
+    cont.innerHTML = restoreOld ? widgetData.content : html;
+    // save to state
+    setWidgetData((prev) => {
+      return { ...prev, content: cont.innerHTML };
+    });
+  };
+
+  function isValidHTML(html) {
+    var doc = document.createElement("div");
+    doc.innerHTML = html;
+    return doc.innerHTML === html;
+  }
+
+  const checkHTML = (content) => {
+    if (isValidHTML(content)) return content;
+
+    // if erroneous show message and remove it after 7 s
+    setTimeout(() => {
+      setWidgetContent("", true);
+    }, 7000);
+    return `<div style="margin: 10px;padding: 20px;background: lightsalmon">
+               <h2>HTML check failed!</h2>
+             </div>`;
+  };
+
   const handleFileChosen = (file) => {
     if (!file) return;
     fileReader = new FileReader();
     fileReader.onloadend = (e) => {
-      const content = fileReader.result;
-      const cont = document.getElementById("preview-cont");
-      cont.innerHTML = content;
+      setWidgetContent(checkHTML(fileReader.result));
     };
     fileReader.readAsText(file);
   };
 
   const handleDeletePreview = () => {
-    const cont = document.getElementById("preview-cont");
-    cont.innerHTML = "";
+    setWidgetContent("");
   };
 
   const confirm = async () => {
