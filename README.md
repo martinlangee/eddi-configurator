@@ -1,4 +1,4 @@
-# EDDI Configurator
+# EDDI Configurator - a WBS Final Project
 
 ## Getting Started with Create React App
 
