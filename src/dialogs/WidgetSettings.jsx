@@ -98,8 +98,12 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   function isValidHTML(html) {
     var doc = document.createElement("div");
-    doc.innerHTML = html;
-    return doc.innerHTML === html;
+    // clean loaded HTML before asigning and comparing
+    const cleanedHtml = html
+      .replace(/\s\s+/g, " ") // replace consecutive mutliple spaces
+      .replace(/(?:\r\n|\r|\n)/g, ""); // replace line breaks
+    doc.innerHTML = cleanedHtml;
+    return doc.innerHTML === cleanedHtml;
   }
 
   const checkHTML = (content) => {
