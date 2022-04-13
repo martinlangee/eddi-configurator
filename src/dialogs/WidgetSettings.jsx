@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Button,
   Dialog,
@@ -12,14 +12,18 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
+import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import { isPosInteger, transformXY } from "../utils/utils";
+import { IconButton, Typography } from "@material-ui/core";
 
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   const MAX_SIZE = 350;
   const [widgetData, setWidgetData] = useState(null);
   const [previewSize, setPreviewSize] = useState({ w: "350px", h: "250px" });
+
+  const fileRef = useRef();
 
   useEffect(() => {
     if (widgetId === undefined) return;
@@ -70,6 +74,28 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
       });
       resolve(""); // no error message on save
     });
+  };
+
+  const showOpenFileDialog = () => {
+    fileRef.current.click();
+  };
+
+  let fileReader;
+
+  const handleFileChosen = (file) => {
+    if (!file) return;
+    fileReader = new FileReader();
+    fileReader.onloadend = (e) => {
+      const content = fileReader.result;
+      const cont = document.getElementById("preview-cont");
+      cont.innerHTML = content;
+    };
+    fileReader.readAsText(file);
+  };
+
+  const handleDeletePreview = () => {
+    const cont = document.getElementById("preview-cont");
+    cont.innerHTML = "";
   };
 
   const confirm = async () => {
@@ -154,22 +180,33 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                   <Button
                     variant="outlined"
                     startIcon={<FileOpenTwoToneIcon color="primary" />}
+                    onClick={showOpenFileDialog}
                   >
                     Load content ...
                   </Button>
                 </Stack>
-                <label>Preview</label>
+                <Stack
+                  ml={-1}
+                  mb={-1}
+                  sx={{ alignItems: "center" }}
+                  direction="row"
+                >
+                  <IconButton onClick={handleDeletePreview}>
+                    <DeleteForeverTwoToneIcon color="primary" />
+                  </IconButton>
+                  <Box>Preview</Box>
+                </Stack>
                 <Paper
+                  id="preview-cont"
                   display="flex"
                   elevation={3}
-                  sx={{ margin: "5px auto 0 0" }}
-                >
-                  <Box
-                    m="auto"
-                    sx={{ width: previewSize.w, height: previewSize.h }}
-                    bgcolor="#e8e8e8"
-                  />
-                </Paper>
+                  sx={{
+                    margin: "5px auto 0 0",
+                    width: previewSize.w,
+                    height: previewSize.h,
+                    backgroundColor: "#e8e8e8",
+                  }}
+                ></Paper>
               </Stack>
             </Stack>
           </DialogContent>
@@ -181,6 +218,13 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
               Cancel
             </Button>
           </DialogActions>
+          <input
+            ref={fileRef}
+            type="file"
+            style={{ display: "none" }}
+            accept="text/html"
+            onChange={(e) => handleFileChosen(e.target.files[0])}
+          />
         </Dialog>
       )}
     </>
