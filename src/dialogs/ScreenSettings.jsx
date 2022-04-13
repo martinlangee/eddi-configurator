@@ -147,7 +147,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
       setScreenData((prev) => {
         return { ...prev, [dbField]: value };
       });
-      resolve(""); // no error message on save
+      resolve(""); // no error message on save - they are handled on validation
     });
   };
 
