@@ -2,11 +2,13 @@ import "../App.css";
 import React, { useEffect, useState } from "react";
 import { Box } from "@mui/system";
 import { Stack, IconButton, Divider } from "@mui/material";
-import EditIconTwoTone from "@material-ui/icons/EditTwoTone";
+import EditTwoToneIcon from "@mui/icons-material/EditTwoTone";
 import DeleteForeverIconTwoTone from "@material-ui/icons/DeleteForeverTwoTone";
+import DriveFileMoveOutlinedIcon from "@mui/icons-material/DriveFileMoveOutlined";
 import ScreenSettings from "../dialogs/ScreenSettings";
 import Api from "../api/api";
 import ConfirmDialog from "../dialogs/ConfirmDialog";
+import { Tooltip } from "@material-ui/core";
 
 const ScreenItem = ({ index, screenId, onDelete }) => {
   const [screenData, setScreenData] = useState(null);
@@ -35,6 +37,11 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
   const handleDeleteConfirm = () => {
     onDelete(screenId);
     setDeleteConfirmOpen(() => false);
+  };
+
+  const handleExportScreen = () => {
+    /* TODO */
+    window.alert(">> Export of screen HTML package is not yet implemented. <<");
   };
 
   return (
@@ -95,14 +102,26 @@ const ScreenItem = ({ index, screenId, onDelete }) => {
                 bgcolor="silver"
               />
             </Box>
-            <Box display="flex" minWidth="100px">
+            <Box display="flex" minWidth="130px">
               <Box m="auto">
-                <IconButton onClick={handleSettingsOpen}>
-                  <EditIconTwoTone color="primary" />
-                </IconButton>
-                <IconButton onClick={handleDeleteScreen}>
-                  <DeleteForeverIconTwoTone color="primary" />
-                </IconButton>
+                <Tooltip title="Edit screen settings ...">
+                  <IconButton onClick={handleSettingsOpen}>
+                    <EditTwoToneIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete screen ...">
+                  <IconButton onClick={handleDeleteScreen}>
+                    <DeleteForeverIconTwoTone color="primary" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Export screen HTML ...">
+                  <IconButton
+                    onClick={handleExportScreen}
+                    sx={{ backgroundColor: "#ffff99" }}
+                  >
+                    <DriveFileMoveOutlinedIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
               </Box>
             </Box>
           </Stack>

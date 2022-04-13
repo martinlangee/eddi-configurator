@@ -51,7 +51,7 @@ const UserScreens = () => {
   return (
     <div>
       <Stack m={5} direction="row">
-        <Typography sx={{ width: "595px" }} variant="h6">
+        <Typography sx={{ width: "605px" }} variant="h6">
           Screen configuration
         </Typography>
         {/* TODO: future
@@ -74,7 +74,7 @@ const UserScreens = () => {
           onClick={handleNewScreenOpen}
           variant="outlined"
           startIcon={<FiberNewTwoToneIcon color="primary" />}
-          sx={{ minWidth: "250px" }}
+          sx={{ minWidth: "275px" }}
         >
           New screen ...
         </Button>

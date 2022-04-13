@@ -11,7 +11,7 @@ import {
   Stack,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
@@ -224,9 +224,11 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
                   sx={{ alignItems: "center" }}
                   direction="row"
                 >
-                  <IconButton onClick={handleDeletePreview}>
-                    <DeleteForeverTwoToneIcon color="primary" />
-                  </IconButton>
+                  <Tooltip title="Delete widget content ...">
+                    <IconButton onClick={handleDeletePreview}>
+                      <DeleteForeverTwoToneIcon color="primary" />
+                    </IconButton>
+                  </Tooltip>
                   <Box>Preview</Box>
                 </Stack>
                 <Paper

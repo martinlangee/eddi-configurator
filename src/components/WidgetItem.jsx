@@ -7,6 +7,7 @@ import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import WidgetSettings from "../dialogs/WidgetSettings";
 import Api from "../api/api";
 import ConfirmDialog from "../dialogs/ConfirmDialog";
+import { Tooltip } from "@material-ui/core";
 
 const WidgetItem = ({ index, widgetId, onDelete }) => {
   const [widgetData, setWidgetData] = useState(null);
@@ -97,12 +98,16 @@ const WidgetItem = ({ index, widgetId, onDelete }) => {
             </Box>
             <Box display="flex" minWidth="100px">
               <Box m="auto">
-                <IconButton onClick={handleSettingsOpen}>
-                  <EditTwoToneIcon color="primary" />
-                </IconButton>
-                <IconButton onClick={handleDeleteWidget}>
-                  <DeleteForeverTwoToneIcon color="primary" />
-                </IconButton>
+                <Tooltip title="Edit widget settings ...">
+                  <IconButton onClick={handleSettingsOpen}>
+                    <EditTwoToneIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete widget ...">
+                  <IconButton onClick={handleDeleteWidget}>
+                    <DeleteForeverTwoToneIcon color="primary" />
+                  </IconButton>
+                </Tooltip>
               </Box>
             </Box>
           </Stack>
