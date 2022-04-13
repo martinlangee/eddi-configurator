@@ -11,12 +11,12 @@ import {
   Stack,
 } from "@mui/material";
 import { Box } from "@mui/system";
+import { IconButton } from "@material-ui/core";
 import FileOpenTwoToneIcon from "@mui/icons-material/FileOpenTwoTone";
 import DeleteForeverTwoToneIcon from "@mui/icons-material/DeleteForeverTwoTone";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import { isPosInteger, transformXY } from "../utils/utils";
-import { IconButton, Typography } from "@material-ui/core";
 
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   const MAX_SIZE = 350;
