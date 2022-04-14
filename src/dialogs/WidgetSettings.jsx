@@ -21,16 +21,23 @@ import { isPosInteger, transformXY } from "../utils/utils";
 const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   const MAX_SIZE = 350;
   const [widgetData, setWidgetData] = useState(null);
-  const [previewSize, setPreviewSize] = useState({ w: "350px", h: "250px" });
+  const [htmlContent, setHtmlContent] = useState("");
+  const [previewSize, setPreviewSize] = useState({});
 
   const fileRef = useRef();
+
+  const updatePreview = (html) => {
+    const cont = document.getElementById("preview-cont");
+    if (cont) {
+      cont.innerHTML = html;
+    }
+  };
 
   useEffect(() => {
     if (widgetId === undefined) return;
 
     const setData = (newData) => {
       setWidgetData(() => newData);
-      setWidgetContent(newData.content);
     };
 
     // widgetId === -1 => creating new widget
@@ -40,6 +47,13 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
       Api.getWidget(widgetId).then((newData) => setData(newData));
     }
   }, [widgetId]);
+
+  useEffect(() => {
+    if (!widgetData) return;
+    setHtmlContent(() => widgetData.content);
+  }, [widgetData]);
+
+  useEffect(() => updatePreview(htmlContent), [htmlContent]);
 
   // update preview frame geometry
   useEffect(() => {
@@ -87,15 +101,6 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   let fileReader;
 
-  const setWidgetContent = (html, restoreOld) => {
-    const cont = document.getElementById("preview-cont");
-    cont.innerHTML = restoreOld ? widgetData.content : html;
-    // save to state
-    setWidgetData((prev) => {
-      return { ...prev, content: cont.innerHTML };
-    });
-  };
-
   function isValidHTML(html) {
     var doc = document.createElement("div");
     // clean loaded HTML before asigning and comparing
@@ -103,32 +108,38 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
       .replace(/\s\s+/g, " ") // replace consecutive mutliple spaces
       .replace(/(?:\r\n|\r|\n)/g, ""); // replace line breaks
     doc.innerHTML = cleanedHtml;
-    return doc.innerHTML === cleanedHtml;
+    const valid = doc.innerHTML === cleanedHtml;
+    return valid;
   }
-
-  const checkHTML = (content) => {
-    if (isValidHTML(content)) return content;
-
-    // if erroneous show message and remove it after 7 s
-    setTimeout(() => {
-      setWidgetContent("", true);
-    }, 7000);
-    return `<div style="margin: 10px;padding: 20px;background: lightsalmon">
-               <h2>HTML check failed!</h2>
-             </div>`;
-  };
 
   const handleFileChosen = (file) => {
     if (!file) return;
     fileReader = new FileReader();
     fileReader.onloadend = (e) => {
-      setWidgetContent(checkHTML(fileReader.result));
+      setHtmlContent((prev) => {
+        const newHtml = fileReader.result;
+        if (isValidHTML(newHtml)) {
+          setTimeout(
+            () => setWidgetData({ ...widgetData, content: newHtml }),
+            200
+          );
+          return newHtml;
+        } else {
+          setTimeout(() => {
+            updatePreview(widgetData.content);
+          }, 7000);
+          updatePreview(`<div style="margin: 10px;padding: 20px;background: lightsalmon">
+                   <h2>HTML check failed!</h2>
+                 </div>`);
+          return prev;
+        }
+      });
     };
     fileReader.readAsText(file);
   };
 
   const handleDeletePreview = () => {
-    setWidgetContent("");
+    setHtmlContent("");
   };
 
   const confirm = async () => {
