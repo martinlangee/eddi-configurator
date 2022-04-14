@@ -61,7 +61,7 @@ const Login = () => {
     if (!invalidEmail && !invalidPassword) {
       AuthService.login(email, password).then(
         () => {
-          navigate("/widgets");
+          navigate("/");
           window.location.reload();
         },
         (error) => {
