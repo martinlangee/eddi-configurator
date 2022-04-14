@@ -26,13 +26,6 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
 
   const fileRef = useRef();
 
-  const updatePreview = (html) => {
-    const cont = document.getElementById("preview-cont");
-    if (cont) {
-      cont.innerHTML = html;
-    }
-  };
-
   useEffect(() => {
     if (widgetId === undefined) return;
 
@@ -47,6 +40,13 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
       Api.getWidget(widgetId).then((newData) => setData(newData));
     }
   }, [widgetId]);
+
+  const updatePreview = (html) => {
+    const cont = document.getElementById("preview-cont");
+    if (cont) {
+      cont.innerHTML = html;
+    }
+  };
 
   useEffect(() => {
     if (!widgetData) return;
@@ -119,15 +119,13 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
       setHtmlContent((prev) => {
         const newHtml = fileReader.result;
         if (isValidHTML(newHtml)) {
-          setTimeout(
-            () => setWidgetData({ ...widgetData, content: newHtml }),
-            200
-          );
-          return newHtml;
+          setWidgetData(() => {
+            return { ...widgetData, content: newHtml };
+          });
         } else {
           setTimeout(() => {
             updatePreview(widgetData.content);
-          }, 7000);
+          }, 4000);
           updatePreview(`<div style="margin: 10px;padding: 20px;background: lightsalmon">
                    <h2>HTML check failed!</h2>
                  </div>`);
@@ -139,7 +137,12 @@ const WidgetSettings = ({ widgetId, isOpen, handleClose }) => {
   };
 
   const handleDeletePreview = () => {
-    setHtmlContent("");
+    setHtmlContent(() => {
+      setWidgetData(() => {
+        return { ...widgetData, content: "" };
+      });
+      return "";
+    });
   };
 
   const confirm = async () => {
