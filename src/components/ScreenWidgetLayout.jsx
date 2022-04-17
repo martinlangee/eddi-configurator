@@ -1,5 +1,5 @@
 import "../App.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconButton, Stack, Tooltip } from "@mui/material";
 import { Box } from "@mui/system";
 import HighlightOffIconTwoTone from "@material-ui/icons/HighlightOffTwoTone";
@@ -18,6 +18,10 @@ const ScreenWidgetLayout = ({
   const DATA_WIDTH = "70px";
 
   const [data, setData] = useState(widget);
+
+  useEffect(() => {
+    // console.log("Layout:", widget);   // for debuggin' only
+  }, []);
 
   const validateData = (value, dbField) => {
     if (!isPosInteger(value)) return "Enter positive number";
