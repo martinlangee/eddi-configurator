@@ -22,7 +22,6 @@ import { cyan } from "@mui/material/colors";
 import LabelEdit from "../controls/LabelEdit";
 import Api from "../api/api";
 import ScreenWidgetLayout from "../components/ScreenWidgetLayout";
-import AuthService from "../services/auth.service";
 import { isPosInteger, transformXY } from "../utils/utils";
 
 // TODO: init and save "public"-Field
