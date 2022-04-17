@@ -7,11 +7,13 @@ import {
   DialogContent,
   DialogTitle,
   FormControl,
+  FormControlLabel,
   InputLabel,
   MenuItem,
   Paper,
   Select,
   Stack,
+  Switch,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -33,8 +35,9 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   const [screenWidgetGeom, setScreenWidgetGeom] = useState([]);
   const [availableWidgets, setAvailableWidgets] = useState([]);
   const [previewSize, setPreviewSize] = useState({ w: "300px", h: "250px" });
+  const [showPreview, setShowPreview] = useState(false);
 
-  // update screen data or init new screen
+  // load screen data or init new screen
   useEffect(() => {
     if (screenId === undefined) return;
 
@@ -46,14 +49,14 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
     }
   }, [screenId]);
 
-  // update widgets configured on this screen
+  // load widgets configured on this screen
   useEffect(() => {
-    Api.getScreenWidgets(screenId).then((newData) =>
-      setConfScreenWidgets(() => newData)
-    );
+    Api.getScreenWidgets(screenId).then((newData) => {
+      setConfScreenWidgets(() => newData);
+    });
   }, [screenId]);
 
-  // update all user widgets
+  // load all user widgets
   useEffect(() => {
     Api.getUserWidgets().then((newData) => setAllWidgets(() => newData));
   }, [screenId]);
@@ -62,14 +65,18 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   useEffect(() => {
     setAvailableWidgets(() =>
       // filtering out all widgets that are already configured
-      allWidgets
-        .filter(
-          (fromAll) =>
-            confScreenWidgets.find(
-              (fromConf) => fromAll.id === fromConf.widget_id
-            ) === undefined
-        )
-        .sort((w1, w2) => w1.name.localeCompare(w2.name))
+      {
+        const result = allWidgets
+          .filter(
+            (fromAll) =>
+              confScreenWidgets.find(
+                (fromConf) => fromAll.id === fromConf.widget_id
+              ) === undefined
+          )
+          .sort((w1, w2) => w1.name.localeCompare(w2.name));
+        //console.log("availableWidgets:", { result });
+        return result;
+      }
     );
   }, [confScreenWidgets, allWidgets]);
 
@@ -99,37 +106,51 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
   // update the widget geometry visualization
   useEffect(() => {
     setScreenWidgetGeom(() => {
-      return confScreenWidgets.map((widget) => {
-        return {
-          name: widget.name,
-          left: transformXY(
-            MAX_SIZE,
-            screenData.size_x,
-            screenData.size_y,
-            widget.x_pos
-          ),
-          top: transformXY(
-            MAX_SIZE,
-            screenData.size_x,
-            screenData.size_y,
-            widget.y_pos
-          ),
-          width: transformXY(
-            MAX_SIZE,
-            screenData.size_x,
-            screenData.size_y,
-            widget.size_x
-          ),
-          height: transformXY(
-            MAX_SIZE,
-            screenData.size_x,
-            screenData.size_y,
-            widget.size_y
-          ),
-        };
-      });
+      return screenData
+        ? confScreenWidgets.map((widget) => {
+            return {
+              id: widget.widget_id,
+              name: widget.name,
+              left: transformXY(
+                MAX_SIZE,
+                screenData.size_x,
+                screenData.size_y,
+                widget.x_pos
+              ),
+              top: transformXY(
+                MAX_SIZE,
+                screenData.size_x,
+                screenData.size_y,
+                widget.y_pos
+              ),
+              width: transformXY(
+                MAX_SIZE,
+                screenData.size_x,
+                screenData.size_y,
+                widget.size_x
+              ),
+              height: transformXY(
+                MAX_SIZE,
+                screenData.size_x,
+                screenData.size_y,
+                widget.size_y
+              ),
+              content: widget.content,
+            };
+          })
+        : [];
     });
   }, [screenData, confScreenWidgets]);
+
+  // update HTML preview of configured widgets
+  useEffect(() => {
+    confScreenWidgets.forEach((widget) => {
+      const wbox = document.getElementById(`wbox_${widget.widget_id}`);
+      if (wbox) {
+        wbox.innerHTML = showPreview ? widget.content : "";
+      }
+    });
+  }, [confScreenWidgets, screenWidgetGeom, showPreview]);
 
   const validateName = (value) =>
     !value || value.trim().length < 5 ? "Enter 5 or more characters" : "";
@@ -159,18 +180,24 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
 
   const addScreenWidget = (widgetId) =>
     setConfScreenWidgets((prev) => {
+      const newW = allWidgets.find((w) => w.id === widgetId);
       let newSW = [
         ...prev,
         {
-          ...allWidgets.find((w) => w.id === widgetId),
+          content: newW.content,
+          name: newW.name,
+          public: newW.public,
           screen_id: screenId,
+          size_x: newW.size_x,
+          size_y: newW.size_y,
+          user_id: newW.user_id,
           widget_id: widgetId,
-          user_id: AuthService.getCurrentUser().id,
           x_pos: 0,
           y_pos: 0,
         },
       ];
       newSW.sort((a, b) => a.name.localeCompare(b.name));
+      //console.log("confScreenWidgets:", { newSW });
       return newSW;
     });
 
@@ -256,7 +283,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                   {confScreenWidgets &&
                     confScreenWidgets.map((widget, idx) => (
                       <ScreenWidgetLayout
-                        key={idx}
+                        key={widget.widget_id}
                         index={idx}
                         widget={widget}
                         screenWidth={screenData.size_x}
@@ -298,7 +325,7 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                       {availableWidgets && availableWidgets.length ? (
                         availableWidgets.map((widget) => (
                           <MenuItem key={widget.id} value={widget.id}>
-                            {widget.id}: {widget.name}
+                            {/*{widget.id}:*/} {widget.name}
                           </MenuItem>
                         ))
                       ) : (
@@ -309,7 +336,19 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                 </Stack>
               </Stack>
               <Stack>
-                <label>Preview</label>
+                <Stack direction="row">
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={showPreview}
+                        onChange={(e) => {
+                          return setShowPreview(() => e.currentTarget.checked);
+                        }}
+                      />
+                    }
+                    label="Preview"
+                  />
+                </Stack>
                 <Paper
                   display="flex"
                   elevation={3}
@@ -324,23 +363,26 @@ const ScreenSettings = ({ screenId, isOpen, handleClose }) => {
                       bgcolor: "#e8e8e8",
                     }}
                   >
-                    {screenWidgetGeom &&
-                      screenWidgetGeom.length &&
-                      screenWidgetGeom.map((widget, idx) => (
-                        <Tooltip title={widget.name} key={idx}>
+                    {screenWidgetGeom && screenWidgetGeom.length ? (
+                      screenWidgetGeom.map((swidget, idx) => (
+                        <Tooltip title={swidget.name} key={idx}>
                           <Box
                             position="absolute"
+                            id={`wbox_${swidget.id}`}
                             zIndex={idx}
                             sx={{
-                              left: widget.left,
-                              top: widget.top,
-                              width: widget.width,
-                              height: widget.height,
+                              left: swidget.left,
+                              top: swidget.top,
+                              width: swidget.width,
+                              height: swidget.height,
                               backgroundColor: cyan["500"] + "80",
                             }}
                           />
                         </Tooltip>
-                      ))}
+                      ))
+                    ) : (
+                      <></>
+                    )}
                   </Box>
                 </Paper>
               </Stack>
