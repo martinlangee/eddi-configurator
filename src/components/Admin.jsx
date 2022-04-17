@@ -27,7 +27,9 @@ const Admin = () => {
     // widgets
     Api.getAllWidgets().then((widg) => {
       setWidgetColumns(() => Object.keys(widg && widg.length && widg[0]));
-      setWidgets(() => widg.map((w) => Object.values(w)));
+      setWidgets(() =>
+        widg.map((w) => Object.values(w).map((val) => String(val).slice(0, 50)))
+      );
     });
     // screens
     Api.getAllScreens().then((scrn) => {
@@ -48,29 +50,37 @@ const Admin = () => {
       <Typography p={3} variant="h6">
         Administration
       </Typography>
-      {userColumns && users && (
+      {userColumns && users ? (
         <MUIDataTable title={"User List"} data={users} columns={userColumns} />
+      ) : (
+        <></>
       )}
-      {widgetColumns && widgets && (
+      {widgetColumns && widgets ? (
         <MUIDataTable
           title={"Widget List"}
           data={widgets}
           columns={widgetColumns}
         />
+      ) : (
+        <></>
       )}
-      {screenColumns && screens && (
+      {screenColumns && screens ? (
         <MUIDataTable
           title={"Screen List"}
           data={screens}
           columns={screenColumns}
         />
+      ) : (
+        <></>
       )}
-      {screenWidgetColumns && screenWidgets && (
+      {screenWidgetColumns && screenWidgets ? (
         <MUIDataTable
           title={"Screen-Widget List"}
           data={screenWidgets}
           columns={screenWidgetColumns}
         />
+      ) : (
+        <></>
       )}
     </Box>
   );
