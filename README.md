@@ -2,7 +2,7 @@
 
 React Web App to realize a Web Configurator for electronic dash boards. Detailed instructions to come. Still under construction. It comes with no warranties!
 
-To run this project on your own you need to have the back end project running: [eddi-config-api](https://github.com/martinlangee/eddi-config-api).
+To run this project on your own device you also need to have the back end project running: [eddi-config-api](https://github.com/martinlangee/eddi-config-api).
 
 To get an impression of the UI go to [http://eddi-configurator.netlify.app/](https://eddi-configurator.netlify.app/).
 
