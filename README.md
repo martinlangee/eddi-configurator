@@ -1,7 +1,10 @@
 # EDDI Configurator - a WBS Final Project
 
-To run this project you need to have the back end project running: [eddi-config-api](https://github.com/martinlangee/eddi-config-api).
-To have an impression of the UI go to [eddi-configurator.netlify.app](https://eddi-configurator.netlify.app/).
+React Web App to realize a Web Configurator for electronic dash boards. Detailed instructions to come. Still under construction. It comes with no warranties!
+
+To run this project on your own you need to have the back end project running: [eddi-config-api](https://github.com/martinlangee/eddi-config-api).
+
+To get an impression of the UI go to [http://eddi-configurator.netlify.app/](https://eddi-configurator.netlify.app/).
 
 ## Getting Started with Create React App
 
