@@ -1,5 +1,8 @@
 # EDDI Configurator - a WBS Final Project
 
+To run this project you need to have the back end project running: [eddi-config-api](https://github.com/martinlangee/eddi-config-api).
+To have an impression of the UI go to [eddi-configurator.netlify.app](https://eddi-configurator.netlify.app/).
+
 ## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
